@@ -12,8 +12,13 @@ import {
 } from "@/components/ui/card";
 import { courses, questions } from "@/lib/mock-data";
 
-export default function QnaPage({ params }: { params: { courseId: string } }) {
-  const course = courses.find((c) => c.id === params.courseId);
+export default async function QnaPage({
+  params,
+}: {
+  params: Promise<{ courseId: string }>;
+}) {
+  const { courseId } = await params;
+  const course = courses.find((c) => c.id === courseId);
   if (!course) {
     notFound();
   }

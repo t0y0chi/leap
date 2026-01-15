@@ -13,14 +13,15 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { courses } from "@/lib/mock-data";
 
-export default function ItemPage({
+export default async function ItemPage({
   params,
 }: {
-  params: { courseId: string; chapterId: string; itemId: string };
+  params: Promise<{ courseId: string; chapterId: string; itemId: string }>;
 }) {
-  const course = courses.find((c) => c.id === params.courseId);
-  const chapter = course?.chapters.find((c) => c.id === params.chapterId);
-  const item = chapter?.items.find((i) => i.id === params.itemId);
+  const { courseId, chapterId, itemId } = await params;
+  const course = courses.find((c) => c.id === courseId);
+  const chapter = course?.chapters.find((c) => c.id === chapterId);
+  const item = chapter?.items.find((i) => i.id === itemId);
 
   if (!course || !chapter || !item) {
     notFound();

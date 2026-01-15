@@ -13,13 +13,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { courses } from "@/lib/mock-data";
 
-export default function ChapterPage({
+export default async function ChapterPage({
   params,
 }: {
-  params: { courseId: string; chapterId: string };
+  params: Promise<{ courseId: string; chapterId: string }>;
 }) {
-  const course = courses.find((c) => c.id === params.courseId);
-  const chapter = course?.chapters.find((c) => c.id === params.chapterId);
+  const { courseId, chapterId } = await params;
+  const course = courses.find((c) => c.id === courseId);
+  const chapter = course?.chapters.find((c) => c.id === chapterId);
 
   if (!course || !chapter) {
     notFound();
