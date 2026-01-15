@@ -112,10 +112,11 @@ export function ItemContent({ item, onReadyForContinue }: ItemContentProps) {
                 {isCorrect ? "Correct!" : "Try a different option."}
               </span>
             )}
-            {checked &&
-              isCorrect !== null &&
-              onReadyForContinue &&
-              onReadyForContinue(isCorrect)}
+            {checked && isCorrect !== null && onReadyForContinue && (
+              <span className="hidden">
+                {onReadyForContinue(isCorrect)}
+              </span>
+            )}
           </div>
         </div>
       )}
