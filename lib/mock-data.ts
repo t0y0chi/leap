@@ -34,6 +34,7 @@ export interface Course {
   tags: string[];
   instructor: string;
   summary: string;
+  thumbnail?: string;
   chapters: Chapter[];
 }
 
