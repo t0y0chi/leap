@@ -235,6 +235,63 @@ export const courses: Course[] = [
       },
     ],
   },
+  {
+    id: "programming-101",
+    title: "Programming Basics",
+    category: "Software",
+    level: "Beginner",
+    duration: "2h 30m",
+    status: "not-started",
+    progress: 0,
+    instructor: "Casey Lee",
+    thumbnail:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    tags: ["JavaScript", "Logic", "Debugging"],
+    summary:
+      "Get comfortable with core programming ideas: variables, control flow, and functions using JavaScript examples.",
+    chapters: [
+      {
+        id: "prog-ch-1",
+        title: "Getting Started",
+        description: "Setup, variables, and basic outputs.",
+        progress: 0,
+        items: [
+          {
+            id: "prog-it-1",
+            title: "Watch: hello world walkthrough",
+            type: "lecture",
+            duration: "8m",
+            status: "not-started",
+            videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            content: "See how to print and run your first script.",
+          },
+          {
+            id: "prog-it-2",
+            title: "Read: variables and types",
+            type: "reading",
+            duration: "6m",
+            status: "not-started",
+            readingHtml:
+              "<h2>Variables</h2><p>Use <strong>let</strong> for reassignable values and <strong>const</strong> for stable ones.</p><h2>Types</h2><p>Numbers, strings, booleans, arrays, and objects are the core you will use here.</p>",
+          },
+          {
+            id: "prog-it-3",
+            title: "Quiz: basics check",
+            type: "quiz",
+            duration: "5m",
+            status: "not-started",
+            questionType: "multiple-choice",
+            content: "Choose the right declaration for a changing score value.",
+            choices: [
+              { id: "a", text: "const score = 0;" },
+              { id: "b", text: "let score = 0;", correct: true },
+              { id: "c", text: "var score := 0" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const notifications: Notification[] = [
