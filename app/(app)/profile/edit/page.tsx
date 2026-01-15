@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Camera, Save } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { learnerProfile } from "@/lib/mock-data";
+import { Avatar } from "@/components/ui/avatar";
 
 export default function EditProfilePage() {
   const [saving, setSaving] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(learnerProfile.avatar);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,6 +48,32 @@ export default function EditProfilePage() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <label className="relative inline-flex cursor-pointer">
+                  <Avatar src={avatarPreview} alt="Avatar" className="h-14 w-14" fallback="AC" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                          const url = e.target?.result?.toString();
+                          if (url) setAvatarPreview(url);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                  <span className="absolute -right-1 -bottom-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground shadow">
+                    <Camera className="h-3 w-3" />
+                  </span>
+                </label>
+              </div>
+            </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="name">Full name</Label>
@@ -57,23 +84,11 @@ export default function EditProfilePage() {
                 <Input id="email" name="email" type="email" defaultValue={learnerProfile.email} />
               </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" name="password" type="password" placeholder="••••••••" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="avatar">Avatar URL</Label>
-                <Input id="avatar" name="avatar" placeholder="https://..." defaultValue={learnerProfile.avatar} />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="bio">Learning notes</Label>
-              <Textarea
-                id="bio"
-                name="bio"
-                placeholder="Share what you want reviewers to know about your focus areas."
-              />
             </div>
             <div className="flex items-center justify-end gap-3">
               <Link
