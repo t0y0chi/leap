@@ -11,7 +11,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses } from "@/lib/mock-data";
+import { courses, type LearningItem } from "@/lib/mock-data";
+
+const typeLabel: Record<LearningItem["type"], string> = {
+  lecture: "Video",
+  reading: "Reading",
+  quiz: "Quiz",
+  assignment: "Assignment",
+};
 
 export default async function CoursePage({
   params,
@@ -55,12 +62,14 @@ export default async function CoursePage({
                 <BookOpen className="h-4 w-4" />
                 {course.chapters.length} chapters · {course.duration}
               </div>
-              <Link
-                href={`/learn/courses/${course.id}/chapters/${course.chapters[0].id}`}
-                className="mt-1 inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
-              >
-                Resume course
-              </Link>
+              {course.chapters[0]?.items[0] && (
+                <Link
+                  href={`/learn/courses/${course.id}`}
+                  className="mt-1 inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                >
+                  Resume course
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -75,25 +84,29 @@ export default async function CoursePage({
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {course.chapters.map((chapter) => (
-              <div
-                key={chapter.id}
-                className="rounded-lg border p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
-              >
-                <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold">{chapter.title}</p>
-                    <p className="text-xs text-muted-foreground">{chapter.description}</p>
+            {course.chapters.map((chapter) => {
+              const nextItem =
+                chapter.items.find((item) => item.status !== "completed") ??
+                chapter.items[0];
+              return (
+                <div
+                  key={chapter.id}
+                  className="rounded-lg border p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
+                >
+                  <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <p className="text-sm font-semibold">{chapter.title}</p>
+                      <p className="text-xs text-muted-foreground">{chapter.description}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={chapter.progress === 100 ? "success" : "secondary"}>
+                        {chapter.progress === 100 ? "Completed" : "In progress"}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">
+                        {chapter.items.length} items
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={chapter.progress === 100 ? "success" : "secondary"}>
-                      {chapter.progress === 100 ? "Completed" : "In progress"}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">
-                      {chapter.items.length} items
-                    </span>
-                  </div>
-                </div>
                 <div className="mt-3 space-y-3">
                   <Progress value={chapter.progress} />
                   <div className="grid gap-2 md:grid-cols-2">
@@ -105,11 +118,11 @@ export default async function CoursePage({
                         <div>
                           <p className="font-semibold">{item.title}</p>
                           <p className="text-xs text-muted-foreground">
-                            {item.type.toUpperCase()} · {item.duration}
+                            {typeLabel[item.type]} · {item.duration}
                           </p>
                         </div>
                         <Badge variant="neutral" className="capitalize">
-                          {item.status}
+                          {typeLabel[item.type]}
                         </Badge>
                       </div>
                     ))}
@@ -122,7 +135,7 @@ export default async function CoursePage({
                       View chapter
                     </Link>
                     <Link
-                      href={`/learn/courses/${course.id}/chapters/${chapter.id}`}
+                      href={`/learn/courses/${course.id}/chapters/${chapter.id}/items/${nextItem.id}`}
                       className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
                     >
                       <PlayCircle className="h-4 w-4" />
@@ -130,8 +143,9 @@ export default async function CoursePage({
                     </Link>
                   </div>
                 </div>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </CardContent>
         </Card>
         <div className="space-y-3">

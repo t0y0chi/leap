@@ -11,7 +11,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses } from "@/lib/mock-data";
+import { courses, type LearningItem } from "@/lib/mock-data";
+
+const typeLabel: Record<LearningItem["type"], string> = {
+  lecture: "Video",
+  reading: "Reading",
+  quiz: "Quiz",
+  assignment: "Assignment",
+};
 
 export default async function ChapterPage({
   params,
@@ -58,7 +65,7 @@ export default async function ChapterPage({
                 <div className="space-y-1">
                   <p className="text-sm font-semibold">{item.title}</p>
                   <p className="text-xs text-muted-foreground">
-                    {item.type.toUpperCase()} · {item.duration}
+                    {typeLabel[item.type]} · {item.duration}
                   </p>
                   <p className="text-xs text-muted-foreground">{item.content}</p>
                 </div>

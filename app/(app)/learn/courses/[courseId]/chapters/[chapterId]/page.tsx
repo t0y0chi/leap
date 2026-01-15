@@ -11,7 +11,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses } from "@/lib/mock-data";
+import { courses, type LearningItem } from "@/lib/mock-data";
+
+const typeLabel: Record<LearningItem["type"], string> = {
+  lecture: "Video",
+  reading: "Reading",
+  quiz: "Quiz",
+  assignment: "Assignment",
+};
 
 export default async function LearnChapterPage({
   params,
@@ -53,7 +60,7 @@ export default async function LearnChapterPage({
               <p className="text-sm text-muted-foreground">{activeItem.title}</p>
               <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                 <Badge variant="neutral" className="capitalize">
-                  {activeItem.type}
+                  {typeLabel[activeItem.type]}
                 </Badge>
                 <span>·</span>
                 <span>{activeItem.duration}</span>
@@ -110,7 +117,7 @@ export default async function LearnChapterPage({
                 <div>
                   <p className="text-sm font-semibold">{item.title}</p>
                   <p className="text-xs text-muted-foreground">
-                    {item.type.toUpperCase()} · {item.duration}
+                    {typeLabel[item.type]} · {item.duration}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -118,7 +125,7 @@ export default async function LearnChapterPage({
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                   )}
                   <Badge variant="neutral" className="capitalize">
-                    {item.status}
+                    {typeLabel[item.type]}
                   </Badge>
                 </div>
               </div>

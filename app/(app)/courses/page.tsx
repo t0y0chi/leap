@@ -17,7 +17,7 @@ export default function CoursesPage() {
           <p className="text-sm text-muted-foreground">All learner tracks available to you.</p>
         </div>
         <Link
-          href={`/courses/${course.id}`}
+          href={`/learn/courses/${course.id}`}
           className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
         >
           <BookOpenCheck className="h-4 w-4" />
@@ -53,7 +53,7 @@ export default function CoursesPage() {
               </div>
             </div>
             <Link
-              href={`/courses/${course.id}`}
+              href={`/learn/courses/${course.id}`}
               className="inline-flex w-full items-center justify-center rounded-md border bg-white px-3 py-2 text-sm font-semibold hover:bg-muted"
             >
               View syllabus

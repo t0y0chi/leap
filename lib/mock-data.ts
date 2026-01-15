@@ -1,4 +1,4 @@
-export type LessonType = "lecture" | "quiz" | "assignment";
+export type LessonType = "lecture" | "reading" | "quiz" | "assignment";
 export type ItemStatus = "not-started" | "in-progress" | "completed";
 
 export interface LearningItem {
@@ -9,6 +9,10 @@ export interface LearningItem {
   status: ItemStatus;
   score?: number;
   content?: string;
+  videoUrl?: string;
+  readingText?: string;
+  questionType?: "multiple-choice" | "assignment";
+  choices?: { id: string; text: string; correct?: boolean }[];
 }
 
 export interface Chapter {
@@ -90,18 +94,34 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "12m",
             status: "completed",
+            videoUrl: "https://www.youtube.com/embed/MdqVp9kLYvg",
             content:
               "Learn why clear labels and consistent criteria make or break ML performance.",
           },
           {
             id: "it-2",
+            title: "Read: guideline essentials",
+            type: "reading",
+            duration: "6m",
+            status: "completed",
+            readingText:
+              "Skim the core rubric: define positive/negative samples, edge cases, occlusion rules, and when to defer to reviewers.",
+          },
+          {
+            id: "it-3",
             title: "Guideline deep-dive quiz",
             type: "quiz",
             duration: "8m",
             status: "completed",
             score: 92,
+            questionType: "multiple-choice",
             content:
               "Confirm your understanding of edge cases and what to flag to the reviewer.",
+            choices: [
+              { id: "a", text: "Skip occluded objects under 10% visibility" },
+              { id: "b", text: "Always mark occlusion when the object is partially hidden", correct: true },
+              { id: "c", text: "Only annotate full objects" },
+            ],
           },
         ],
       },
@@ -112,32 +132,49 @@ export const courses: Course[] = [
         progress: 55,
         items: [
           {
-            id: "it-3",
+            id: "it-4",
             title: "Video walkthrough: labeling UI",
             type: "lecture",
             duration: "10m",
             status: "completed",
+            videoUrl: "https://www.youtube.com/embed/6mbwJ2xhgzM",
             content:
               "A tour of the tool surface: regions, attributes, comments, and review lane.",
           },
           {
-            id: "it-4",
+            id: "it-5",
+            title: "Read: fast QC checklist",
+            type: "reading",
+            duration: "5m",
+            status: "in-progress",
+            readingText:
+              "Before submitting a batch, spot-check labels for overlap, naming, and missing instances. Note blockers in comments.",
+          },
+          {
+            id: "it-6",
             title: "Hands-on: draw regions accurately",
             type: "assignment",
             duration: "15m",
             status: "in-progress",
             score: 78,
+            questionType: "assignment",
             content:
               "Practice drawing bounding boxes with pixel-perfect alignment and naming conventions.",
           },
           {
-            id: "it-5",
+            id: "it-7",
             title: "Short quiz: shortcuts & QA checks",
             type: "quiz",
             duration: "7m",
             status: "not-started",
+            questionType: "multiple-choice",
             content:
               "Identify the quickest path to validate a batch before submitting to review.",
+            choices: [
+              { id: "a", text: "Check only the first 3 frames" },
+              { id: "b", text: "Run hotkey cheat sheet and sample 10%" , correct: true },
+              { id: "c", text: "Skip QC if confident" },
+            ],
           },
         ],
       },
@@ -148,20 +185,31 @@ export const courses: Course[] = [
         progress: 20,
         items: [
           {
-            id: "it-6",
+            id: "it-8",
             title: "What reviewers look for",
             type: "lecture",
             duration: "9m",
             status: "not-started",
+            videoUrl: "https://www.youtube.com/embed/o8NPllzkFhM",
             content:
               "See the rubric used to grade your submissions and how to avoid rework.",
           },
           {
-            id: "it-7",
+            id: "it-9",
+            title: "Read: feedback etiquette",
+            type: "reading",
+            duration: "4m",
+            status: "not-started",
+            readingText:
+              "Leave concise reviewer notes: what changed, what you’re unsure about, and how you validated tricky frames.",
+          },
+          {
+            id: "it-10",
             title: "Submit a sample batch",
             type: "assignment",
             duration: "18m",
             status: "not-started",
+            questionType: "assignment",
             content:
               "Upload 5 annotated examples with notes on tricky frames and decisions.",
           },
