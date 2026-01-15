@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -29,7 +29,7 @@ export default function ItemPage({
 }: {
   params: { courseId: string; chapterId: string; itemId: string };
 }) {
-  const { courseId, chapterId, itemId } = use(params);
+  const { courseId, chapterId, itemId } = params;
   const course = courses.find((c) => c.id === courseId);
   if (!course) {
     notFound();
