@@ -10,7 +10,7 @@ export interface LearningItem {
   score?: number;
   content?: string;
   videoUrl?: string;
-  readingText?: string;
+  readingHtml?: string;
   questionType?: "multiple-choice" | "assignment";
   choices?: { id: string; text: string; correct?: boolean }[];
 }
@@ -104,8 +104,14 @@ export const courses: Course[] = [
             type: "reading",
             duration: "6m",
             status: "completed",
-            readingText:
-              "Skim the core rubric: define positive/negative samples, edge cases, occlusion rules, and when to defer to reviewers.",
+            readingHtml: `<h2>Why the rubric matters</h2>
+<p><strong>The goal of this course is to make you decisive</strong> under imperfect conditions. Start by internalizing the rubric: what qualifies as a positive example, what should be marked negative, and how to record ambiguous frames without breaking consistency. Re-read the intent statement at the top of the guideline; it is the single anchor for how reviewers grade. If a sample is borderline, ask yourself if it helps or harms the downstream model. That clarity makes your labeling defensible during audits.</p>
+<h2>Handle occlusion and truncation</h2>
+<p>Occlusion and truncation rules are critical. A partially hidden object should be annotated if the visible region carries enough signal; do not invent shapes that are not visible, but do mark the occlusion attribute. When more than <strong>60% of the object is out of frame</strong>, call it truncated. Add comments when you make judgment calls so reviewers can align on the same threshold. This reduces back-and-forth and keeps the batch moving.</p>
+<h2>Edge cases and exemplars</h2>
+<p>Edge cases usually come from overlapping classes, motion blur, or tiny instances. The rubric lists examples for each. When in doubt, open the saved exemplars and compare: is the color, shape, or context similar enough to count? If you spend more than 15 seconds deliberating, log a note and move on; throughput matters as much as accuracy.</p>
+<h2>When to defer</h2>
+<p>Finally, know when to defer. If the guideline explicitly says to escalate novel classes, unusual lighting, or privacy-sensitive content, flag it and continue. Your job is to keep the dataset clean, not to force a guess. Reviewers expect concise notes: one sentence on what you saw, one on what you did, and one on why it aligns with the rubric.</p>`,
           },
           {
             id: "it-3",
@@ -147,8 +153,14 @@ export const courses: Course[] = [
             type: "reading",
             duration: "5m",
             status: "in-progress",
-            readingText:
-              "Before submitting a batch, spot-check labels for overlap, naming, and missing instances. Note blockers in comments.",
+            readingHtml: `<h2>QC starts with coverage</h2>
+<p><strong>Quality control is your final defense</strong> before review. Start with coverage: scan every frame for obvious omissions, especially small or partially hidden objects. Use zoom or a hotkey to toggle outlines so you can catch thin shapes that blend into the background. If you discover a missing instance, add it immediately and leave a note if you are unsure about the class.</p>
+<h2>Geometry and shape integrity</h2>
+<p>Next, check geometry. Are boxes tight without clipping? Do polygons follow edges without self-intersections? A quick pass with snapping tools can fix sloppy corners. For keypoints, confirm the correct ordering and symmetry; mirror mistakes are common when rushing. Remember that reviewers look for clean geometry before they read your comments.</p>
+<h2>Labels and attributes</h2>
+<p>Naming and attributes matter as much as shapes. Validate that class labels match the rubric wording, not your personal shorthand. Confirm that required attributes, like occlusion or truncation, are set consistently across similar objects. If you see inconsistency across a sequence, normalize it before submission so reviewers do not reject for avoidable churn.</p>
+<h2>Notes for reviewers</h2>
+<p>Finally, document blockers and uncertainties. If lighting is poor or a class boundary is unclear, write a concise comment describing what you saw and the rule you applied. Mention any deviations from the rubric and why. This habit signals professionalism and often speeds up grading because reviewers do not need to guess your intent.</p>`,
           },
           {
             id: "it-6",
@@ -200,8 +212,14 @@ export const courses: Course[] = [
             type: "reading",
             duration: "4m",
             status: "not-started",
-            readingText:
-              "Leave concise reviewer notes: what changed, what you’re unsure about, and how you validated tricky frames.",
+            readingHtml: `<h2>Feedback is a loop</h2>
+<p><strong>Feedback is a loop, not a verdict.</strong> When a reviewer leaves notes, treat them as data: what pattern caused the deduction, and how can you prevent it next time? Summarize the feedback in your own words, then update your personal checklist. If the note contradicts the rubric, ask a clarifying question in the Q&A board so the whole cohort benefits.</p>
+<h2>Respond with clarity</h2>
+<p>When responding, be concise. Start with acknowledgement, restate the issue, then explain the fix you will apply. Avoid defensive language; the goal is to align on quality, not to win an argument. If you disagree, provide a brief rationale referencing the guideline or exemplar images, and propose a rule to settle similar cases in the future.</p>
+<h2>Be proactive</h2>
+<p>Proactive communication builds trust. When you submit a batch with known edge cases, preemptively add a short note: what you saw, the decision you made, and the evidence you used. This reduces review time and often leads to faster approvals. Reviewers appreciate clear intent more than perfection on the first try.</p>
+<h2>Improve in small steps</h2>
+<p>Finally, pace yourself. Use reviewer feedback to identify one or two habits to improve each week—tighter boxes, better attribute consistency, clearer comments. Small, steady gains compound into reliable scores and reduce rework across the team.</p>`,
           },
           {
             id: "it-10",

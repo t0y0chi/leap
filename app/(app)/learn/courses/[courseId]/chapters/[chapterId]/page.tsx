@@ -32,6 +32,18 @@ export default async function LearnChapterPage({
     notFound();
   }
 
+  const orderedItems = course.chapters.flatMap((ch) =>
+    ch.items.map((item) => ({ chapterId: ch.id, item })),
+  );
+  const lastCompletedIndex = orderedItems.reduce(
+    (acc, entry, idx) => (entry.item.status === "completed" ? idx : acc),
+    -1,
+  );
+  const maxAccessibleIndex = lastCompletedIndex + 1;
+  const indexLookup = new Map(
+    orderedItems.map((entry, idx) => [`${entry.chapterId}:${entry.item.id}`, idx]),
+  );
+
   const activeItem =
     chapter.items.find((item) => item.status !== "completed") ?? chapter.items[0];
 
@@ -125,7 +137,12 @@ export default async function LearnChapterPage({
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                   )}
                   <Badge variant="neutral" className="capitalize">
-                    {typeLabel[item.type]}
+                    {item.status === "completed"
+                      ? "Completed"
+                      : (indexLookup.get(`${chapter.id}:${item.id}`) ?? 0) >
+                          maxAccessibleIndex
+                        ? "Locked"
+                        : item.status}
                   </Badge>
                 </div>
               </div>

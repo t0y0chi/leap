@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { courses, type LearningItem } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 const typeLabel: Record<LearningItem["type"], string> = {
   lecture: "Video",
@@ -32,6 +34,23 @@ export default async function ChapterPage({
   if (!course || !chapter) {
     notFound();
   }
+
+  const orderedItems = course.chapters.flatMap((ch) =>
+    ch.items.map((item) => ({ chapterId: ch.id, item })),
+  );
+  const lastCompletedIndex = orderedItems.reduce(
+    (acc, entry, idx) => (entry.item.status === "completed" ? idx : acc),
+    -1,
+  );
+  const maxAccessibleIndex = lastCompletedIndex + 1;
+  const indexLookup = new Map(
+    orderedItems.map((entry, idx) => [`${entry.chapterId}:${entry.item.id}`, idx]),
+  );
+  const continueEntry =
+    orderedItems[Math.min(maxAccessibleIndex, orderedItems.length - 1)];
+  const continueHref = continueEntry
+    ? `/learn/courses/${course.id}/chapters/${continueEntry.chapterId}/items/${continueEntry.item.id}`
+    : `/courses/${course.id}`;
 
   return (
     <div className="space-y-5">
@@ -57,35 +76,44 @@ export default async function ChapterPage({
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-[2fr_1fr]">
           <div className="space-y-3">
-            {chapter.items.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-col gap-3 rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:flex-row md:items-center md:justify-between"
-              >
-                <div className="space-y-1">
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {typeLabel[item.type]} · {item.duration}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{item.content}</p>
+            {chapter.items.map((item) => {
+              const itemIndex = indexLookup.get(`${chapter.id}:${item.id}`) ?? 0;
+              const locked = itemIndex > maxAccessibleIndex;
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col gap-3 rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:flex-row md:items-center md:justify-between"
+                >
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold">{item.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {typeLabel[item.type]} · {item.duration}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{item.content}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {item.status === "completed" && (
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    )}
+                    <Badge variant="neutral" className="capitalize">
+                      {locked ? "Locked" : item.status}
+                    </Badge>
+                    <Link
+                      href={locked ? "#" : `/learn/courses/${course.id}/chapters/${chapter.id}/items/${item.id}`}
+                      aria-disabled={locked}
+                      tabIndex={locked ? -1 : 0}
+                      className={cn(
+                        "inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary",
+                        locked && "pointer-events-none opacity-50 hover:bg-transparent",
+                      )}
+                    >
+                      <PlayCircle className="h-4 w-4" />
+                      {locked ? "Locked" : "Open"}
+                    </Link>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  {item.status === "completed" && (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                  )}
-                  <Badge variant="neutral" className="capitalize">
-                    {item.status}
-                  </Badge>
-                  <Link
-                    href={`/learn/courses/${course.id}/chapters/${chapter.id}/items/${item.id}`}
-                    className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-                  >
-                    <PlayCircle className="h-4 w-4" />
-                    Open
-                  </Link>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="space-y-3 rounded-lg border bg-secondary/50 p-4 text-sm">
             <div className="flex items-center justify-between">
@@ -100,8 +128,11 @@ export default async function ChapterPage({
               Complete the items in order to unlock the next chapter. Feedback on assignments arrives within 24 hours.
             </p>
             <Link
-              href={`/learn/courses/${course.id}/chapters/${chapter.id}`}
-              className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+              href={continueHref}
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "w-full justify-center",
+              )}
             >
               Continue chapter
             </Link>

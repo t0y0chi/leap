@@ -21,6 +21,26 @@ interface LearningSidebarProps {
 
 export function LearningSidebar({ course }: LearningSidebarProps) {
   const pathname = usePathname();
+  const currentMatch = pathname.match(
+    /learn\/courses\/[^/]+\/chapters\/([^/]+)\/items\/([^/]+)/,
+  );
+  const orderedItems = course.chapters.flatMap((chapter) =>
+    chapter.items.map((item) => ({ chapterId: chapter.id, item })),
+  );
+  const lastCompletedIndex = orderedItems.reduce(
+    (acc, entry, idx) => (entry.item.status === "completed" ? idx : acc),
+    -1,
+  );
+  const indexLookup = new Map(
+    orderedItems.map((entry, idx) => [`${entry.chapterId}:${entry.item.id}`, idx]),
+  );
+  const currentIndex =
+    currentMatch && indexLookup.get(`${currentMatch[1]}:${currentMatch[2]}`);
+  const effectiveCompletedIndex = Math.max(
+    lastCompletedIndex,
+    currentIndex ?? -1,
+  );
+  const maxAccessibleIndex = effectiveCompletedIndex + 1;
 
   return (
     <aside className="hidden flex-col gap-3 rounded-xl border bg-white p-4 shadow-sm lg:flex">
@@ -43,6 +63,9 @@ export function LearningSidebar({ course }: LearningSidebarProps) {
             <div className="space-y-1">
               {chapter.items.map((item) => {
                 const href = `/learn/courses/${course.id}/chapters/${chapter.id}/items/${item.id}`;
+                const itemIndex = indexLookup.get(`${chapter.id}:${item.id}`) ?? 0;
+                const locked = itemIndex > maxAccessibleIndex;
+                const completed = itemIndex <= effectiveCompletedIndex;
                 const isActive = pathname === href;
                 return (
                   <Link
@@ -53,10 +76,13 @@ export function LearningSidebar({ course }: LearningSidebarProps) {
                       isActive
                         ? "bg-primary/10 text-foreground"
                         : "hover:bg-secondary text-muted-foreground",
+                      locked && "pointer-events-none opacity-50 hover:bg-transparent",
                     )}
+                    aria-disabled={locked}
+                    tabIndex={locked ? -1 : 0}
                   >
                     <div className="flex items-center gap-2">
-                      {item.status === "completed" ? (
+                      {completed ? (
                         <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                       ) : (
                         <PlayCircle className="h-4 w-4 text-primary" />
