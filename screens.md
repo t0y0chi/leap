@@ -19,3 +19,31 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Notifications | `/notifications` | Notifications list with type badges, unread markers, and timestamps. |
 | Profile | `/profile` | Learner profile summary and activity cards. |
 | Edit profile | `/profile/edit` | Editable profile form (name, email, password), avatar preview, and preference toggles. |
+
+## Admin screens
+
+| Screen | Path | Description |
+| --- | --- | --- |
+| Admin redirect | `/admin` | Redirects to `/admin/dashboard`. |
+| Admin login | `/admin/login` | Admin/auth layout with email, password, and OTP fields. |
+| Admin dashboard | `/admin/dashboard` | Cards for backlog/learners/avg score, pending submissions queue, course health, and alerts. |
+| Courses | `/admin/courses` | Course table with status, visibility, enrollment counts, and chapter links. |
+| Create course | `/admin/courses/new` | Form for course metadata, summary, and tags. |
+| Edit course | `/admin/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
+| Chapters | `/admin/courses/[courseId]/chapters` | Chapter ordering, gating, published badge, and manage items action. |
+| Items | `/admin/chapters/[chapterId]/items` | Chapter items table with type, gating, graded status, and edit/preview links. |
+| Edit lecture | `/admin/items/[itemId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
+| Edit quiz | `/admin/items/[itemId]/quiz/edit` | Quiz editor for passing score, attempts, prompt, and answers. |
+| Edit assignment | `/admin/items/[itemId]/assignment/edit` | Assignment editor for instructions, attachments, rubric, and scoring. |
+| Submissions | `/admin/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
+| Pending submissions | `/admin/assignments/submissions/pending` | Filtered list of submissions waiting for grading with SLA hint. |
+| Submission detail | `/admin/assignments/submissions/[submissionId]` | Metadata, attachments, learner notes, and feedback links. |
+| Grade submission | `/admin/assignments/submissions/[submissionId]/grade` | Grading form with score, status, feedback, and internal notes. |
+| Submission history | `/admin/assignments/submissions/[submissionId]/history` | Timeline of submission events and versions. |
+| Users | `/admin/users` | Learner table with progress, scores, risk, and actions. |
+| User detail | `/admin/users/[userId]` | Learner progress, stats, and recent submissions. |
+| New review | `/admin/users/[userId]/reviews/new` | 5-star review form with notes and next steps. |
+| Invite admin | `/admin/admins/invite` | Invitation form for reviewers/admins with message. |
+| Invitations | `/admin/admins/invitations` | Admin roster plus pending invites with status. |
+| Accept invitation | `/admin/invitations/[token]` | Invitation detail page with accept/decline actions. |
+| Reports placeholder | `/admin/reports` | Coming-soon placeholder for analytics. |
