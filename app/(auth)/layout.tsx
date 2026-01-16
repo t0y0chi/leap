@@ -11,7 +11,7 @@ export default function AuthLayout({
             LEAP
           </div>
           <div className="text-left">
-            <p className="text-lg font-semibold">LEAP LMS</p>
+            <p className="text-lg font-semibold">LEAP</p>
             <p className="text-xs text-muted-foreground">Annotation training</p>
           </div>
         </div>

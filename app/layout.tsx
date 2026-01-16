@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LEAP LMS",
+  title: "LEAP",
   description: "Annotation training experience for learners",
 };
 

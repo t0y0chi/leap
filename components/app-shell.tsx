@@ -34,10 +34,7 @@ export function AppShell({ children, activePath }: AppShellProps) {
               LEAP
             </div>
             <div className="leading-tight">
-              <p>LEAP LMS</p>
-              <span className="text-xs text-muted-foreground">
-                Annotation track
-              </span>
+              <p>LEAP</p>
             </div>
           </Link>
           <nav className="hidden items-center gap-2 md:flex">
