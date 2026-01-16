@@ -11,8 +11,6 @@ import { Avatar } from "@/components/ui/avatar";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/courses", label: "Courses", icon: BookOpen },
-  { href: "/notifications", label: "Notifications", icon: Bell },
-  { href: "/profile", label: "Profile", icon: User },
 ];
 
 interface AppShellProps {
@@ -71,7 +69,10 @@ export function AppShell({ children, activePath }: AppShellProps) {
                 <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-primary" />
               )}
             </Link>
-            <Link href="/profile" className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-secondary">
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-secondary"
+            >
               <Avatar
                 src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80"
                 alt="Learner avatar"
