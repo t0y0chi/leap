@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { use, useMemo, useState } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -27,9 +27,9 @@ const typeLabel: Record<LearningItem["type"], string> = {
 export default function ItemPage({
   params,
 }: {
-  params: { courseId: string; chapterId: string; itemId: string };
+  params: Promise<{ courseId: string; chapterId: string; itemId: string }>;
 }) {
-  const { courseId, chapterId, itemId } = params;
+  const { courseId, chapterId, itemId } = use(params);
   const course = courses.find((c) => c.id === courseId);
   if (!course) {
     notFound();
