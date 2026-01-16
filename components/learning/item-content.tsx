@@ -41,6 +41,12 @@ export function ItemContent({ item, onReadyForContinue }: ItemContentProps) {
     }
   }, [item, assignmentSubmitted, onReadyForContinue]);
 
+  useEffect(() => {
+    if (item.type !== "quiz" || !onReadyForContinue) return;
+    if (!checked || isCorrect === null) return;
+    onReadyForContinue(isCorrect);
+  }, [checked, isCorrect, item.type, onReadyForContinue]);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -110,11 +116,6 @@ export function ItemContent({ item, onReadyForContinue }: ItemContentProps) {
                 className={isCorrect ? "text-emerald-600" : "text-amber-600"}
               >
                 {isCorrect ? "Correct!" : "Try a different option."}
-              </span>
-            )}
-            {checked && isCorrect !== null && onReadyForContinue && (
-              <span className="hidden">
-                {onReadyForContinue(isCorrect)}
               </span>
             )}
           </div>
