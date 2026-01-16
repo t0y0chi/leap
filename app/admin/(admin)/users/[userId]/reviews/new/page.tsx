@@ -15,12 +15,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { adminLearners } from "@/lib/admin-data";
 
-export default function AdminUserReviewPage({
+export default async function AdminUserReviewPage({
   params,
 }: {
-  params: { userId: string };
+  params: Promise<{ userId: string }>;
 }) {
-  const learner = adminLearners.find((user) => user.id === params.userId);
+  const { userId } = await params;
+  const learner = adminLearners.find((user) => user.id === userId);
   if (!learner) return notFound();
 
   return (

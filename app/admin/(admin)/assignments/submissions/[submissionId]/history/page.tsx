@@ -12,13 +12,14 @@ import {
 } from "@/components/ui/card";
 import { getAdminSubmission, getSubmissionEvents } from "@/lib/admin-data";
 
-export default function AdminSubmissionHistoryPage({
+export default async function AdminSubmissionHistoryPage({
   params,
 }: {
-  params: { submissionId: string };
+  params: Promise<{ submissionId: string }>;
 }) {
-  const submission = getAdminSubmission(params.submissionId);
-  const events = getSubmissionEvents(params.submissionId);
+  const { submissionId } = await params;
+  const submission = getAdminSubmission(submissionId);
+  const events = getSubmissionEvents(submissionId);
 
   if (!submission) return notFound();
 

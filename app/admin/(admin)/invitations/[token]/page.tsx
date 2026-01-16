@@ -13,12 +13,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { adminInvites } from "@/lib/admin-data";
 
-export default function AdminInvitationAcceptPage({
+export default async function AdminInvitationAcceptPage({
   params,
 }: {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }) {
-  const invite = adminInvites.find((entry) => entry.token === params.token);
+  const { token } = await params;
+  const invite = adminInvites.find((entry) => entry.token === token);
   if (!invite) return notFound();
 
   return (

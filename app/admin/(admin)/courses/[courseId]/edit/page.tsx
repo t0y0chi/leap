@@ -15,12 +15,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getAdminCourse } from "@/lib/admin-data";
 
-export default function AdminCourseEditPage({
+export default async function AdminCourseEditPage({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) {
-  const course = getAdminCourse(params.courseId);
+  const { courseId } = await params;
+  const course = getAdminCourse(courseId);
   if (!course) return notFound();
 
   return (

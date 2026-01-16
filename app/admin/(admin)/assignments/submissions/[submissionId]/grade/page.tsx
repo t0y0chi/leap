@@ -16,12 +16,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getAdminSubmission } from "@/lib/admin-data";
 
-export default function AdminGradePage({
+export default async function AdminGradePage({
   params,
 }: {
-  params: { submissionId: string };
+  params: Promise<{ submissionId: string }>;
 }) {
-  const submission = getAdminSubmission(params.submissionId);
+  const { submissionId } = await params;
+  const submission = getAdminSubmission(submissionId);
   if (!submission) return notFound();
 
   return (

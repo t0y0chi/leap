@@ -15,13 +15,14 @@ import {
 } from "@/components/ui/table";
 import { getAdminChapters, getAdminCourse } from "@/lib/admin-data";
 
-export default function AdminChaptersPage({
+export default async function AdminChaptersPage({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) {
-  const course = getAdminCourse(params.courseId);
-  const chapters = getAdminChapters(params.courseId);
+  const { courseId } = await params;
+  const course = getAdminCourse(courseId);
+  const chapters = getAdminChapters(courseId);
 
   if (!course) return notFound();
 

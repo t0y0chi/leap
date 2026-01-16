@@ -8,14 +8,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { adminLearners, adminSubmissions } from "@/lib/admin-data";
 
-export default function AdminUserDetailPage({
+export default async function AdminUserDetailPage({
   params,
 }: {
-  params: { userId: string };
+  params: Promise<{ userId: string }>;
 }) {
-  const learner = adminLearners.find((user) => user.id === params.userId);
+  const { userId } = await params;
+  const learner = adminLearners.find((user) => user.id === userId);
   const learnerSubmissions = adminSubmissions.filter(
-    (submission) => submission.userId === params.userId,
+    (submission) => submission.userId === userId,
   );
 
   if (!learner) return notFound();

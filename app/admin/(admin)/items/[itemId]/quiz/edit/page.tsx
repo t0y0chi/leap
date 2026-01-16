@@ -16,12 +16,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getAdminItem } from "@/lib/admin-data";
 
-export default function AdminQuizEditPage({
+export default async function AdminQuizEditPage({
   params,
 }: {
-  params: { itemId: string };
+  params: Promise<{ itemId: string }>;
 }) {
-  const item = getAdminItem(params.itemId);
+  const { itemId } = await params;
+  const item = getAdminItem(itemId);
   if (!item || item.type !== "quiz") return notFound();
 
   return (

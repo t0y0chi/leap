@@ -21,13 +21,14 @@ function getEditHref(type: string, itemId: string) {
   return `/admin/items/${itemId}/assignment/edit`;
 }
 
-export default function AdminItemsPage({
+export default async function AdminItemsPage({
   params,
 }: {
-  params: { chapterId: string };
+  params: Promise<{ chapterId: string }>;
 }) {
-  const chapter = getAdminChapter(params.chapterId);
-  const items = getAdminItems(params.chapterId);
+  const { chapterId } = await params;
+  const chapter = getAdminChapter(chapterId);
+  const items = getAdminItems(chapterId);
 
   if (!chapter) return notFound();
 

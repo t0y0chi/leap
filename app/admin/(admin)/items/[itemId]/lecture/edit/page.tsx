@@ -16,12 +16,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { getAdminItem } from "@/lib/admin-data";
 
-export default function AdminLectureEditPage({
+export default async function AdminLectureEditPage({
   params,
 }: {
-  params: { itemId: string };
+  params: Promise<{ itemId: string }>;
 }) {
-  const item = getAdminItem(params.itemId);
+  const { itemId } = await params;
+  const item = getAdminItem(itemId);
   if (!item || item.type !== "lecture") return notFound();
 
   return (

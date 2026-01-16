@@ -16,12 +16,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getAdminItem } from "@/lib/admin-data";
 
-export default function AdminAssignmentEditPage({
+export default async function AdminAssignmentEditPage({
   params,
 }: {
-  params: { itemId: string };
+  params: Promise<{ itemId: string }>;
 }) {
-  const item = getAdminItem(params.itemId);
+  const { itemId } = await params;
+  const item = getAdminItem(itemId);
   if (!item || item.type !== "assignment") return notFound();
 
   return (
