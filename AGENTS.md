@@ -5,6 +5,7 @@
 - Shared styling is in `app/globals.css`; static assets go in `public/`.
 - Cross-cutting helpers sit in `lib/` (e.g., `lib/utils.ts`). Prefer small, pure utilities and import them where needed.
 - Keep UI primitives/components colocated with their route when they are route-specific; promote to a shared folder only when reused across multiple routes.
+- Keep the current screen map up to date in `screens.md` whenever you add or materially change routes or layouts.
 
 ## Build, Test, and Development Commands
 - `npm install` — install dependencies (Node 18+ recommended for Next 16).
