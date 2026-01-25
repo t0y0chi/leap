@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import BlocknoteEditor from "@/components/blocknote/BlocknoteEditor";
 import { getAdminLesson } from "@/lib/admin-data";
 
 export default async function AdminLectureEditPage({
@@ -31,7 +32,7 @@ export default async function AdminLectureEditPage({
         <div>
           <h1 className="text-2xl font-semibold">Edit lecture</h1>
           <p className="text-sm text-muted-foreground">
-            Update media, transcripts, and pacing for this lecture.
+            Update lesson details, grading, and notes for this lecture.
           </p>
         </div>
         <Button asChild variant="outline">
@@ -57,32 +58,43 @@ export default async function AdminLectureEditPage({
               <Input id="title" name="title" defaultValue={lesson.title} />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="type">Type</Label>
+              <Input id="type" name="type" defaultValue="Lecture" disabled />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="duration">Duration</Label>
               <div className="flex items-center gap-2">
                 <Timer className="h-4 w-4 text-muted-foreground" />
                 <Input id="duration" name="duration" defaultValue={lesson.duration} />
               </div>
             </div>
-            <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="videoUrl">Video URL</Label>
-              <Input
-                id="videoUrl"
-                name="videoUrl"
-                placeholder="https://www.youtube.com/embed/..."
-              />
-              <p className="text-xs text-muted-foreground">
-                Use an embeddable link to keep playback inside the app.
-              </p>
-            </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="notes">Lecture notes</Label>
-            <Textarea
-              id="notes"
-              name="notes"
-              rows={5}
-              placeholder="Summaries, key moments, and rubric references."
-            />
+            <Label>Lecture notes</Label>
+            <div className="rounded-md border bg-background p-2">
+              <BlocknoteEditor />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Draft rich lecture notes before saving this lesson.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <label className="inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-muted-foreground"
+                defaultChecked={lesson.required}
+              />
+              <span>Required to progress</span>
+            </label>
+            <label className="inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-muted-foreground"
+                defaultChecked={lesson.graded}
+              />
+              <span>Mark lecture as graded</span>
+            </label>
           </div>
           <div className="flex gap-2">
             <Button>Save</Button>
