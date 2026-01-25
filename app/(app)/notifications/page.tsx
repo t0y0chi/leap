@@ -1,4 +1,5 @@
-import { Bell, CheckCircle2, Clock3 } from "lucide-react";
+import Link from "next/link";
+import { Bell, Clock3 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,12 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { notifications } from "@/lib/mock-data";
-
-const typeLabels: Record<string, string> = {
-  grading: "Grading",
-  announcement: "Announcement",
-  system: "Reminder",
-};
 
 export default function NotificationsPage() {
   return (
@@ -38,33 +33,46 @@ export default function NotificationsPage() {
           <CardDescription>Sorted by most recent</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          {notifications.map((note) => (
-            <div
-              key={note.id}
-              className="flex items-center justify-between rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-primary">
-                  {note.type === "grading" ? (
-                    <CheckCircle2 className="h-4 w-4" />
-                  ) : (
+          {notifications.map((note) => {
+            const content = (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-primary">
                     <Bell className="h-4 w-4" />
-                  )}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">{note.title}</p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Clock3 className="h-4 w-4" />
-                    {note.timestamp}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold">{note.title}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Clock3 className="h-4 w-4" />
+                      {note.timestamp}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="neutral">{typeLabels[note.type]}</Badge>
                 {!note.read && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
               </div>
-            </div>
-          ))}
+            );
+
+            const wrapperClass =
+              "block rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]";
+
+            if (note.href) {
+              return (
+                <Link
+                  key={note.id}
+                  href={note.href}
+                  className={`${wrapperClass} transition hover:border-muted-foreground/30 hover:bg-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
+                >
+                  {content}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={note.id} className={wrapperClass}>
+                {content}
+              </div>
+            );
+          })}
         </CardContent>
       </Card>
     </div>

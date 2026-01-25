@@ -82,6 +82,10 @@ export interface AdminLearner {
   avgScore: number;
   risk: "on-track" | "attention";
   lastActive: string;
+  evaluations: {
+    label: string;
+    value: number;
+  }[];
 }
 
 export interface AdminInvite {
@@ -356,6 +360,13 @@ export const adminLearners: AdminLearner[] = [
     avgScore: 0.86,
     risk: "on-track",
     lastActive: "Today 09:00",
+    evaluations: [
+      { label: "Motivation", value: 4 },
+      { label: "Speed", value: 3 },
+      { label: "Quality", value: 4 },
+      { label: "Logical Thinking", value: 3 },
+      { label: "Communication", value: 5 },
+    ],
   },
   {
     id: "user-2",
@@ -371,6 +382,13 @@ export const adminLearners: AdminLearner[] = [
     avgScore: 0.92,
     risk: "on-track",
     lastActive: "Today 08:10",
+    evaluations: [
+      { label: "Motivation", value: 5 },
+      { label: "Speed", value: 4 },
+      { label: "Quality", value: 5 },
+      { label: "Logical Thinking", value: 4 },
+      { label: "Communication", value: 4 },
+    ],
   },
   {
     id: "user-3",
@@ -386,6 +404,13 @@ export const adminLearners: AdminLearner[] = [
     avgScore: 0.68,
     risk: "attention",
     lastActive: "Yesterday 20:05",
+    evaluations: [
+      { label: "Motivation", value: 3 },
+      { label: "Speed", value: 2 },
+      { label: "Quality", value: 3 },
+      { label: "Logical Thinking", value: 3 },
+      { label: "Communication", value: 2 },
+    ],
   },
 ];
 

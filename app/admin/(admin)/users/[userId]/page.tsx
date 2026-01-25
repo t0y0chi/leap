@@ -28,15 +28,9 @@ export default async function AdminUserDetailPage({
   const learnerSubmissions = adminSubmissions.filter(
     (submission) => submission.userId === userId,
   );
-  const evaluationScores: EvaluationScore[] = [
-    { label: "Motivation", value: 4 },
-    { label: "Speed", value: 3 },
-    { label: "Quality", value: 4 },
-    { label: "Logical Thinking", value: 3 },
-    { label: "Communication", value: 5 },
-  ];
 
   if (!learner) return notFound();
+  const evaluationScores: EvaluationScore[] = learner.evaluations;
 
   const activeCourse = adminCourses.find(
     (course) => course.title === learner.activeCourseTitle,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, MessageCircle, PlayCircle, ShieldCheck } from "lucide-react";
+import { BookOpen, MessageCircle, PlayCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningLesson } from "@/lib/mock-data";
+import { courses, questions, type LearningLesson } from "@/lib/mock-data";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -74,7 +74,7 @@ export default async function CoursePage({
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-[2fr_1fr]">
+      <div className="space-y-4">
         <Card>
           <CardHeader>
             <CardTitle>Chapters</CardTitle>
@@ -147,33 +147,46 @@ export default async function CoursePage({
             })}
           </CardContent>
         </Card>
-        <div className="space-y-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>Course resources</CardTitle>
-              <CardDescription>Get unstuck quickly</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
+
+        <Card>
+          <CardHeader>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <CardTitle>Q&A board</CardTitle>
+                <CardDescription>Recent questions across the course</CardDescription>
+              </div>
               <Link
                 href={`/courses/${course.id}/qna`}
-                className="flex items-center justify-between rounded-md border px-3 py-2 hover:bg-secondary"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
               >
-                <div className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  Q&A board
-                </div>
-                <Badge variant="neutral">New replies</Badge>
+                <MessageCircle className="h-4 w-4" />
+                View all
               </Link>
-              <div className="flex items-center gap-2 rounded-md border px-3 py-2">
-                <ShieldCheck className="h-4 w-4" />
-                Grading rubric and submission checklist
-              </div>
-              <div className="rounded-md border bg-secondary/60 px-3 py-2 text-muted-foreground">
-                Instructor: {course.instructor}. Expect 24h feedback window on assignments.
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {questions.map((question) => (
+              <Link
+                key={question.id}
+                href={`/courses/${course.id}/qna`}
+                className="flex flex-col gap-2 rounded-md border px-3 py-2 text-sm hover:bg-secondary md:flex-row md:items-center md:justify-between"
+              >
+                <div>
+                  <p className="font-semibold">{question.title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {question.author} · Updated {question.updatedAt}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>{question.votes} votes</span>
+                  <Badge variant={question.answered ? "success" : "secondary"}>
+                    {question.answered ? "Answered" : "Open"}
+                  </Badge>
+                </div>
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

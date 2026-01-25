@@ -151,6 +151,7 @@ export default async function AdminSubmissionDetailPage({
                 userName: submission.userName,
                 submittedAt: submission.submittedAt,
                 attachments: submission.attachments,
+                status: submission.status,
               }}
             />
           </div>

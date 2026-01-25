@@ -17,6 +17,7 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Learn chapter | `/learn/courses/[courseId]/chapters/[chapterId]` | In-flow chapter overview with active lesson highlight, lesson copy, checkpoints, and lesson list/status; CTA to open active lesson. |
 | Learn lesson | `/learn/courses/[courseId]/chapters/[chapterId]/lessons/[lessonId]` | Lesson player (video/reading/quiz/assignment), progress bar, and gated navigation based on readiness. |
 | Notifications | `/notifications` | Notifications list with type badges, unread markers, and timestamps. |
+| Notification detail | `/notifications/[notificationId]` | Grading update detail with score, feedback, and attachments. |
 | Profile | `/profile` | Learner profile summary, contact info, and status. |
 | Edit profile | `/profile/edit` | Edit name parts, avatar, and phone with links to dedicated email/password screens. |
 | Change email | `/profile/email` | Update account email address on a dedicated form. |
