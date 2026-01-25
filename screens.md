@@ -32,6 +32,9 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Courses | `/admin/courses` | Course table with status, enrollments, and updated timestamp. |
 | Course detail | `/admin/courses/[courseId]` | Course overview with status and integrated chapter management. |
 | Course preview | `/preview/courses/[courseId]` | Learner-style course view for admin preview in a dedicated layout. |
+| Preview learn course | `/preview/learn/courses/[courseId]` | Preview entry point that opens the first lesson. |
+| Preview learn chapter | `/preview/learn/courses/[courseId]/chapters/[chapterId]` | Preview chapter view with all lessons accessible. |
+| Preview learn lesson | `/preview/learn/courses/[courseId]/chapters/[chapterId]/lessons/[lessonId]` | Preview lesson view without progression gating. |
 | Create course | `/admin/courses/new` | Form for course metadata, summary, and tags. |
 | Edit course | `/admin/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
 | Lessons | `/admin/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |

@@ -36,7 +36,9 @@ export default async function AdminCourseDetailPage({
             <Link href={`/admin/courses/${course.id}/edit`}>Edit course</Link>
           </Button>
           <Button asChild>
-            <Link href={`/preview/courses/${course.id}`}>Preview</Link>
+            <Link href={`/preview/courses/${course.id}`} target="_blank" rel="noreferrer">
+              Preview
+            </Link>
           </Button>
         </div>
       </div>

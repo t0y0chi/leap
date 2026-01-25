@@ -63,7 +63,7 @@ export default async function CoursePreviewPage({
               </div>
               {course.chapters[0]?.lessons[0] && (
                 <Link
-                  href={`/learn/courses/${course.id}`}
+                  href={`/preview/learn/courses/${course.id}`}
                   className="mt-1 inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
                 >
                   Resume course
@@ -127,18 +127,18 @@ export default async function CoursePreviewPage({
                       ))}
                     </div>
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <Link
-                        href={`/courses/${course.id}/chapters/${chapter.id}`}
-                        className="font-semibold text-primary hover:underline"
-                      >
-                        View chapter
-                      </Link>
-                      <Link
-                        href={`/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${nextLesson.id}`}
-                        className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-                      >
-                        <PlayCircle className="h-4 w-4" />
-                        Continue
+                    <Link
+                      href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}`}
+                      className="font-semibold text-primary hover:underline"
+                    >
+                      View chapter
+                    </Link>
+                    <Link
+                      href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${nextLesson.id}`}
+                      className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
+                    >
+                      <PlayCircle className="h-4 w-4" />
+                      Continue
                       </Link>
                     </div>
                   </div>
