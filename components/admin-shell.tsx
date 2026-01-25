@@ -13,7 +13,8 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
-import { adminProfile } from "@/lib/admin-data";
+import { adminProfile, adminSubmissions } from "@/lib/admin-data";
+import { questions } from "@/lib/mock-data";
 
 type NavItem = {
   href: string;
@@ -37,6 +38,10 @@ interface AdminShellProps {
 
 export function AdminShell({ children }: AdminShellProps) {
   const pathname = usePathname();
+  const pendingSubmissions = adminSubmissions.filter(
+    (submission) => submission.status === "pending",
+  ).length;
+  const pendingQnaThreads = questions.filter((question) => !question.answered).length;
   const initials = adminProfile.name
     .split(" ")
     .filter(Boolean)
@@ -75,6 +80,16 @@ export function AdminShell({ children }: AdminShellProps) {
                 >
                   <Icon className="h-4 w-4" />
                   <span>{item.label}</span>
+                  {item.href === "/admin/assignments/submissions" && pendingSubmissions > 0 && (
+                    <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">
+                      {pendingSubmissions}
+                    </span>
+                  )}
+                  {item.href === "/admin/qna" && pendingQnaThreads > 0 && (
+                    <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">
+                      {pendingQnaThreads}
+                    </span>
+                  )}
                   {item.comingSoon && (
                     <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-semibold text-amber-800">
                       Soon
