@@ -5,7 +5,6 @@ import { useState } from "react";
 import { LayoutGrid, List, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -46,14 +45,11 @@ export default function AdminUsersPage() {
             View learner enrollment and progress.
           </p>
         </div>
-        <Button asChild variant="outline">
-          <Link href="/admin/admins/invite">Invite admin</Link>
-        </Button>
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <CardTitle>Learners</CardTitle>
+      <div className="space-y-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <h2 className="text-lg font-semibold">Learners</h2>
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1 rounded-md border bg-background p-1">
               <Button
@@ -76,15 +72,14 @@ export default function AdminUsersPage() {
               </Button>
             </div>
           </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          {view === "table" ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Course</TableHead>
-                  <TableHead>Progress</TableHead>
+        </div>
+        {view === "table" ? (
+          <Table className="rounded-lg border bg-card">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Course</TableHead>
+                <TableHead>Progress</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -127,7 +122,7 @@ export default function AdminUsersPage() {
               </TableBody>
             </Table>
           ) : (
-            <div className="grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {adminLearners.map((learner) => (
                 <Link
                   key={learner.id}
@@ -185,8 +180,7 @@ export default function AdminUsersPage() {
               ))}
             </div>
           )}
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }
