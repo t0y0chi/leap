@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { adminLearners, adminLessons, getAdminSubmission } from "@/lib/admin-data";
+import GradeModalClient from "./grade-modal-client";
 
 export default async function AdminSubmissionDetailPage({
   params,
@@ -42,9 +43,6 @@ export default async function AdminSubmissionDetailPage({
         <div className="flex gap-2">
           <Button asChild variant="outline">
             <Link href="/admin/assignments/submissions">Back</Link>
-          </Button>
-          <Button asChild>
-            <Link href={`/admin/assignments/submissions/${submission.id}/grade`}>Grade</Link>
           </Button>
         </div>
       </div>
@@ -142,6 +140,20 @@ export default async function AdminSubmissionDetailPage({
               </div>
             </div>
           )}
+
+          <div className="flex justify-start">
+            <GradeModalClient
+              submission={{
+                id: submission.id,
+                lessonTitle: submission.lessonTitle,
+                chapterTitle: submission.chapterTitle,
+                courseTitle: submission.courseTitle,
+                userName: submission.userName,
+                submittedAt: submission.submittedAt,
+                attachments: submission.attachments,
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>
