@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, BookOpen, LayoutDashboard, MessageCircle, User } from "lucide-react";
+import { Bell, BookOpen, HelpCircle, LayoutDashboard, User } from "lucide-react";
 
 import { notifications } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ import { Avatar } from "@/components/ui/avatar";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/courses", label: "Courses", icon: BookOpen },
-  { href: "https://example.com", label: "Q&A", icon: MessageCircle, external: true },
+  { href: "https://example.com", label: "FAQ", icon: HelpCircle, external: true },
 ];
 
 interface AppShellProps {

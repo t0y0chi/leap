@@ -16,7 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import { courses, type LearningLesson } from "@/lib/mock-data";
 import { LessonContent } from "@/components/learning/lesson-content";
 import { LessonNavigation } from "@/components/learning/lesson-navigation";
-import { learnChapterHref, learnLessonHref } from "@/lib/learning-routes";
+import { learnLessonHref } from "@/lib/learning-routes";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -89,10 +89,10 @@ export default function LessonPage({
     <div className="space-y-5">
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <Link
-          href={learnChapterHref("learn", course.id, chapter.id)}
+          href={`/courses/${course.id}`}
           className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
         >
-          ← Back to learning flow
+          ← Back to course
         </Link>
         <Badge variant="secondary" className="capitalize">
           {typeLabel[lesson.type]}

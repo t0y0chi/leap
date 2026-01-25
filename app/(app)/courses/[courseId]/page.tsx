@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, MessageCircle, PlayCircle } from "lucide-react";
+import { BookOpen, MessageCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -41,15 +41,6 @@ export default async function CoursePage({
               <p className="text-sm uppercase tracking-wide text-slate-300">Course</p>
               <h1 className="text-3xl font-semibold">{course.title}</h1>
               <p className="max-w-2xl text-sm text-slate-200">{course.summary}</p>
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary">{course.category}</Badge>
-                <Badge variant="neutral">{course.level}</Badge>
-                {course.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
             </div>
             <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-white/5 p-4 text-sm">
               <div className="flex items-center justify-between">
@@ -125,21 +116,6 @@ export default async function CoursePage({
                         </Badge>
                       </div>
                     ))}
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <Link
-                      href={`/courses/${course.id}/chapters/${chapter.id}`}
-                      className="font-semibold text-primary hover:underline"
-                    >
-                      View chapter
-                    </Link>
-                    <Link
-                      href={`/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${nextLesson.id}`}
-                      className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-                    >
-                      <PlayCircle className="h-4 w-4" />
-                      Continue
-                    </Link>
                   </div>
                 </div>
                 </div>

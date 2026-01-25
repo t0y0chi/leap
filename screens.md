@@ -10,11 +10,9 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Signup | `/signup` | Account creation form with name, email, international phone, and password in the same auth layout. |
 | Dashboard | `/dashboard` | Welcome message and `CourseList` for the focused course with Resume CTA. |
 | Courses | `/courses` | Catalog of all available courses via `CourseList`. |
-| Course detail | `/courses/[courseId]` | Course hero (progress/tags), chapter list with lesson summaries, links to chapter detail, and “Continue”. |
-| Chapter outline | `/courses/[courseId]/chapters/[chapterId]` | Chapter lessons with status/locked state, open CTA, and sidebar stats with “Continue chapter”. |
+| Course detail | `/courses/[courseId]` | Course hero (progress/tags), chapter list with lesson summaries, and “Continue”. |
 | Course Q&A | `/courses/[courseId]/qna` | Q&A board of threads with answered/pending badges and open-thread link. |
 | Learn redirect | `/learn/courses/[courseId]` | Redirects to the first incomplete (or first) lesson in the course. |
-| Learn chapter | `/learn/courses/[courseId]/chapters/[chapterId]` | In-flow chapter overview with active lesson highlight, lesson copy, checkpoints, and lesson list/status; CTA to open active lesson. |
 | Learn lesson | `/learn/courses/[courseId]/chapters/[chapterId]/lessons/[lessonId]` | Lesson player (video/reading/quiz/assignment), progress bar, and gated navigation based on readiness. |
 | Notifications | `/notifications` | Notifications list with type badges, unread markers, and timestamps. |
 | Notification detail | `/notifications/[notificationId]` | Grading update detail with score, feedback, and attachments. |
