@@ -34,3 +34,7 @@
 ## Security & Configuration Tips
 - Keep secrets in `.env.local` and never commit them. Document any required environment variables in PR descriptions.
 - Validate user input on both client and server boundaries; avoid trusting query params or form data without checks.
+
+## Data & Database Notes
+- Extracted UI entities are documented in `docs/db-entities.md` for DB design reference.
+- This project targets Supabase (PostgreSQL) for persistence.
