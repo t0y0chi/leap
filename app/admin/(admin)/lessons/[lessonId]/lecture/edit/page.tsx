@@ -76,9 +76,6 @@ export default async function AdminLectureEditPage({
           </div>
           <div className="flex gap-2">
             <Button>Save</Button>
-            <Button asChild variant="outline">
-              <Link href={`/admin/lessons/${lesson.id}/preview`}>Preview</Link>
-            </Button>
           </div>
         </CardContent>
       </Card>

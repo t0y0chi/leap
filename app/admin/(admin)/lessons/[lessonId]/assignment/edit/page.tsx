@@ -31,7 +31,7 @@ export default async function AdminAssignmentEditPage({
         <div>
           <h1 className="text-2xl font-semibold">Edit assignment</h1>
           <p className="text-sm text-muted-foreground">
-            Set submission expectations, attachments, and scoring rubric.
+            Set submission expectations and scoring rubric.
           </p>
         </div>
         <Button asChild variant="outline">
@@ -60,19 +60,6 @@ export default async function AdminAssignmentEditPage({
               <Label htmlFor="duration">Expected time</Label>
               <Input id="duration" name="duration" defaultValue={lesson.duration} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="maxScore">Max score</Label>
-              <Input
-                id="maxScore"
-                name="maxScore"
-                type="number"
-                defaultValue={lesson.maxScore ?? 100}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="attachments">Required attachments</Label>
-              <Input id="attachments" name="attachments" placeholder="zip, pdf, png" />
-            </div>
           </div>
 
           <div className="space-y-2">
@@ -100,9 +87,6 @@ export default async function AdminAssignmentEditPage({
 
           <div className="flex flex-wrap gap-2">
             <Button>Save</Button>
-            <Button asChild variant="outline">
-              <Link href={`/admin/lessons/${lesson.id}/preview`}>Preview submission form</Link>
-            </Button>
           </div>
 
           <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">

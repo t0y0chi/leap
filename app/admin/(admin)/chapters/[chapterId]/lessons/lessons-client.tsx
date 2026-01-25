@@ -2,7 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, Clock, PlayCircle, Plus, X } from "lucide-react";
+import { CheckCircle2, Clock, GripVertical, Plus, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,6 +57,8 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
   const [isAdding, setIsAdding] = useState(false);
   const [recentlyAdded, setRecentlyAdded] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [hasPendingOrder, setHasPendingOrder] = useState(false);
 
   const existingIds = useMemo(
     () => new Set(initialLessons.map((lesson) => lesson.id)),
@@ -66,6 +68,24 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
   const resetForm = () => {
     setForm(defaultForm);
     setError(null);
+  };
+
+  const handleReorder = (sourceId: string, targetId: string) => {
+    if (sourceId === targetId) return;
+    setLessons((prev) => {
+      const sourceIndex = prev.findIndex((lesson) => lesson.id === sourceId);
+      const targetIndex = prev.findIndex((lesson) => lesson.id === targetId);
+      if (sourceIndex === -1 || targetIndex === -1) return prev;
+      const next = [...prev];
+      const [moved] = next.splice(sourceIndex, 1);
+      next.splice(targetIndex, 0, moved);
+      return next;
+    });
+    setHasPendingOrder(true);
+  };
+
+  const handleSaveOrder = () => {
+    setHasPendingOrder(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -109,7 +129,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
         </div>
         <div className="flex gap-2">
           <Button asChild variant="outline">
-            <Link href={`/admin/courses/${chapter.courseId}/chapters`}>Back to chapters</Link>
+            <Link href={`/admin/courses/${chapter.courseId}`}>Back to course</Link>
           </Button>
           <Button
             type="button"
@@ -267,74 +287,80 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-10" />
                 <TableHead>Lesson</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Duration</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Updated</TableHead>
-                <TableHead />
               </TableRow>
             </TableHeader>
             <TableBody>
               {lessons.map((lesson) => {
                 const isLocalDraft = !existingIds.has(lesson.id);
+                const editHref = getEditHref(lesson.type, lesson.id);
 
                 return (
-                  <TableRow key={lesson.id}>
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <div className="font-semibold text-foreground">{lesson.title}</div>
-                          {isLocalDraft && <Badge variant="warning">Local draft</Badge>}
+                  <TableRow
+                    key={lesson.id}
+                    draggable
+                    onDragStart={() => setDraggingId(lesson.id)}
+                    onDragEnd={() => setDraggingId(null)}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={() => {
+                      if (draggingId) handleReorder(draggingId, lesson.id);
+                    }}
+                    className={draggingId === lesson.id ? "bg-secondary/60" : undefined}
+                  >
+                    <TableCell className="text-muted-foreground">
+                      <button type="button" className="cursor-grab text-muted-foreground">
+                        <GripVertical className="h-4 w-4" />
+                      </button>
+                    </TableCell>
+                    <TableCell className="p-0">
+                      <Link href={editHref} className="block px-4 py-3">
+                        <div className="flex flex-col gap-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <div className="font-semibold text-foreground">{lesson.title}</div>
+                            {isLocalDraft && <Badge variant="warning">Local draft</Badge>}
+                          </div>
+                          <p className="text-xs text-muted-foreground">{lesson.summary}</p>
                         </div>
-                        <p className="text-xs text-muted-foreground">{lesson.summary}</p>
-                      </div>
+                      </Link>
                     </TableCell>
-                    <TableCell className="text-sm capitalize text-muted-foreground">
-                      {lesson.type}
+                    <TableCell className="p-0 text-sm capitalize text-muted-foreground">
+                      <Link href={editHref} className="block px-4 py-3">
+                        {lesson.type}
+                      </Link>
                     </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4" />
-                        {lesson.duration}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          lesson.status === "published"
-                            ? "success"
-                            : lesson.status === "maintenance"
-                              ? "secondary"
-                              : "outline"
-                        }
-                        className="capitalize"
-                      >
-                        {lesson.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {lesson.updatedAt}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {isLocalDraft ? (
-                        <div className="flex flex-col items-end gap-1 text-xs text-muted-foreground">
-                          <Badge variant="secondary">Draft only</Badge>
-                          <span>Save to edit or preview</span>
+                    <TableCell className="p-0 text-sm text-muted-foreground">
+                      <Link href={editHref} className="block px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4" />
+                          {lesson.duration}
                         </div>
-                      ) : (
-                        <div className="flex justify-end gap-2">
-                          <Button asChild size="sm" variant="outline">
-                            <Link href={getEditHref(lesson.type, lesson.id)}>Edit</Link>
-                          </Button>
-                          <Button asChild size="sm" variant="ghost">
-                            <Link href={`/admin/lessons/${lesson.id}/preview`}>
-                              <PlayCircle className="h-4 w-4" />
-                              Preview
-                            </Link>
-                          </Button>
-                        </div>
-                      )}
+                      </Link>
+                    </TableCell>
+                    <TableCell className="p-0">
+                      <Link href={editHref} className="block px-4 py-3">
+                        <Badge
+                          variant={
+                            lesson.status === "published"
+                              ? "success"
+                              : lesson.status === "maintenance"
+                                ? "secondary"
+                                : "outline"
+                          }
+                          className="capitalize"
+                        >
+                          {lesson.status}
+                        </Badge>
+                      </Link>
+                    </TableCell>
+                    <TableCell className="p-0 text-sm text-muted-foreground">
+                      <Link href={editHref} className="block px-4 py-3">
+                        {lesson.updatedAt}
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );
@@ -343,6 +369,14 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
           </Table>
         </CardContent>
       </Card>
+
+      {hasPendingOrder && (
+        <div className="flex justify-center rounded-lg border bg-background px-6 py-4">
+          <Button type="button" onClick={handleSaveOrder}>
+            Save order
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

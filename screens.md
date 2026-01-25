@@ -31,13 +31,13 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Admin dashboard | `/admin/dashboard` | Minimal admin landing view with primary navigation actions. |
 | Courses | `/admin/courses` | Course table with status, enrollments, and updated timestamp. |
 | Course detail | `/admin/courses/[courseId]` | Course overview with status and integrated chapter management. |
+| Course preview | `/preview/courses/[courseId]` | Learner-style course view for admin preview in a dedicated layout. |
 | Create course | `/admin/courses/new` | Form for course metadata, summary, and tags. |
 | Edit course | `/admin/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
 | Lessons | `/admin/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |
 | Edit lecture | `/admin/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
 | Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for multi-question prompts, choices, and correct answers. |
 | Edit assignment | `/admin/lessons/[lessonId]/assignment/edit` | Assignment editor for instructions, attachments, rubric, and scoring. |
-| Lesson preview | `/admin/lessons/[lessonId]/preview` | Admin preview of lecture, quiz, or assignment lesson content. |
 | Submissions | `/admin/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
 | Pending submissions | `/admin/assignments/submissions/pending` | Filtered list of submissions waiting for grading with SLA hint. |
 | Submission detail | `/admin/assignments/submissions/[submissionId]` | Metadata, attachments, learner notes, and feedback links. |

@@ -55,7 +55,7 @@ export function AdminShell({ children }: AdminShellProps) {
             </div>
           </Link>
           <nav className="hidden items-center gap-1.5 md:flex">
-            {navItems.map((item) => {
+            {navItems.map((item: NavItem) => {
               const Icon = item.icon;
               const isActive =
                 item.href === "/admin/dashboard"

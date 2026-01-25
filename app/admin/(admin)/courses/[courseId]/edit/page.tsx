@@ -48,18 +48,6 @@ export default async function AdminCourseEditPage({
             <Badge variant="outline" className="capitalize">
               {course.visibility}
             </Badge>
-            <Badge
-              variant={
-                course.status === "published"
-                  ? "success"
-                  : course.status === "maintenance"
-                    ? "secondary"
-                    : "outline"
-              }
-              className="capitalize"
-            >
-              {course.status}
-            </Badge>
           </div>
           <CardDescription>{course.summary}</CardDescription>
         </CardHeader>
@@ -71,7 +59,15 @@ export default async function AdminCourseEditPage({
             </div>
             <div className="space-y-2">
               <Label htmlFor="visibility">Visibility</Label>
-              <Input id="visibility" name="visibility" defaultValue={course.visibility} />
+              <select
+                id="visibility"
+                name="visibility"
+                defaultValue={course.visibility}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+              </select>
             </div>
           </div>
           <div className="space-y-2">
@@ -80,7 +76,6 @@ export default async function AdminCourseEditPage({
           </div>
           <div className="flex gap-2">
             <Button>Save changes</Button>
-            <Button variant="outline">Preview learner view</Button>
           </div>
         </CardContent>
       </Card>
