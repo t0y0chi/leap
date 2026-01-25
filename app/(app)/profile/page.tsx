@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Edit, Mail } from "lucide-react";
+import { Edit, Mail, Phone } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { learnerProfile } from "@/lib/mock-data";
+import { formatFullName, getInitials } from "@/lib/utils";
 
 export default function ProfilePage() {
+  const fullName = formatFullName(learnerProfile);
   return (
     <div className="space-y-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -35,12 +37,21 @@ export default function ProfilePage() {
           <CardDescription>Basic information</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:gap-6">
-          <Avatar src={learnerProfile.avatar} alt={learnerProfile.name} className="h-16 w-16" fallback="AC" />
+          <Avatar
+            src={learnerProfile.avatar}
+            alt={fullName}
+            className="h-16 w-16"
+            fallback={getInitials(learnerProfile)}
+          />
           <div className="space-y-1">
-            <p className="text-lg font-semibold">{learnerProfile.name}</p>
+            <p className="text-lg font-semibold">{fullName}</p>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Mail className="h-4 w-4" />
               {learnerProfile.email}
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Phone className="h-4 w-4" />
+              {learnerProfile.phone}
             </div>
             <Badge variant="secondary" className="mt-2">
               {learnerProfile.role}
