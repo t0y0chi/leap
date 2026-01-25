@@ -36,7 +36,7 @@ export default async function AdminCourseEditPage({
             <Link href="/admin/courses">Back</Link>
           </Button>
           <Button asChild>
-            <Link href={`/admin/courses/${course.id}/chapters`}>Manage chapters</Link>
+            <Link href={`/admin/courses/${course.id}`}>View course</Link>
           </Button>
         </div>
       </div>
@@ -70,14 +70,6 @@ export default async function AdminCourseEditPage({
               <Input id="title" name="title" defaultValue={course.title} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="track">Track</Label>
-              <Input id="track" name="track" defaultValue={course.track} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="owner">Owner</Label>
-              <Input id="owner" name="owner" defaultValue={course.owner} />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="visibility">Visibility</Label>
               <Input id="visibility" name="visibility" defaultValue={course.visibility} />
             </div>
@@ -85,22 +77,6 @@ export default async function AdminCourseEditPage({
           <div className="space-y-2">
             <Label htmlFor="summary">Summary</Label>
             <Textarea id="summary" name="summary" defaultValue={course.summary} rows={4} />
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-1 rounded-lg border bg-secondary p-3">
-              <p className="text-xs text-muted-foreground">Enrollments</p>
-              <p className="text-xl font-semibold">{course.enrollments}</p>
-            </div>
-            <div className="space-y-1 rounded-lg border bg-secondary p-3">
-              <p className="text-xs text-muted-foreground">Completion</p>
-              <p className="text-xl font-semibold">
-                {Math.round(course.completionRate * 100)}%
-              </p>
-            </div>
-            <div className="space-y-1 rounded-lg border bg-secondary p-3">
-              <p className="text-xs text-muted-foreground">Pending grading</p>
-              <p className="text-xl font-semibold">{course.pendingSubmissions}</p>
-            </div>
           </div>
           <div className="flex gap-2">
             <Button>Save changes</Button>

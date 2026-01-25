@@ -2,14 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  CheckCircle2,
-  Clock,
-  PlayCircle,
-  Plus,
-  ShieldCheck,
-  X,
-} from "lucide-react";
+import { CheckCircle2, Clock, PlayCircle, Plus, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -267,12 +260,8 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
       )}
 
       <Card>
-        <CardHeader className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+        <CardHeader>
           <CardTitle>{chapter.title}</CardTitle>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <ShieldCheck className="h-4 w-4" />
-            Require at least one graded checkpoint per chapter.
-          </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -282,7 +271,6 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                 <TableHead>Type</TableHead>
                 <TableHead>Duration</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Graded</TableHead>
                 <TableHead>Updated</TableHead>
                 <TableHead />
               </TableRow>
@@ -323,11 +311,6 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                         className="capitalize"
                       >
                         {lesson.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={lesson.graded ? "neutral" : "outline"}>
-                        {lesson.graded ? "Graded" : "Ungraded"}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">

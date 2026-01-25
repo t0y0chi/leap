@@ -11,8 +11,17 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Avatar } from "@/components/ui/avatar";
+import { adminProfile } from "@/lib/admin-data";
 
-const navItems = [
+type NavItem = {
+  href: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  comingSoon?: boolean;
+};
+
+const navItems: NavItem[] = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/courses", label: "Courses", icon: BookOpenCheck },
   { href: "/admin/assignments/submissions", label: "Submissions", icon: CheckSquare },
@@ -26,6 +35,11 @@ interface AdminShellProps {
 
 export function AdminShell({ children }: AdminShellProps) {
   const pathname = usePathname();
+  const initials = adminProfile.name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("");
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -69,9 +83,13 @@ export function AdminShell({ children }: AdminShellProps) {
             })}
           </nav>
           <div className="flex items-center gap-3">
-            <div className="hidden h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground md:flex">
-              SA
-            </div>
+            <Link href="/admin/profile" className="hidden md:block">
+              <Avatar
+                src={adminProfile.avatarUrl}
+                alt={`${adminProfile.name} profile`}
+                fallback={initials}
+              />
+            </Link>
           </div>
         </div>
       </header>

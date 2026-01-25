@@ -101,6 +101,12 @@ export interface AdminTeamMember {
   lastActive: string;
 }
 
+export interface AdminProfile {
+  name: string;
+  email: string;
+  avatarUrl: string;
+}
+
 export const adminCourses: AdminCourse[] = [
   {
     id: "annotation-101",
@@ -384,6 +390,13 @@ export const adminTeam: AdminTeamMember[] = [
     lastActive: "Today 08:20",
   },
 ];
+
+export const adminProfile: AdminProfile = {
+  name: "Samira Patel",
+  email: "samira.patel@example.com",
+  avatarUrl:
+    "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=facearea&w=160&h=160&q=80",
+};
 
 export const adminInvites: AdminInvite[] = [
   {

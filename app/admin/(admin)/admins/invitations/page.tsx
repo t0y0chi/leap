@@ -1,5 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Check, Clock3, Users } from "lucide-react";
+import { Clock3, MoreHorizontal } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,8 +16,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { adminInvites, adminTeam } from "@/lib/admin-data";
+import { cn } from "@/lib/utils";
 
 export default function AdminInvitationsPage() {
+  const [teamMembers, setTeamMembers] = useState(adminTeam);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const canDelete = teamMembers.length > 1;
+  const [inviteTab, setInviteTab] = useState<"all" | "pending" | "accepted" | "expired">("all");
+
+  const toggleMenu = (memberId: string) => {
+    setOpenMenuId((prev) => (prev === memberId ? null : memberId));
+  };
+
+  const handleDelete = (memberId: string) => {
+    if (!canDelete) return;
+    const member = teamMembers.find((item) => item.id === memberId);
+    if (!member) return;
+    const confirmed = window.confirm(`Delete ${member.name}? This cannot be undone.`);
+    if (!confirmed) return;
+    setTeamMembers((prev) => prev.filter((member) => member.id !== memberId));
+    setOpenMenuId(null);
+  };
+
+  const tabs = [
+    { id: "all", label: "All" },
+    { id: "pending", label: "Pending" },
+    { id: "accepted", label: "Accepted" },
+    { id: "expired", label: "Expired" },
+  ] as const;
+
+  const filteredInvites =
+    inviteTab === "all"
+      ? adminInvites
+      : adminInvites.filter((invite) => invite.status === inviteTab);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
@@ -32,35 +67,71 @@ export default function AdminInvitationsPage() {
       <Card>
         <CardHeader className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
           <CardTitle>Active admins</CardTitle>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Users className="h-4 w-4" />
-            Workspace roles
-          </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Role</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Last active</TableHead>
+                <TableHead className="w-12" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {adminTeam.map((member) => (
+              {teamMembers.map((member) => (
                 <TableRow key={member.id}>
                   <TableCell>
                     <div className="font-semibold text-foreground">{member.name}</div>
                     <p className="text-xs text-muted-foreground">{member.email}</p>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{member.role}</TableCell>
                   <TableCell>
                     <Badge variant={member.status === "active" ? "success" : "warning"}>
                       {member.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{member.lastActive}</TableCell>
+                  <TableCell className="p-0">
+                    <div
+                      className="relative flex justify-end px-4 py-3"
+                      onBlur={(event) => {
+                        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                          setOpenMenuId(null);
+                        }
+                      }}
+                    >
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => toggleMenu(member.id)}
+                        aria-haspopup="menu"
+                        aria-expanded={openMenuId === member.id}
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                        <span className="sr-only">Open actions</span>
+                      </Button>
+                      {openMenuId === member.id && (
+                        <div
+                          role="menu"
+                          className="absolute right-4 top-12 z-10 w-40 rounded-md border bg-background p-1 text-sm shadow-md"
+                        >
+                          <button
+                            type="button"
+                            role="menuitem"
+                            className={cn(
+                              "w-full rounded px-3 py-2 text-left text-sm font-semibold transition",
+                              canDelete
+                                ? "text-destructive hover:bg-destructive/10"
+                                : "cursor-not-allowed text-muted-foreground",
+                            )}
+                            onClick={() => handleDelete(member.id)}
+                            disabled={!canDelete}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -73,7 +144,25 @@ export default function AdminInvitationsPage() {
           <CardTitle>Invitations</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          {adminInvites.map((invite) => (
+          <div className="flex flex-wrap gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setInviteTab(tab.id)}
+                className={cn(
+                  "rounded-full border px-4 py-2 text-sm font-semibold transition",
+                  inviteTab === tab.id
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "hover:bg-secondary",
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {filteredInvites.map((invite) => (
             <div
               key={invite.token}
               className="flex flex-col gap-2 rounded-lg border bg-white p-3 md:flex-row md:items-center md:justify-between"
@@ -97,24 +186,15 @@ export default function AdminInvitationsPage() {
                   {invite.status}
                 </Badge>
                 <span className="text-xs text-muted-foreground">{invite.expiresAt}</span>
-                <Button asChild size="sm" variant="outline">
-                  <Link href={`/admin/invitations/${invite.token}`}>Open</Link>
-                </Button>
               </div>
             </div>
           ))}
-          {adminInvites.length === 0 && (
+          {filteredInvites.length === 0 && (
             <div className="flex items-center gap-2 rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">
               <Clock3 className="h-4 w-4" />
-              <span>No invitations yet.</span>
+              <span>No invitations in this tab.</span>
             </div>
           )}
-          <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4" />
-              <span>Use invites for auditability—avoid sharing logins.</span>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>

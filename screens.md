@@ -29,10 +29,10 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Admin redirect | `/admin` | Redirects to `/admin/dashboard`. |
 | Admin login | `/admin/login` | Admin/auth layout with email, password, and OTP fields. |
 | Admin dashboard | `/admin/dashboard` | Minimal admin landing view with primary navigation actions. |
-| Courses | `/admin/courses` | Course table with status, visibility, enrollment counts, and chapter links. |
+| Courses | `/admin/courses` | Course table with status, enrollments, and updated timestamp. |
+| Course detail | `/admin/courses/[courseId]` | Course overview with status and integrated chapter management. |
 | Create course | `/admin/courses/new` | Form for course metadata, summary, and tags. |
 | Edit course | `/admin/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
-| Chapters | `/admin/courses/[courseId]/chapters` | Chapter ordering, gating, published badge, and manage lessons action. |
 | Lessons | `/admin/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |
 | Edit lecture | `/admin/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
 | Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for multi-question prompts, choices, and correct answers. |
@@ -47,4 +47,5 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | User detail | `/admin/users/[userId]` | Learner progress, stats, and recent submissions. |
 | Invite admin | `/admin/admins/invite` | Invitation form for reviewers/admins with message. |
 | Invitations | `/admin/admins/invitations` | Admin roster plus pending invites with status. |
-| Accept invitation | `/admin/invitations/[token]` | Invitation detail page with accept/decline actions. |
+| Admin profile | `/admin/profile` | Admin profile summary with avatar and contact details. |
+| Admin profile edit | `/admin/profile/edit` | Admin profile edit form for avatar, name, and email. |
