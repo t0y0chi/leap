@@ -54,7 +54,7 @@ export default function AdminPendingSubmissionsPage() {
               {pending.map((submission) => (
                 <TableRow key={submission.id}>
                   <TableCell>
-                    <div className="font-semibold text-foreground">{submission.itemTitle}</div>
+                    <div className="font-semibold text-foreground">{submission.lessonTitle}</div>
                     <p className="text-xs text-muted-foreground">{submission.chapterTitle}</p>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">

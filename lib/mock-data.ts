@@ -1,12 +1,12 @@
 export type LessonType = "lecture" | "reading" | "quiz" | "assignment";
-export type ItemStatus = "not-started" | "in-progress" | "completed";
+export type LessonStatus = "not-started" | "in-progress" | "completed";
 
-export interface LearningItem {
+export interface LearningLesson {
   id: string;
   title: string;
   type: LessonType;
   duration: string;
-  status: ItemStatus;
+  status: LessonStatus;
   score?: number;
   content?: string;
   videoUrl?: string;
@@ -20,7 +20,7 @@ export interface Chapter {
   title: string;
   description: string;
   progress: number;
-  items: LearningItem[];
+  lessons: LearningLesson[];
 }
 
 export interface Course {
@@ -88,7 +88,7 @@ export const courses: Course[] = [
         title: "Foundations",
         description: "Labeling intent, task types, and annotation guidelines.",
         progress: 100,
-        items: [
+        lessons: [
           {
             id: "it-1",
             title: "How annotation drives model quality",
@@ -137,7 +137,7 @@ export const courses: Course[] = [
         title: "Annotation Tools",
         description: "Hotkeys, labeling UI, and quality shortcuts.",
         progress: 55,
-        items: [
+        lessons: [
           {
             id: "it-4",
             title: "Video walkthrough: labeling UI",
@@ -196,7 +196,7 @@ export const courses: Course[] = [
         title: "Quality & Feedback",
         description: "Self-checks, handoffs, and reviewer expectations.",
         progress: 20,
-        items: [
+        lessons: [
           {
             id: "it-8",
             title: "What reviewers look for",
@@ -256,7 +256,7 @@ export const courses: Course[] = [
         title: "Getting Started",
         description: "Setup, variables, and basic outputs.",
         progress: 0,
-        items: [
+        lessons: [
           {
             id: "prog-it-1",
             title: "Watch: hello world walkthrough",

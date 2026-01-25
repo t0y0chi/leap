@@ -16,20 +16,20 @@ export default async function LearnCourseIndex({
 
   const firstPending = course.chapters
     .flatMap((chapter) =>
-      chapter.items.map((item) => ({ chapter, item })),
+      chapter.lessons.map((lesson) => ({ chapter, lesson })),
     )
-    .find(({ item }) => item.status !== "completed");
+    .find(({ lesson }) => lesson.status !== "completed");
 
-  const fallback = course.chapters[0]?.items[0];
+  const fallback = course.chapters[0]?.lessons[0];
 
   const targetChapter = firstPending?.chapter ?? course.chapters[0];
-  const targetItem = firstPending?.item ?? fallback;
+  const targetLesson = firstPending?.lesson ?? fallback;
 
-  if (!targetChapter || !targetItem) {
+  if (!targetChapter || !targetLesson) {
     redirect("/courses");
   }
 
   redirect(
-    `/learn/courses/${course.id}/chapters/${targetChapter.id}/items/${targetItem.id}`,
+    `/learn/courses/${course.id}/chapters/${targetChapter.id}/lessons/${targetLesson.id}`,
   );
 }

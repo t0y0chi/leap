@@ -71,7 +71,7 @@ export default function AdminDashboardPage() {
           <div>
             <CardTitle>Submission backlog</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Highest priority items from all courses.
+              Highest priority lessons from all courses.
             </p>
           </div>
           <Button asChild size="sm" variant="outline">
@@ -89,7 +89,7 @@ export default function AdminDashboardPage() {
                   <Clock3 className="h-4 w-4" />
                   <span>{submission.submittedAt}</span>
                 </div>
-                <p className="font-semibold text-foreground">{submission.itemTitle}</p>
+                <p className="font-semibold text-foreground">{submission.lessonTitle}</p>
                 <p className="text-sm text-muted-foreground">
                   {submission.userName} · {submission.chapterTitle}
                 </p>

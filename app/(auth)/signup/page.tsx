@@ -38,15 +38,23 @@ export default function SignupPage() {
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="name">Full name</Label>
-            <Input id="name" name="name" placeholder="Alex Carter" required />
+            <Label>Full name</Label>
+            <div className="grid gap-2 sm:grid-cols-3">
+              <Input id="givenName" name="givenName" placeholder="Given name" required />
+              <Input id="middleName" name="middleName" placeholder="Middle name" />
+              <Input id="familyName" name="familyName" placeholder="Family name" required />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" name="email" type="email" placeholder="you@example.com" required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone number (international)</Label>
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" name="password" type="password" placeholder="Choose a strong password" required />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone number</Label>
             <PhoneInput
               id="phone"
               name="phone"
@@ -68,13 +76,6 @@ export default function SignupPage() {
               placeholder="+1 415 555 0123"
               required
             />
-            <p className="text-xs text-muted-foreground">
-              Include country code (e.g. +81, +44).
-            </p>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" name="password" type="password" placeholder="Choose a strong password" required />
           </div>
           <Button className="w-full" type="submit" disabled={loading}>
             {loading ? "Creating account..." : "Create account"}

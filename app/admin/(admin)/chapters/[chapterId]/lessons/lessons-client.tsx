@@ -25,22 +25,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import type { AdminChapter, AdminItem, AdminItemType } from "@/lib/admin-data";
+import BlocknoteEditor from "@/components/blocknote/BlocknoteEditor";
+import type { AdminChapter, AdminLesson, AdminLessonType } from "@/lib/admin-data";
 
-function getEditHref(type: AdminItemType, itemId: string) {
-  if (type === "lecture") return `/admin/items/${itemId}/lecture/edit`;
-  if (type === "quiz") return `/admin/items/${itemId}/quiz/edit`;
-  return `/admin/items/${itemId}/assignment/edit`;
+function getEditHref(type: AdminLessonType, lessonId: string) {
+  if (type === "lecture") return `/admin/lessons/${lessonId}/lecture/edit`;
+  if (type === "quiz") return `/admin/lessons/${lessonId}/quiz/edit`;
+  return `/admin/lessons/${lessonId}/assignment/edit`;
 }
 
-interface AdminItemsClientProps {
+interface AdminLessonsClientProps {
   chapter: AdminChapter;
-  initialItems: AdminItem[];
+  initialLessons: AdminLesson[];
 }
 
 const defaultForm: {
   title: string;
-  type: AdminItemType;
+  type: AdminLessonType;
   duration: string;
   summary: string;
   graded: boolean;
@@ -57,16 +58,16 @@ const defaultForm: {
 const selectClassName =
   "h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
-export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProps) {
-  const [items, setItems] = useState<AdminItem[]>(initialItems);
+export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClientProps) {
+  const [lessons, setLessons] = useState<AdminLesson[]>(initialLessons);
   const [form, setForm] = useState(defaultForm);
   const [isAdding, setIsAdding] = useState(false);
   const [recentlyAdded, setRecentlyAdded] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const existingIds = useMemo(
-    () => new Set(initialItems.map((item) => item.id)),
-    [initialItems],
+    () => new Set(initialLessons.map((lesson) => lesson.id)),
+    [initialLessons],
   );
 
   const resetForm = () => {
@@ -77,12 +78,12 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!form.title.trim()) {
-      setError("Title is required to create an item.");
+      setError("Title is required to create a lesson.");
       return;
     }
 
     const now = "Just now";
-    const newItem: AdminItem = {
+    const newLesson: AdminLesson = {
       id: `draft-${crypto.randomUUID().slice(0, 8)}`,
       chapterId: chapter.id,
       title: form.title.trim(),
@@ -98,8 +99,8 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
       attempts: form.type === "quiz" ? 1 : undefined,
     };
 
-    setItems((prev) => [...prev, newItem]);
-    setRecentlyAdded(newItem.title);
+    setLessons((prev) => [...prev, newLesson]);
+    setRecentlyAdded(newLesson.title);
     setIsAdding(false);
     resetForm();
   };
@@ -108,7 +109,7 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
         <div>
-          <h1 className="text-2xl font-semibold">Items</h1>
+          <h1 className="text-2xl font-semibold">Lessons</h1>
           <p className="text-sm text-muted-foreground">
             Control content, gating, and grading readiness for {chapter.title}.
           </p>
@@ -123,7 +124,7 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
             onClick={() => setIsAdding((open) => !open)}
           >
             {isAdding ? <X className="mr-2 h-4 w-4" /> : <Plus className="mr-2 h-4 w-4" />}
-            {isAdding ? "Close form" : "Add item"}
+            {isAdding ? "Close form" : "Add lesson"}
           </Button>
         </div>
       </div>
@@ -140,7 +141,7 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
       {isAdding && (
         <Card>
           <CardHeader>
-            <CardTitle>New item</CardTitle>
+            <CardTitle>New lesson</CardTitle>
             <p className="text-sm text-muted-foreground">
               Define the next piece of learning content for this chapter.
             </p>
@@ -168,7 +169,7 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
                     onChange={(event) =>
                       setForm((prev) => ({
                         ...prev,
-                        type: event.target.value as AdminItemType,
+                        type: event.target.value as AdminLessonType,
                         graded: event.target.value === "lecture" ? false : true,
                       }))
                     }
@@ -206,6 +207,17 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
                     placeholder="What should learners accomplish or prove?"
                   />
                 </div>
+                {form.type === "lecture" && (
+                  <div className="space-y-2 md:col-span-2">
+                    <Label>Lecture notes</Label>
+                    <div className="rounded-md border bg-background p-2">
+                      <BlocknoteEditor />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Draft rich lecture notes before saving this lesson.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
@@ -266,7 +278,7 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Item</TableHead>
+                <TableHead>Lesson</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Duration</TableHead>
                 <TableHead>Status</TableHead>
@@ -276,50 +288,50 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => {
-                const isLocalDraft = !existingIds.has(item.id);
+              {lessons.map((lesson) => {
+                const isLocalDraft = !existingIds.has(lesson.id);
 
                 return (
-                  <TableRow key={item.id}>
+                  <TableRow key={lesson.id}>
                     <TableCell>
                       <div className="flex flex-col gap-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <div className="font-semibold text-foreground">{item.title}</div>
+                          <div className="font-semibold text-foreground">{lesson.title}</div>
                           {isLocalDraft && <Badge variant="warning">Local draft</Badge>}
                         </div>
-                        <p className="text-xs text-muted-foreground">{item.summary}</p>
+                        <p className="text-xs text-muted-foreground">{lesson.summary}</p>
                       </div>
                     </TableCell>
                     <TableCell className="text-sm capitalize text-muted-foreground">
-                      {item.type}
+                      {lesson.type}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
                       <div className="flex items-center gap-2">
                         <Clock className="h-4 w-4" />
-                        {item.duration}
+                        {lesson.duration}
                       </div>
                     </TableCell>
                     <TableCell>
                       <Badge
                         variant={
-                          item.status === "published"
+                          lesson.status === "published"
                             ? "success"
-                            : item.status === "maintenance"
+                            : lesson.status === "maintenance"
                               ? "secondary"
                               : "outline"
                         }
                         className="capitalize"
                       >
-                        {item.status}
+                        {lesson.status}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={item.graded ? "neutral" : "outline"}>
-                        {item.graded ? "Graded" : "Ungraded"}
+                      <Badge variant={lesson.graded ? "neutral" : "outline"}>
+                        {lesson.graded ? "Graded" : "Ungraded"}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">
-                      {item.updatedAt}
+                      {lesson.updatedAt}
                     </TableCell>
                     <TableCell className="text-right">
                       {isLocalDraft ? (
@@ -330,7 +342,7 @@ export function AdminItemsClient({ chapter, initialItems }: AdminItemsClientProp
                       ) : (
                         <div className="flex justify-end gap-2">
                           <Button asChild size="sm" variant="outline">
-                            <Link href={getEditHref(item.type, item.id)}>Edit</Link>
+                            <Link href={getEditHref(lesson.type, lesson.id)}>Edit</Link>
                           </Button>
                           <Button size="sm" variant="ghost">
                             <PlayCircle className="h-4 w-4" />

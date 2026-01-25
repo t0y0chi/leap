@@ -14,16 +14,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { getAdminItem } from "@/lib/admin-data";
+import { getAdminLesson } from "@/lib/admin-data";
 
 export default async function AdminLectureEditPage({
   params,
 }: {
-  params: Promise<{ itemId: string }>;
+  params: Promise<{ lessonId: string }>;
 }) {
-  const { itemId } = await params;
-  const item = getAdminItem(itemId);
-  if (!item || item.type !== "lecture") return notFound();
+  const { lessonId } = await params;
+  const lesson = getAdminLesson(lessonId);
+  if (!lesson || lesson.type !== "lecture") return notFound();
 
   return (
     <div className="space-y-6">
@@ -35,32 +35,32 @@ export default async function AdminLectureEditPage({
           </p>
         </div>
         <Button asChild variant="outline">
-          <Link href={`/admin/chapters/${item.chapterId}/items`}>Back to items</Link>
+          <Link href={`/admin/chapters/${lesson.chapterId}/lessons`}>Back to lessons</Link>
         </Button>
       </div>
 
       <Card>
         <CardHeader className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <CardTitle>{item.title}</CardTitle>
+            <CardTitle>{lesson.title}</CardTitle>
             <Badge variant="neutral">Lecture</Badge>
             <Badge variant="outline" className="capitalize">
-              {item.status}
+              {lesson.status}
             </Badge>
           </div>
-          <CardDescription>{item.summary}</CardDescription>
+          <CardDescription>{lesson.summary}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" name="title" defaultValue={item.title} />
+              <Input id="title" name="title" defaultValue={lesson.title} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="duration">Duration</Label>
               <div className="flex items-center gap-2">
                 <Timer className="h-4 w-4 text-muted-foreground" />
-                <Input id="duration" name="duration" defaultValue={item.duration} />
+                <Input id="duration" name="duration" defaultValue={lesson.duration} />
               </div>
             </div>
             <div className="space-y-2 md:col-span-2">

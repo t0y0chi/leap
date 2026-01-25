@@ -13,32 +13,32 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningItem } from "@/lib/mock-data";
-import { ItemContent } from "@/components/learning/item-content";
-import { ItemNavigation } from "@/components/learning/item-navigation";
+import { courses, type LearningLesson } from "@/lib/mock-data";
+import { LessonContent } from "@/components/learning/lesson-content";
+import { LessonNavigation } from "@/components/learning/lesson-navigation";
 
-const typeLabel: Record<LearningItem["type"], string> = {
+const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Video",
   reading: "Reading",
   quiz: "Quiz",
   assignment: "Assignment",
 };
 
-export default function ItemPage({
+export default function LessonPage({
   params,
 }: {
-  params: Promise<{ courseId: string; chapterId: string; itemId: string }>;
+  params: Promise<{ courseId: string; chapterId: string; lessonId: string }>;
 }) {
-  const { courseId, chapterId, itemId } = use(params);
+  const { courseId, chapterId, lessonId } = use(params);
   const course = courses.find((c) => c.id === courseId);
   if (!course) {
     notFound();
   }
 
-  const orderedItems = useMemo(
+  const orderedLessons = useMemo(
     () =>
       course.chapters.flatMap((ch) =>
-        ch.items.map((item) => ({ chapterId: ch.id, item })),
+        ch.lessons.map((lesson) => ({ chapterId: ch.id, lesson })),
       ),
     [course],
   );
@@ -46,40 +46,43 @@ export default function ItemPage({
   const indexLookup = useMemo(
     () =>
       new Map(
-        orderedItems.map((entry, idx) => [`${entry.chapterId}:${entry.item.id}`, idx]),
+        orderedLessons.map((entry, idx) => [
+          `${entry.chapterId}:${entry.lesson.id}`,
+          idx,
+        ]),
       ),
-    [orderedItems],
+    [orderedLessons],
   );
 
   const lastCompletedIndex = useMemo(
     () =>
-      orderedItems.reduce(
-        (acc, entry, idx) => (entry.item.status === "completed" ? idx : acc),
+      orderedLessons.reduce(
+        (acc, entry, idx) => (entry.lesson.status === "completed" ? idx : acc),
         -1,
       ),
-    [orderedItems],
+    [orderedLessons],
   );
 
-  const itemIndex = indexLookup.get(`${chapterId}:${itemId}`);
-  if (itemIndex === undefined || itemIndex === -1) {
+  const lessonIndex = indexLookup.get(`${chapterId}:${lessonId}`);
+  if (lessonIndex === undefined || lessonIndex === -1) {
     notFound();
   }
 
-  const itemEntry = orderedItems[itemIndex];
-  const item = itemEntry.item;
-  const chapter = course.chapters.find((c) => c.id === itemEntry.chapterId);
+  const lessonEntry = orderedLessons[lessonIndex];
+  const lesson = lessonEntry.lesson;
+  const chapter = course.chapters.find((c) => c.id === lessonEntry.chapterId);
   if (!chapter) {
     notFound();
   }
 
-  const nextEntry = orderedItems[itemIndex + 1] ?? null;
+  const nextEntry = orderedLessons[lessonIndex + 1] ?? null;
   const nextHref = nextEntry
-    ? `/learn/courses/${course.id}/chapters/${nextEntry.chapterId}/items/${nextEntry.item.id}`
+    ? `/learn/courses/${course.id}/chapters/${nextEntry.chapterId}/lessons/${nextEntry.lesson.id}`
     : null;
 
   const initialReady =
-    item.status === "completed" ||
-    (item.type !== "quiz" && item.type !== "assignment");
+    lesson.status === "completed" ||
+    (lesson.type !== "quiz" && lesson.type !== "assignment");
   const [readyForContinue, setReadyForContinue] = useState<boolean>(initialReady);
 
   return (
@@ -92,27 +95,27 @@ export default function ItemPage({
           ← Back to learning flow
         </Link>
         <Badge variant="secondary" className="capitalize">
-          {typeLabel[item.type]}
+          {typeLabel[lesson.type]}
         </Badge>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>{item.title}</CardTitle>
+          <CardTitle>{lesson.title}</CardTitle>
           <CardDescription>
-            {chapter.title} · {item.duration}
+            {chapter.title} · {lesson.duration}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <ItemContent item={item} onReadyForContinue={setReadyForContinue} />
+          <LessonContent lesson={lesson} onReadyForContinue={setReadyForContinue} />
           <Progress value={chapter.progress} />
-          <ItemNavigation
+          <LessonNavigation
             courseId={course.id}
-            orderedItems={orderedItems.map((entry) => ({
+            orderedLessons={orderedLessons.map((entry) => ({
               chapterId: entry.chapterId,
-              itemId: entry.item.id,
+              lessonId: entry.lesson.id,
             }))}
-            currentIndex={itemIndex}
+            currentIndex={lessonIndex}
             initialCompletedIndex={lastCompletedIndex}
             nextHref={nextHref}
             readyForContinue={readyForContinue}

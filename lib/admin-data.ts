@@ -1,5 +1,5 @@
 export type AdminCourseStatus = "draft" | "published" | "maintenance";
-export type AdminItemType = "lecture" | "quiz" | "assignment";
+export type AdminLessonType = "lecture" | "quiz" | "assignment";
 export type SubmissionStatus = "pending" | "graded" | "returned";
 
 export interface AdminCourse {
@@ -23,16 +23,16 @@ export interface AdminChapter {
   title: string;
   order: number;
   published: boolean;
-  items: number;
+  lessons: number;
   gating: "open" | "sequential";
   description: string;
 }
 
-export interface AdminItem {
+export interface AdminLesson {
   id: string;
   chapterId: string;
   title: string;
-  type: AdminItemType;
+  type: AdminLessonType;
   duration: string;
   status: AdminCourseStatus;
   required: boolean;
@@ -51,7 +51,7 @@ export interface AdminSubmission {
   courseId: string;
   courseTitle: string;
   chapterTitle: string;
-  itemTitle: string;
+  lessonTitle: string;
   status: SubmissionStatus;
   score?: number;
   submittedAt: string;
@@ -153,7 +153,7 @@ export const adminChapters: AdminChapter[] = [
     title: "Foundations",
     order: 1,
     published: true,
-    items: 3,
+    lessons: 3,
     gating: "open",
     description: "Rubric literacy, edge-case handling, and annotation etiquette.",
   },
@@ -163,7 +163,7 @@ export const adminChapters: AdminChapter[] = [
     title: "Annotation Tools",
     order: 2,
     published: true,
-    items: 4,
+    lessons: 4,
     gating: "sequential",
     description: "Tooling walkthroughs, QC macros, and shortform quizzes.",
   },
@@ -173,7 +173,7 @@ export const adminChapters: AdminChapter[] = [
     title: "Quality & Feedback",
     order: 3,
     published: false,
-    items: 3,
+    lessons: 3,
     gating: "sequential",
     description: "Feedback handling, reviewer expectations, and sample batch submission.",
   },
@@ -183,13 +183,13 @@ export const adminChapters: AdminChapter[] = [
     title: "Calibration",
     order: 1,
     published: true,
-    items: 5,
+    lessons: 5,
     gating: "sequential",
     description: "Score alignment on starter packs and rubric trims.",
   },
 ];
 
-export const adminItems: AdminItem[] = [
+export const adminLessons: AdminLesson[] = [
   {
     id: "it-1",
     chapterId: "ch-1",
@@ -253,7 +253,7 @@ export const adminSubmissions: AdminSubmission[] = [
     courseId: "annotation-101",
     courseTitle: "Annotation Fundamentals",
     chapterTitle: "Annotation Tools",
-    itemTitle: "Hands-on: draw regions accurately",
+    lessonTitle: "Hands-on: draw regions accurately",
     status: "pending",
     submittedAt: "Today 08:52",
     attachments: ["boxes-batch.zip", "notes.md"],
@@ -266,7 +266,7 @@ export const adminSubmissions: AdminSubmission[] = [
     courseId: "annotation-101",
     courseTitle: "Annotation Fundamentals",
     chapterTitle: "Quality & Feedback",
-    itemTitle: "Submit a sample batch",
+    lessonTitle: "Submit a sample batch",
     status: "graded",
     score: 92,
     submittedAt: "Yesterday 19:15",
@@ -281,7 +281,7 @@ export const adminSubmissions: AdminSubmission[] = [
     courseId: "review-lab",
     courseTitle: "Reviewer Coaching Lab",
     chapterTitle: "Calibration",
-    itemTitle: "Round 1 starter pack",
+    lessonTitle: "Round 1 starter pack",
     status: "returned",
     score: 68,
     submittedAt: "Today 07:30",
@@ -409,12 +409,12 @@ export function getAdminChapter(chapterId: string) {
   return adminChapters.find((chapter) => chapter.id === chapterId);
 }
 
-export function getAdminItems(chapterId: string) {
-  return adminItems.filter((item) => item.chapterId === chapterId);
+export function getAdminLessons(chapterId: string) {
+  return adminLessons.filter((lesson) => lesson.chapterId === chapterId);
 }
 
-export function getAdminItem(itemId: string) {
-  return adminItems.find((item) => item.id === itemId);
+export function getAdminLesson(lessonId: string) {
+  return adminLessons.find((lesson) => lesson.id === lessonId);
 }
 
 export function getAdminSubmission(submissionId: string) {

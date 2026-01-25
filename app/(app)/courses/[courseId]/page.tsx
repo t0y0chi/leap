@@ -11,9 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningItem } from "@/lib/mock-data";
+import { courses, type LearningLesson } from "@/lib/mock-data";
 
-const typeLabel: Record<LearningItem["type"], string> = {
+const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Video",
   reading: "Reading",
   quiz: "Quiz",
@@ -62,7 +62,7 @@ export default async function CoursePage({
                 <BookOpen className="h-4 w-4" />
                 {course.chapters.length} chapters · {course.duration}
               </div>
-              {course.chapters[0]?.items[0] && (
+              {course.chapters[0]?.lessons[0] && (
                 <Link
                   href={`/learn/courses/${course.id}`}
                   className="mt-1 inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
@@ -85,9 +85,9 @@ export default async function CoursePage({
           </CardHeader>
           <CardContent className="space-y-4">
             {course.chapters.map((chapter) => {
-              const nextItem =
-                chapter.items.find((item) => item.status !== "completed") ??
-                chapter.items[0];
+              const nextLesson =
+                chapter.lessons.find((lesson) => lesson.status !== "completed") ??
+                chapter.lessons[0];
               return (
                 <div
                   key={chapter.id}
@@ -103,26 +103,26 @@ export default async function CoursePage({
                         {chapter.progress === 100 ? "Completed" : "In progress"}
                       </Badge>
                       <span className="text-xs text-muted-foreground">
-                        {chapter.items.length} items
+                        {chapter.lessons.length} lessons
                       </span>
                     </div>
                   </div>
                 <div className="mt-3 space-y-3">
                   <Progress value={chapter.progress} />
                   <div className="grid gap-2 md:grid-cols-2">
-                    {chapter.items.map((item) => (
+                    {chapter.lessons.map((lesson) => (
                       <div
-                        key={item.id}
+                        key={lesson.id}
                         className="flex items-center justify-between rounded-md border bg-muted/60 px-3 py-2 text-sm"
                       >
                         <div>
-                          <p className="font-semibold">{item.title}</p>
+                          <p className="font-semibold">{lesson.title}</p>
                           <p className="text-xs text-muted-foreground">
-                            {typeLabel[item.type]} · {item.duration}
+                            {typeLabel[lesson.type]} · {lesson.duration}
                           </p>
                         </div>
                         <Badge variant="neutral" className="capitalize">
-                          {typeLabel[item.type]}
+                          {typeLabel[lesson.type]}
                         </Badge>
                       </div>
                     ))}
@@ -135,7 +135,7 @@ export default async function CoursePage({
                       View chapter
                     </Link>
                     <Link
-                      href={`/learn/courses/${course.id}/chapters/${chapter.id}/items/${nextItem.id}`}
+                      href={`/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${nextLesson.id}`}
                       className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
                     >
                       <PlayCircle className="h-4 w-4" />

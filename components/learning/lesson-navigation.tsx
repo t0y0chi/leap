@@ -9,26 +9,26 @@ import { cn } from "@/lib/utils";
 
 interface OrderedEntry {
   chapterId: string;
-  itemId: string;
+  lessonId: string;
 }
 
-interface ItemNavigationProps {
+interface LessonNavigationProps {
   courseId: string;
-  orderedItems: OrderedEntry[];
+  orderedLessons: OrderedEntry[];
   currentIndex: number;
   initialCompletedIndex: number;
   nextHref: string | null;
   readyForContinue: boolean;
 }
 
-export function ItemNavigation({
+export function LessonNavigation({
   courseId,
-  orderedItems,
+  orderedLessons,
   currentIndex,
   initialCompletedIndex,
   nextHref,
   readyForContinue,
-}: ItemNavigationProps) {
+}: LessonNavigationProps) {
   const router = useRouter();
   const [storedCompletedIndex, setStoredCompletedIndex] = useState<number>(() => {
     if (typeof window === "undefined") return initialCompletedIndex;
@@ -52,17 +52,17 @@ export function ItemNavigation({
     if (typeof window === "undefined") return;
     // Prevent skipping ahead; if locked, push back to last accessible.
     if (locked) {
-      const targetIndex = Math.min(maxAccessibleIndex, orderedItems.length - 1);
-      const target = orderedItems[targetIndex];
+      const targetIndex = Math.min(maxAccessibleIndex, orderedLessons.length - 1);
+      const target = orderedLessons[targetIndex];
       router.replace(
-        `/learn/courses/${courseId}/chapters/${target.chapterId}/items/${target.itemId}`,
+        `/learn/courses/${courseId}/chapters/${target.chapterId}/lessons/${target.lessonId}`,
       );
       return;
     }
   }, [
     locked,
     maxAccessibleIndex,
-    orderedItems,
+    orderedLessons,
     courseId,
     router,
     currentIndex,
@@ -79,7 +79,7 @@ export function ItemNavigation({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <Link
-        href={`/learn/courses/${courseId}/chapters/${orderedItems[currentIndex].chapterId}`}
+        href={`/learn/courses/${courseId}/chapters/${orderedLessons[currentIndex].chapterId}`}
         className="text-sm font-semibold text-primary hover:underline"
       >
         Back to chapter

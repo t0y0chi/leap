@@ -57,7 +57,7 @@ export default async function AdminChaptersPage({
               <TableRow>
                 <TableHead className="w-12" />
                 <TableHead>Chapter</TableHead>
-                <TableHead>Items</TableHead>
+                <TableHead>Lessons</TableHead>
                 <TableHead>Gating</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead />
@@ -75,7 +75,7 @@ export default async function AdminChaptersPage({
                     </div>
                     <p className="text-xs text-muted-foreground">{chapter.description}</p>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{chapter.items}</TableCell>
+                  <TableCell className="text-sm text-muted-foreground">{chapter.lessons}</TableCell>
                   <TableCell className="text-sm capitalize text-muted-foreground">
                     {chapter.gating}
                   </TableCell>
@@ -86,7 +86,7 @@ export default async function AdminChaptersPage({
                   </TableCell>
                   <TableCell className="text-right">
                     <Button asChild size="sm" variant="outline">
-                      <Link href={`/admin/chapters/${chapter.id}/items`}>Manage items</Link>
+                      <Link href={`/admin/chapters/${chapter.id}/lessons`}>Manage lessons</Link>
                     </Button>
                   </TableCell>
                 </TableRow>

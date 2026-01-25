@@ -9,6 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@blocknote/core": "^0.46.1",
+    "@blocknote/mantine": "^0.46.1",
+    "@blocknote/react": "^0.46.1",
+    "@mantine/core": "^8.3.13",
+    "@mantine/hooks": "^8.3.13",
+    "@mantine/utils": "^6.0.22",
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -16,6 +22,7 @@
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-phone-number-input": "^3.4.14",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

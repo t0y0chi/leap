@@ -82,7 +82,7 @@ export default async function AdminUserDetailPage({
                   className="flex flex-col gap-1 rounded-lg border bg-white p-3 md:flex-row md:items-center md:justify-between"
                 >
                   <div>
-                    <p className="font-semibold text-foreground">{submission.itemTitle}</p>
+                    <p className="font-semibold text-foreground">{submission.lessonTitle}</p>
                     <p className="text-xs text-muted-foreground">
                       {submission.chapterTitle} · {submission.courseTitle}
                     </p>

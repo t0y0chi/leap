@@ -14,16 +14,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { getAdminItem } from "@/lib/admin-data";
+import { getAdminLesson } from "@/lib/admin-data";
 
 export default async function AdminAssignmentEditPage({
   params,
 }: {
-  params: Promise<{ itemId: string }>;
+  params: Promise<{ lessonId: string }>;
 }) {
-  const { itemId } = await params;
-  const item = getAdminItem(itemId);
-  if (!item || item.type !== "assignment") return notFound();
+  const { lessonId } = await params;
+  const lesson = getAdminLesson(lessonId);
+  if (!lesson || lesson.type !== "assignment") return notFound();
 
   return (
     <div className="space-y-6">
@@ -35,34 +35,39 @@ export default async function AdminAssignmentEditPage({
           </p>
         </div>
         <Button asChild variant="outline">
-          <Link href={`/admin/chapters/${item.chapterId}/items`}>Back to items</Link>
+          <Link href={`/admin/chapters/${lesson.chapterId}/lessons`}>Back to lessons</Link>
         </Button>
       </div>
 
       <Card>
         <CardHeader className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <CardTitle>{item.title}</CardTitle>
+            <CardTitle>{lesson.title}</CardTitle>
             <Badge variant="neutral">Assignment</Badge>
             <Badge variant="outline" className="capitalize">
-              {item.status}
+              {lesson.status}
             </Badge>
           </div>
-          <CardDescription>{item.summary}</CardDescription>
+          <CardDescription>{lesson.summary}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" name="title" defaultValue={item.title} />
+              <Input id="title" name="title" defaultValue={lesson.title} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="duration">Expected time</Label>
-              <Input id="duration" name="duration" defaultValue={item.duration} />
+              <Input id="duration" name="duration" defaultValue={lesson.duration} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="maxScore">Max score</Label>
-              <Input id="maxScore" name="maxScore" type="number" defaultValue={item.maxScore ?? 100} />
+              <Input
+                id="maxScore"
+                name="maxScore"
+                type="number"
+                defaultValue={lesson.maxScore ?? 100}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="attachments">Required attachments</Label>

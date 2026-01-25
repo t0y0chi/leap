@@ -11,11 +11,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningItem } from "@/lib/mock-data";
+import { courses, type LearningLesson } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-const typeLabel: Record<LearningItem["type"], string> = {
+const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Video",
   reading: "Reading",
   quiz: "Quiz",
@@ -35,21 +35,24 @@ export default async function ChapterPage({
     notFound();
   }
 
-  const orderedItems = course.chapters.flatMap((ch) =>
-    ch.items.map((item) => ({ chapterId: ch.id, item })),
+  const orderedLessons = course.chapters.flatMap((ch) =>
+    ch.lessons.map((lesson) => ({ chapterId: ch.id, lesson })),
   );
-  const lastCompletedIndex = orderedItems.reduce(
-    (acc, entry, idx) => (entry.item.status === "completed" ? idx : acc),
+  const lastCompletedIndex = orderedLessons.reduce(
+    (acc, entry, idx) => (entry.lesson.status === "completed" ? idx : acc),
     -1,
   );
   const maxAccessibleIndex = lastCompletedIndex + 1;
   const indexLookup = new Map(
-    orderedItems.map((entry, idx) => [`${entry.chapterId}:${entry.item.id}`, idx]),
+    orderedLessons.map((entry, idx) => [
+      `${entry.chapterId}:${entry.lesson.id}`,
+      idx,
+    ]),
   );
   const continueEntry =
-    orderedItems[Math.min(maxAccessibleIndex, orderedItems.length - 1)];
+    orderedLessons[Math.min(maxAccessibleIndex, orderedLessons.length - 1)];
   const continueHref = continueEntry
-    ? `/learn/courses/${course.id}/chapters/${continueEntry.chapterId}/items/${continueEntry.item.id}`
+    ? `/learn/courses/${course.id}/chapters/${continueEntry.chapterId}/lessons/${continueEntry.lesson.id}`
     : `/courses/${course.id}`;
 
   return (
@@ -76,30 +79,34 @@ export default async function ChapterPage({
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-[2fr_1fr]">
           <div className="space-y-3">
-            {chapter.items.map((item) => {
-              const itemIndex = indexLookup.get(`${chapter.id}:${item.id}`) ?? 0;
-              const locked = itemIndex > maxAccessibleIndex;
+            {chapter.lessons.map((lesson) => {
+              const lessonIndex = indexLookup.get(`${chapter.id}:${lesson.id}`) ?? 0;
+              const locked = lessonIndex > maxAccessibleIndex;
               return (
                 <div
-                  key={item.id}
+                  key={lesson.id}
                   className="flex flex-col gap-3 rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:flex-row md:items-center md:justify-between"
                 >
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold">{item.title}</p>
+                    <p className="text-sm font-semibold">{lesson.title}</p>
                     <p className="text-xs text-muted-foreground">
-                      {typeLabel[item.type]} · {item.duration}
+                      {typeLabel[lesson.type]} · {lesson.duration}
                     </p>
-                    <p className="text-xs text-muted-foreground">{item.content}</p>
+                    <p className="text-xs text-muted-foreground">{lesson.content}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    {item.status === "completed" && (
+                    {lesson.status === "completed" && (
                       <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     )}
                     <Badge variant="neutral" className="capitalize">
-                      {locked ? "Locked" : item.status}
+                      {locked ? "Locked" : lesson.status}
                     </Badge>
                     <Link
-                      href={locked ? "#" : `/learn/courses/${course.id}/chapters/${chapter.id}/items/${item.id}`}
+                      href={
+                        locked
+                          ? "#"
+                          : `/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${lesson.id}`
+                      }
                       aria-disabled={locked}
                       tabIndex={locked ? -1 : 0}
                       className={cn(
@@ -118,14 +125,19 @@ export default async function ChapterPage({
           <div className="space-y-3 rounded-lg border bg-secondary/50 p-4 text-sm">
             <div className="flex items-center justify-between">
               <p className="font-semibold">Chapter stats</p>
-              <Badge variant="secondary">{chapter.items.length} items</Badge>
+              <Badge variant="secondary">{chapter.lessons.length} lessons</Badge>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <Clock className="h-4 w-4" />
-              Estimated time: {chapter.items.reduce((acc, item) => acc + parseInt(item.duration), 0)} minutes
+              Estimated time:{" "}
+              {chapter.lessons.reduce(
+                (acc, lesson) => acc + parseInt(lesson.duration),
+                0,
+              )}{" "}
+              minutes
             </div>
             <p className="text-muted-foreground">
-              Complete the items in order to unlock the next chapter. Feedback on assignments arrives within 24 hours.
+              Complete the lessons in order to unlock the next chapter. Feedback on assignments arrives within 24 hours.
             </p>
             <Link
               href={continueHref}

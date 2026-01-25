@@ -13,7 +13,7 @@
 | コース詳細 | `/courses/:courseId` | チャプター一覧・進捗 |
 | チャプター詳細 | `/courses/:courseId/chapters/:chapterId` |  |
 | チャプター詳細（学習） | `/learn/courses/:courseId/chapters/:chapterId` |  |
-| 学習アイテム詳細 | `/learn/courses/:courseId/chapters/:chapterId/items/:itemId` | 課題の採点が見れる |
+| 学習レッスン詳細 | `/learn/courses/:courseId/chapters/:chapterId/lessons/:lessonId` | 課題の採点が見れる |
 | Q&A一覧 | `/courses/:courseId/qna` | コースQ&A |
 | 通知一覧 | `/notifications` | 採点完了・お知らせ |
 
@@ -29,10 +29,10 @@
 | コース作成 | `/admin/courses/new` | 新規作成 |
 | コース編集 | `/admin/courses/:courseId/edit` | 公開設定 |
 | チャプター管理 | `/admin/courses/:courseId/chapters` | CRUD・並び |
-| アイテム管理 | `/admin/chapters/:chapterId/items` | 講義/確認テスト/提出課題 |
-| 講義編集 | `/admin/items/:itemId/lecture/edit` | 動画/テキスト |
-| 確認問題編集 | `/admin/items/:itemId/quiz/edit` | 問題・合否 |
-| 提出課題編集 | `/admin/items/:itemId/assignment/edit` | 課題設定 |
+| レッスン管理 | `/admin/chapters/:chapterId/lessons` | 講義/確認テスト/提出課題 |
+| 講義編集 | `/admin/lessons/:lessonId/lecture/edit` | 動画/テキスト |
+| 確認問題編集 | `/admin/lessons/:lessonId/quiz/edit` | 問題・合否 |
+| 提出課題編集 | `/admin/lessons/:lessonId/assignment/edit` | 課題設定 |
 | 提出物一覧 | `/admin/assignments/submissions` | 全提出物 |
 | 未採点一覧 | `/admin/assignments/submissions/pending` | 採点待ち |
 | 提出物詳細 | `/admin/assignments/submissions/:submissionId` | 提出ファイル閲覧 |

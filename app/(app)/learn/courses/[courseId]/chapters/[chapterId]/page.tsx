@@ -11,9 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningItem } from "@/lib/mock-data";
+import { courses, type LearningLesson } from "@/lib/mock-data";
 
-const typeLabel: Record<LearningItem["type"], string> = {
+const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Video",
   reading: "Reading",
   quiz: "Quiz",
@@ -32,20 +32,24 @@ export default async function LearnChapterPage({
     notFound();
   }
 
-  const orderedItems = course.chapters.flatMap((ch) =>
-    ch.items.map((item) => ({ chapterId: ch.id, item })),
+  const orderedLessons = course.chapters.flatMap((ch) =>
+    ch.lessons.map((lesson) => ({ chapterId: ch.id, lesson })),
   );
-  const lastCompletedIndex = orderedItems.reduce(
-    (acc, entry, idx) => (entry.item.status === "completed" ? idx : acc),
+  const lastCompletedIndex = orderedLessons.reduce(
+    (acc, entry, idx) => (entry.lesson.status === "completed" ? idx : acc),
     -1,
   );
   const maxAccessibleIndex = lastCompletedIndex + 1;
   const indexLookup = new Map(
-    orderedItems.map((entry, idx) => [`${entry.chapterId}:${entry.item.id}`, idx]),
+    orderedLessons.map((entry, idx) => [
+      `${entry.chapterId}:${entry.lesson.id}`,
+      idx,
+    ]),
   );
 
-  const activeItem =
-    chapter.items.find((item) => item.status !== "completed") ?? chapter.items[0];
+  const activeLesson =
+    chapter.lessons.find((lesson) => lesson.status !== "completed") ??
+    chapter.lessons[0];
 
   return (
     <div className="space-y-5">
@@ -68,33 +72,33 @@ export default async function LearnChapterPage({
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="rounded-lg border bg-secondary/70 px-4 py-3">
-              <p className="text-sm font-semibold">Current item</p>
-              <p className="text-sm text-muted-foreground">{activeItem.title}</p>
+              <p className="text-sm font-semibold">Current lesson</p>
+              <p className="text-sm text-muted-foreground">{activeLesson.title}</p>
               <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                 <Badge variant="neutral" className="capitalize">
-                  {typeLabel[activeItem.type]}
+                  {typeLabel[activeLesson.type]}
                 </Badge>
                 <span>·</span>
-                <span>{activeItem.duration}</span>
+                <span>{activeLesson.duration}</span>
               </div>
             </div>
             <div className="space-y-2 rounded-md border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
               <p className="text-sm font-semibold">Lesson content</p>
               <p className="text-sm text-muted-foreground">
-                {activeItem.content ??
+                {activeLesson.content ??
                   "Use this space to read the lesson or review the assignment instructions."}
               </p>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <PauseCircle className="h-4 w-4" />
-                Progress autosaves as you move between items.
+                Progress autosaves as you move between lessons.
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                href={`/learn/courses/${course.id}/chapters/${chapter.id}/items/${activeItem.id}`}
+                href={`/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${activeLesson.id}`}
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
-                Open item
+                Open lesson
                 <ChevronRight className="h-4 w-4" />
               </Link>
               <Link
@@ -117,36 +121,36 @@ export default async function LearnChapterPage({
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle>Items</CardTitle>
-            <CardDescription>Stay in sequence for best results.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {chapter.items.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center justify-between rounded-lg border px-3 py-2"
-              >
-                <div>
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {typeLabel[item.type]} · {item.duration}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  {item.status === "completed" && (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                  )}
-                  <Badge variant="neutral" className="capitalize">
-                    {item.status === "completed"
-                      ? "Completed"
-                      : (indexLookup.get(`${chapter.id}:${item.id}`) ?? 0) >
-                          maxAccessibleIndex
-                        ? "Locked"
-                        : item.status}
-                  </Badge>
-                </div>
+          <CardTitle>Lessons</CardTitle>
+          <CardDescription>Stay in sequence for best results.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {chapter.lessons.map((lesson) => (
+            <div
+              key={lesson.id}
+              className="flex items-center justify-between rounded-lg border px-3 py-2"
+            >
+              <div>
+                <p className="text-sm font-semibold">{lesson.title}</p>
+                <p className="text-xs text-muted-foreground">
+                  {typeLabel[lesson.type]} · {lesson.duration}
+                </p>
               </div>
-            ))}
+              <div className="flex items-center gap-2">
+                {lesson.status === "completed" && (
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                )}
+                <Badge variant="neutral" className="capitalize">
+                  {lesson.status === "completed"
+                    ? "Completed"
+                    : (indexLookup.get(`${chapter.id}:${lesson.id}`) ?? 0) >
+                        maxAccessibleIndex
+                      ? "Locked"
+                      : lesson.status}
+                </Badge>
+              </div>
+            </div>
+          ))}
             <Progress value={chapter.progress} />
           </CardContent>
         </Card>

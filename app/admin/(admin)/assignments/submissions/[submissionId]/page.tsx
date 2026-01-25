@@ -44,7 +44,7 @@ export default async function AdminSubmissionDetailPage({
       <Card>
         <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
-            <CardTitle>{submission.itemTitle}</CardTitle>
+          <CardTitle>{submission.lessonTitle}</CardTitle>
             <CardDescription>
               {submission.chapterTitle} · {submission.courseTitle}
             </CardDescription>

@@ -42,7 +42,7 @@ export default async function AdminSubmissionHistoryPage({
 
       <Card>
         <CardHeader>
-          <CardTitle>{submission.itemTitle}</CardTitle>
+          <CardTitle>{submission.lessonTitle}</CardTitle>
           <CardDescription>
             {submission.userName} · {submission.chapterTitle}
           </CardDescription>
