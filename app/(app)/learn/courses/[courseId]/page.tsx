@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { courses } from "@/lib/mock-data";
+import { learnLessonHref } from "@/lib/learning-routes";
 
 export default async function LearnCourseIndex({
   params,
@@ -30,6 +31,6 @@ export default async function LearnCourseIndex({
   }
 
   redirect(
-    `/learn/courses/${course.id}/chapters/${targetChapter.id}/lessons/${targetLesson.id}`,
+    learnLessonHref("learn", course.id, targetChapter.id, targetLesson.id),
   );
 }

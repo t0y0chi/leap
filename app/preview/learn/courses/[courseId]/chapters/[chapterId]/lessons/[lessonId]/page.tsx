@@ -15,7 +15,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { courses, type LearningLesson } from "@/lib/mock-data";
 import { LessonContent } from "@/components/learning/lesson-content";
-import { PreviewLessonNavigation } from "../../../../preview-lesson-navigation";
+import { LessonNavigation } from "@/components/learning/lesson-navigation";
+import { learnChapterHref, learnLessonHref } from "@/lib/learning-routes";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -67,14 +68,14 @@ export default function PreviewLessonPage({
 
   const nextEntry = orderedLessons[lessonIndex + 1] ?? null;
   const nextHref = nextEntry
-    ? `/preview/learn/courses/${course.id}/chapters/${nextEntry.chapterId}/lessons/${nextEntry.lesson.id}`
+    ? learnLessonHref("preview", course.id, nextEntry.chapterId, nextEntry.lesson.id)
     : null;
 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <Link
-          href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}`}
+          href={learnChapterHref("preview", course.id, chapter.id)}
           className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
         >
           ← Back to learning flow
@@ -94,14 +95,17 @@ export default function PreviewLessonPage({
         <CardContent className="space-y-4">
           <LessonContent lesson={lesson} onReadyForContinue={() => undefined} />
           <Progress value={chapter.progress} />
-          <PreviewLessonNavigation
+          <LessonNavigation
             courseId={course.id}
             orderedLessons={orderedLessons.map((entry) => ({
               chapterId: entry.chapterId,
               lessonId: entry.lesson.id,
             }))}
             currentIndex={lessonIndex}
+            initialCompletedIndex={-1}
             nextHref={nextHref}
+            readyForContinue={true}
+            mode="preview"
           />
         </CardContent>
       </Card>

@@ -7,6 +7,8 @@ import { CheckCircle2, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { type Course, type LearningLesson } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { type LearningMode, learnLessonHref } from "@/lib/learning-routes";
+import { isLessonLocked } from "@/lib/learning-policy";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -16,12 +18,13 @@ const typeLabel: Record<LearningLesson["type"], string> = {
 
 interface LearningSidebarProps {
   course: Course;
+  mode?: LearningMode;
 }
 
-export function LearningSidebar({ course }: LearningSidebarProps) {
+export function LearningSidebar({ course, mode = "learn" }: LearningSidebarProps) {
   const pathname = usePathname();
   const currentMatch = pathname.match(
-    /learn\/courses\/[^/]+\/chapters\/([^/]+)\/lessons\/([^/]+)/,
+    /(?:preview\/)?learn\/courses\/[^/]+\/chapters\/([^/]+)\/lessons\/([^/]+)/,
   );
   const orderedLessons = course.chapters.flatMap((chapter) =>
     chapter.lessons.map((lesson) => ({ chapterId: chapter.id, lesson })),
@@ -42,8 +45,6 @@ export function LearningSidebar({ course }: LearningSidebarProps) {
     lastCompletedIndex,
     currentIndex ?? -1,
   );
-  const maxAccessibleIndex = effectiveCompletedIndex + 1;
-
   return (
     <aside className="hidden flex-col gap-3 rounded-xl border bg-white p-4 shadow-sm lg:flex">
       <div className="flex items-center justify-between">
@@ -64,10 +65,10 @@ export function LearningSidebar({ course }: LearningSidebarProps) {
             </div>
             <div className="space-y-1">
               {chapter.lessons.map((lesson) => {
-                const href = `/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${lesson.id}`;
+                const href = learnLessonHref(mode, course.id, chapter.id, lesson.id);
                 const lessonIndex =
                   indexLookup.get(`${chapter.id}:${lesson.id}`) ?? 0;
-                const locked = lessonIndex > maxAccessibleIndex;
+                const locked = isLessonLocked(mode, lessonIndex, effectiveCompletedIndex);
                 const completed = lessonIndex <= effectiveCompletedIndex;
                 const isActive = pathname === href;
                 return (

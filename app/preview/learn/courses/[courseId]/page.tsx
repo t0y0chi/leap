@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { courses } from "@/lib/mock-data";
+import { learnLessonHref } from "@/lib/learning-routes";
 
 export default async function PreviewLearnCourseIndex({
   params,
@@ -22,6 +23,6 @@ export default async function PreviewLearnCourseIndex({
   }
 
   redirect(
-    `/preview/learn/courses/${course.id}/chapters/${firstChapter.id}/lessons/${firstLesson.id}`,
+    learnLessonHref("preview", course.id, firstChapter.id, firstLesson.id),
   );
 }

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { courses } from "@/lib/mock-data";
-import { PreviewLearningSidebar } from "./preview-learning-sidebar";
+import { LearningSidebar } from "@/components/learning/sidebar";
 
 export default async function PreviewLearnCourseLayout({
   children,
@@ -19,7 +19,7 @@ export default async function PreviewLearnCourseLayout({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-      <PreviewLearningSidebar course={course} />
+      <LearningSidebar course={course} mode="preview" />
       <div className="min-w-0">{children}</div>
     </div>
   );

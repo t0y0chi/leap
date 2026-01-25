@@ -47,55 +47,73 @@ export default function AdminSubmissionsPage() {
                 <TableHead>Status</TableHead>
                 <TableHead>Score</TableHead>
                 <TableHead>Submitted</TableHead>
-                <TableHead />
               </TableRow>
             </TableHeader>
             <TableBody>
               {adminSubmissions.map((submission) => (
                 <TableRow key={submission.id}>
-                  <TableCell>
-                    <div className="font-semibold text-foreground">{submission.lessonTitle}</div>
-                    <p className="text-xs text-muted-foreground">{submission.chapterTitle}</p>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {submission.userName}
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {submission.courseTitle}
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        submission.status === "graded"
-                          ? "success"
-                          : submission.status === "pending"
-                            ? "warning"
-                            : "secondary"
-                      }
+                  <TableCell className="p-0">
+                    <Link
+                      href={`/admin/assignments/submissions/${submission.id}`}
+                      className="block px-4 py-3"
                     >
-                      {submission.status}
-                    </Badge>
+                      <div className="font-semibold text-foreground">
+                        {submission.lessonTitle}
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {submission.chapterTitle}
+                      </p>
+                    </Link>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {submission.score ?? "—"}
+                  <TableCell className="p-0 text-sm text-muted-foreground">
+                    <Link
+                      href={`/admin/assignments/submissions/${submission.id}`}
+                      className="block px-4 py-3"
+                    >
+                      {submission.userName}
+                    </Link>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {submission.submittedAt}
+                  <TableCell className="p-0 text-sm text-muted-foreground">
+                    <Link
+                      href={`/admin/assignments/submissions/${submission.id}`}
+                      className="block px-4 py-3"
+                    >
+                      {submission.courseTitle}
+                    </Link>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Link
-                        href={`/admin/assignments/submissions/${submission.id}`}
-                        className="text-sm font-semibold text-primary hover:underline"
+                  <TableCell className="p-0">
+                    <Link
+                      href={`/admin/assignments/submissions/${submission.id}`}
+                      className="block px-4 py-3"
+                    >
+                      <Badge
+                        variant={
+                          submission.status === "graded"
+                            ? "success"
+                            : submission.status === "pending"
+                              ? "warning"
+                              : "secondary"
+                        }
                       >
-                        Details
-                      </Link>
-                      <Button asChild size="sm" variant="outline">
-                        <Link href={`/admin/assignments/submissions/${submission.id}/grade`}>
-                          Grade
-                        </Link>
-                      </Button>
-                    </div>
+                        {submission.status}
+                      </Badge>
+                    </Link>
+                  </TableCell>
+                  <TableCell className="p-0 text-sm text-muted-foreground">
+                    <Link
+                      href={`/admin/assignments/submissions/${submission.id}`}
+                      className="block px-4 py-3"
+                    >
+                      {submission.score ?? "—"}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="p-0 text-sm text-muted-foreground">
+                    <Link
+                      href={`/admin/assignments/submissions/${submission.id}`}
+                      className="block px-4 py-3"
+                    >
+                      {submission.submittedAt}
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

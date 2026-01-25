@@ -52,6 +52,7 @@ export interface AdminSubmission {
   courseTitle: string;
   chapterTitle: string;
   lessonTitle: string;
+  lessonId: string;
   status: SubmissionStatus;
   score?: number;
   submittedAt: string;
@@ -252,6 +253,19 @@ export const adminLessons: AdminLesson[] = [
     summary: "Upload 5 annotated examples with commentary for calibration.",
     maxScore: 100,
   },
+  {
+    id: "rev-lesson-1",
+    chapterId: "rev-1",
+    title: "Round 1 starter pack",
+    type: "assignment",
+    duration: "20m",
+    status: "published",
+    required: true,
+    graded: true,
+    updatedAt: "Today 06:50",
+    summary: "First calibration submission with reviewer checklist and score alignment.",
+    maxScore: 100,
+  },
 ];
 
 export const adminSubmissions: AdminSubmission[] = [
@@ -263,6 +277,7 @@ export const adminSubmissions: AdminSubmission[] = [
     courseTitle: "Annotation Fundamentals",
     chapterTitle: "Annotation Tools",
     lessonTitle: "Hands-on: draw regions accurately",
+    lessonId: "it-6",
     status: "pending",
     submittedAt: "Today 08:52",
     attachments: ["boxes-batch.zip", "notes.md"],
@@ -276,6 +291,7 @@ export const adminSubmissions: AdminSubmission[] = [
     courseTitle: "Annotation Fundamentals",
     chapterTitle: "Quality & Feedback",
     lessonTitle: "Submit a sample batch",
+    lessonId: "it-10",
     status: "graded",
     score: 92,
     submittedAt: "Yesterday 19:15",
@@ -291,6 +307,7 @@ export const adminSubmissions: AdminSubmission[] = [
     courseTitle: "Reviewer Coaching Lab",
     chapterTitle: "Calibration",
     lessonTitle: "Round 1 starter pack",
+    lessonId: "rev-lesson-1",
     status: "returned",
     score: 68,
     submittedAt: "Today 07:30",

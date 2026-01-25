@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { courses, type LearningLesson } from "@/lib/mock-data";
+import { learnLessonHref } from "@/lib/learning-routes";
+import { getMaxAccessibleIndex } from "@/lib/learning-policy";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -38,7 +40,7 @@ export default async function LearnChapterPage({
     (acc, entry, idx) => (entry.lesson.status === "completed" ? idx : acc),
     -1,
   );
-  const maxAccessibleIndex = lastCompletedIndex + 1;
+  const maxAccessibleIndex = getMaxAccessibleIndex("learn", lastCompletedIndex);
   const indexLookup = new Map(
     orderedLessons.map((entry, idx) => [
       `${entry.chapterId}:${entry.lesson.id}`,
@@ -94,7 +96,7 @@ export default async function LearnChapterPage({
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                href={`/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${activeLesson.id}`}
+                href={learnLessonHref("learn", course.id, chapter.id, activeLesson.id)}
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
                 Open lesson
@@ -124,11 +126,11 @@ export default async function LearnChapterPage({
           <CardDescription>Stay in sequence for best results.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          {chapter.lessons.map((lesson) => (
-            <div
-              key={lesson.id}
-              className="flex items-center justify-between rounded-lg border px-3 py-2"
-            >
+                {chapter.lessons.map((lesson) => (
+                  <div
+                    key={lesson.id}
+                    className="flex items-center justify-between rounded-lg border px-3 py-2"
+                  >
               <div>
                 <p className="text-sm font-semibold">{lesson.title}</p>
                 <p className="text-xs text-muted-foreground">

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { courses, type LearningLesson } from "@/lib/mock-data";
+import { courseHref, learnLessonHref } from "@/lib/learning-routes";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -39,7 +40,7 @@ export default async function PreviewLearnChapterPage({
     <div className="space-y-5">
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <Link
-          href={`/preview/courses/${course.id}`}
+          href={courseHref("preview", course.id)}
           className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -79,7 +80,7 @@ export default async function PreviewLearnChapterPage({
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${activeLesson.id}`}
+                href={learnLessonHref("preview", course.id, chapter.id, activeLesson.id)}
                 className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
                 Open lesson
@@ -112,7 +113,7 @@ export default async function PreviewLearnChapterPage({
             {chapter.lessons.map((lesson) => (
               <Link
                 key={lesson.id}
-                href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${lesson.id}`}
+                href={learnLessonHref("preview", course.id, chapter.id, lesson.id)}
                 className="flex items-center justify-between rounded-lg border px-3 py-2 hover:bg-secondary"
               >
                 <div>

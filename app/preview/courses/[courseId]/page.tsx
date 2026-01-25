@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, MessageCircle, PlayCircle, ShieldCheck } from "lucide-react";
+import { BookOpen, PlayCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { courses, type LearningLesson } from "@/lib/mock-data";
+import { learnChapterHref, learnCourseHref, learnLessonHref } from "@/lib/learning-routes";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -63,7 +64,7 @@ export default async function CoursePreviewPage({
               </div>
               {course.chapters[0]?.lessons[0] && (
                 <Link
-                  href={`/preview/learn/courses/${course.id}`}
+                  href={learnCourseHref("preview", course.id)}
                   className="mt-1 inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
                 >
                   Resume course
@@ -128,13 +129,13 @@ export default async function CoursePreviewPage({
                     </div>
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <Link
-                      href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}`}
+                      href={learnChapterHref("preview", course.id, chapter.id)}
                       className="font-semibold text-primary hover:underline"
                     >
                       View chapter
                     </Link>
                     <Link
-                      href={`/preview/learn/courses/${course.id}/chapters/${chapter.id}/lessons/${nextLesson.id}`}
+                      href={learnLessonHref("preview", course.id, chapter.id, nextLesson.id)}
                       className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
                     >
                       <PlayCircle className="h-4 w-4" />
@@ -147,33 +148,7 @@ export default async function CoursePreviewPage({
             })}
           </CardContent>
         </Card>
-        <div className="space-y-3">
-          <Card>
-            <CardHeader>
-              <CardTitle>Course resources</CardTitle>
-              <CardDescription>Get unstuck quickly</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <Link
-                href={`/courses/${course.id}/qna`}
-                className="flex items-center justify-between rounded-md border px-3 py-2 hover:bg-secondary"
-              >
-                <div className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  Q&A board
-                </div>
-                <Badge variant="neutral">New replies</Badge>
-              </Link>
-              <div className="flex items-center gap-2 rounded-md border px-3 py-2">
-                <ShieldCheck className="h-4 w-4" />
-                Grading rubric and submission checklist
-              </div>
-              <div className="rounded-md border bg-secondary/60 px-3 py-2 text-muted-foreground">
-                Instructor: {course.instructor}. Expect 24h feedback window on assignments.
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <div />
       </div>
     </div>
   );
