@@ -6,6 +6,7 @@ import { CheckCircle2, FileUp, Send } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { type LearningLesson } from "@/lib/mock-data";
+import BlocknoteRenderer from "@/components/blocknote/BlocknoteRenderer";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -66,7 +67,13 @@ export function LessonContent({ lesson, onReadyForContinue }: LessonContentProps
         </div>
       ) : null}
 
-      {lesson.type === "lecture" && (lesson.readingHtml ?? lesson.content) && (
+      {lesson.type === "lecture" && lesson.blocknoteContent && (
+        <div className="rounded-lg border bg-background p-2">
+          <BlocknoteRenderer content={lesson.blocknoteContent} />
+        </div>
+      )}
+
+      {lesson.type === "lecture" && !lesson.blocknoteContent && (lesson.readingHtml ?? lesson.content) && (
         <div className="space-y-2 px-1 text-sm">
           <div
             className="prose prose-sm max-w-none text-foreground [&_p]:mb-4 [&_p]:leading-relaxed [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-foreground [&_h1]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_h2]:mt-6 [&_h2]:mb-3 [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-foreground [&_li]:mb-2 [&_hr]:my-6 [&_hr]:border-border"

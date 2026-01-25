@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, BookOpen, LayoutDashboard, User } from "lucide-react";
+import { Bell, BookOpen, LayoutDashboard, MessageCircle, User } from "lucide-react";
 
 import { notifications } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { Avatar } from "@/components/ui/avatar";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/courses", label: "Courses", icon: BookOpen },
+  { href: "https://example.com", label: "Q&A", icon: MessageCircle, external: true },
 ];
 
 interface AppShellProps {
@@ -38,16 +39,29 @@ export function AppShell({ children, activePath }: AppShellProps) {
           <nav className="hidden items-center gap-2 md:flex">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = currentPath.startsWith(item.href);
+              const isActive = !item.external && currentPath.startsWith(item.href);
+              const linkClassName = cn(
+                "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground",
+                isActive && "bg-secondary text-foreground",
+              );
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={linkClassName}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {item.label}
+                  </a>
+                );
+              }
+
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground",
-                    isActive && "bg-secondary text-foreground",
-                  )}
-                >
+                <Link key={item.href} href={item.href} className={linkClassName}>
                   <Icon className="h-4 w-4" />
                   {item.label}
                   {item.href === "/notifications" && unreadCount > 0 && (

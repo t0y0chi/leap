@@ -1,6 +1,8 @@
 export type LessonType = "lecture" | "quiz" | "assignment";
 export type LessonStatus = "not-started" | "in-progress" | "completed";
 
+export type BlockNoteContent = Array<Record<string, unknown>>;
+
 export interface LearningLesson {
   id: string;
   title: string;
@@ -11,6 +13,7 @@ export interface LearningLesson {
   content?: string;
   videoUrl?: string;
   readingHtml?: string;
+  blocknoteContent?: BlockNoteContent;
   questionType?: "multiple-choice" | "assignment";
   choices?: { id: string; text: string; correct?: boolean }[];
 }
@@ -96,8 +99,72 @@ export const courses: Course[] = [
             duration: "12m",
             status: "completed",
             videoUrl: "https://www.youtube.com/embed/MdqVp9kLYvg",
-            content:
-              "Learn why clear labels and consistent criteria make or break ML performance.",
+            blocknoteContent: [
+              {
+                id: "f667eb7c-20ee-4ee6-acf1-94e8b5ca9478",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "Welcome to this demo!",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+              {
+                id: "9c983cee-d210-4722-8b19-84cc5cca8dc9",
+                type: "heading",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                  level: 1,
+                  isToggleable: false,
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "This is a heading block",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+              {
+                id: "e8a059bc-1c91-4781-8285-c9996b107ae6",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "This is a paragraph block",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+              {
+                id: "258bd435-6ea2-4654-b170-fffba580e59f",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [],
+                children: [],
+              },
+            ],
           },
           {
             id: "it-2",
@@ -145,8 +212,25 @@ export const courses: Course[] = [
             duration: "10m",
             status: "completed",
             videoUrl: "https://www.youtube.com/embed/6mbwJ2xhgzM",
-            content:
-              "A tour of the tool surface: regions, attributes, comments, and review lane.",
+            blocknoteContent: [
+              {
+                id: "lecture-4-intro",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "A tour of the tool surface: regions, attributes, comments, and review lane.",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "it-5",
@@ -204,8 +288,25 @@ export const courses: Course[] = [
             duration: "9m",
             status: "not-started",
             videoUrl: "https://www.youtube.com/embed/o8NPllzkFhM",
-            content:
-              "See the rubric used to grade your submissions and how to avoid rework.",
+            blocknoteContent: [
+              {
+                id: "lecture-8-intro",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "See the rubric used to grade your submissions and how to avoid rework.",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "it-9",
