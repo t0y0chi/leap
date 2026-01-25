@@ -53,7 +53,7 @@ export default async function AdminUserDetailPage({
     title: lesson.title,
     chapterTitle: chapterTitleById.get(lesson.chapterId) ?? "General",
     score: quizScores[index % quizScores.length],
-    maxScore: lesson.maxScore ?? 100,
+    maxScore: 100,
   }));
 
   return (

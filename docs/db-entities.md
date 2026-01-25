@@ -11,8 +11,9 @@
   - id, course_id, title, description, order
 - Lesson
   - id, chapter_id, title, type, duration, publication_status, order
-  - content fields: content, video_url, reading_html, blocknote_content
-  - quiz fields: question_type, choices (id, text, correct)
+  - lecture fields: content (Blocknote JSON)
+  - quiz fields: attempts, questions, choices (id, text, correct)
+  - assignment fields: instructions
 - Q&A Thread
   - id, course_id, title, author, votes, answered, updated_at
 - Q&A Reply

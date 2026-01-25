@@ -30,7 +30,7 @@ function getEditHref(type: AdminLessonType, lessonId: string) {
 const typeLabel: Record<AdminLessonType, string> = {
   lecture: "Lecture",
   quiz: "Quiz",
-  assignment: "Submission",
+  assignment: "Assignment",
 };
 
 interface AdminLessonsClientProps {
@@ -113,8 +113,6 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
       graded: form.type !== "lecture" ? true : form.graded,
       updatedAt: now,
       summary: form.summary.trim() || "Pending full outline.",
-      passingScore: form.type === "quiz" ? 80 : undefined,
-      maxScore: form.type === "assignment" || form.type === "quiz" ? 100 : undefined,
       attempts: form.type === "quiz" ? 1 : undefined,
     };
 
@@ -175,7 +173,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                     name="title"
                     value={form.title}
                     onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
-                    placeholder="Calibration quiz or submission name"
+                    placeholder="Calibration quiz or assignment name"
                   />
                 </div>
                 <div className="space-y-2">

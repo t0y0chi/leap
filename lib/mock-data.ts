@@ -11,9 +11,7 @@ export interface LearningLesson {
   duration: string;
   publicationStatus: LessonPublicationStatus;
   content?: string;
-  videoUrl?: string;
-  readingHtml?: string;
-  blocknoteContent?: BlockNoteContent;
+  lectureContent?: BlockNoteContent;
   questionType?: "multiple-choice" | "assignment";
   choices?: { id: string; text: string; correct?: boolean }[];
 }
@@ -97,8 +95,7 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "12m",
             publicationStatus: "published",
-            videoUrl: "https://www.youtube.com/embed/MdqVp9kLYvg",
-            blocknoteContent: [
+            lectureContent: [
               {
                 id: "f667eb7c-20ee-4ee6-acf1-94e8b5ca9478",
                 type: "paragraph",
@@ -171,14 +168,26 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "6m",
             publicationStatus: "published",
-            readingHtml: `<h2>Why the rubric matters</h2>
-<p><strong>The goal of this course is to make you decisive</strong> under imperfect conditions. Start by internalizing the rubric: what qualifies as a positive example, what should be marked negative, and how to record ambiguous frames without breaking consistency. Re-read the intent statement at the top of the guideline; it is the single anchor for how reviewers grade. If a sample is borderline, ask yourself if it helps or harms the downstream model. That clarity makes your labeling defensible during audits.</p>
-<h2>Handle occlusion and truncation</h2>
-<p>Occlusion and truncation rules are critical. A partially hidden object should be annotated if the visible region carries enough signal; do not invent shapes that are not visible, but do mark the occlusion attribute. When more than <strong>60% of the object is out of frame</strong>, call it truncated. Add comments when you make judgment calls so reviewers can align on the same threshold. This reduces back-and-forth and keeps the batch moving.</p>
-<h2>Edge cases and exemplars</h2>
-<p>Edge cases usually come from overlapping classes, motion blur, or tiny instances. The rubric lists examples for each. When in doubt, open the saved exemplars and compare: is the color, shape, or context similar enough to count? If you spend more than 15 seconds deliberating, log a note and move on; throughput matters as much as accuracy.</p>
-<h2>When to defer</h2>
-<p>Finally, know when to defer. If the guideline explicitly says to escalate novel classes, unusual lighting, or privacy-sensitive content, flag it and continue. Your job is to keep the dataset clean, not to force a guess. Reviewers expect concise notes: one sentence on what you saw, one on what you did, and one on why it aligns with the rubric.</p>`,
+            lectureContent: [
+              {
+                id: "lecture-it-2",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text:
+                      "Read the guideline essentials and review occlusion/truncation rules.",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "it-3",
@@ -208,8 +217,7 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "10m",
             publicationStatus: "published",
-            videoUrl: "https://www.youtube.com/embed/6mbwJ2xhgzM",
-            blocknoteContent: [
+            lectureContent: [
               {
                 id: "lecture-4-intro",
                 type: "paragraph",
@@ -235,14 +243,26 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "5m",
             publicationStatus: "published",
-            readingHtml: `<h2>QC starts with coverage</h2>
-<p><strong>Quality control is your final defense</strong> before review. Start with coverage: scan every frame for obvious omissions, especially small or partially hidden objects. Use zoom or a hotkey to toggle outlines so you can catch thin shapes that blend into the background. If you discover a missing instance, add it immediately and leave a note if you are unsure about the class.</p>
-<h2>Geometry and shape integrity</h2>
-<p>Next, check geometry. Are boxes tight without clipping? Do polygons follow edges without self-intersections? A quick pass with snapping tools can fix sloppy corners. For keypoints, confirm the correct ordering and symmetry; mirror mistakes are common when rushing. Remember that reviewers look for clean geometry before they read your comments.</p>
-<h2>Labels and attributes</h2>
-<p>Naming and attributes matter as much as shapes. Validate that class labels match the rubric wording, not your personal shorthand. Confirm that required attributes, like occlusion or truncation, are set consistently across similar objects. If you see inconsistency across a sequence, normalize it before turning in the assignment so reviewers do not reject for avoidable churn.</p>
-<h2>Notes for reviewers</h2>
-<p>Finally, document blockers and uncertainties. If lighting is poor or a class boundary is unclear, write a concise comment describing what you saw and the rule you applied. Mention any deviations from the rubric and why. This habit signals professionalism and often speeds up grading because reviewers do not need to guess your intent.</p>`,
+            lectureContent: [
+              {
+                id: "lecture-it-5",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text:
+                      "Review the QC checklist for coverage, geometry, labels, and reviewer notes.",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "it-6",
@@ -282,8 +302,7 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "9m",
             publicationStatus: "published",
-            videoUrl: "https://www.youtube.com/embed/o8NPllzkFhM",
-            blocknoteContent: [
+            lectureContent: [
               {
                 id: "lecture-8-intro",
                 type: "paragraph",
@@ -309,14 +328,26 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "4m",
             publicationStatus: "published",
-            readingHtml: `<h2>Feedback is a loop</h2>
-<p><strong>Feedback is a loop, not a verdict.</strong> When a reviewer leaves notes, treat them as data: what pattern caused the deduction, and how can you prevent it next time? Summarize the feedback in your own words, then update your personal checklist. If the note contradicts the rubric, ask a clarifying question in the Q&A board so the whole cohort benefits.</p>
-<h2>Respond with clarity</h2>
-<p>When responding, be concise. Start with acknowledgement, restate the issue, then explain the fix you will apply. Avoid defensive language; the goal is to align on quality, not to win an argument. If you disagree, provide a brief rationale referencing the guideline or exemplar images, and propose a rule to settle similar cases in the future.</p>
-<h2>Be proactive</h2>
-<p>Proactive communication builds trust. When you submit a batch with known edge cases, preemptively add a short note: what you saw, the decision you made, and the evidence you used. This reduces review time and often leads to faster approvals. Reviewers appreciate clear intent more than perfection on the first try.</p>
-<h2>Improve in small steps</h2>
-<p>Finally, pace yourself. Use reviewer feedback to identify one or two habits to improve each week—tighter boxes, better attribute consistency, clearer comments. Small, steady gains compound into reliable scores and reduce rework across the team.</p>`,
+            lectureContent: [
+              {
+                id: "lecture-it-9",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text:
+                      "Learn feedback etiquette: acknowledge issues, explain fixes, and align on rubric.",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "it-10",
@@ -353,8 +384,25 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "8m",
             publicationStatus: "published",
-            videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-            content: "See how to print and run your first script.",
+            lectureContent: [
+              {
+                id: "lecture-prog-it-1",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text: "See how to print and run your first script.",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "prog-it-2",
@@ -362,8 +410,26 @@ export const courses: Course[] = [
             type: "lecture",
             duration: "6m",
             publicationStatus: "published",
-            readingHtml:
-              "<h2>Variables</h2><p>Use <strong>let</strong> for reassignable values and <strong>const</strong> for stable ones.</p><h2>Types</h2><p>Numbers, strings, booleans, arrays, and objects are the core you will use here.</p>",
+            lectureContent: [
+              {
+                id: "lecture-prog-it-2",
+                type: "paragraph",
+                props: {
+                  backgroundColor: "default",
+                  textColor: "default",
+                  textAlignment: "left",
+                },
+                content: [
+                  {
+                    type: "text",
+                    text:
+                      "Review variables and core types (numbers, strings, booleans, arrays, objects).",
+                    styles: {},
+                  },
+                ],
+                children: [],
+              },
+            ],
           },
           {
             id: "prog-it-3",

@@ -39,8 +39,6 @@ export interface AdminLesson {
   graded: boolean;
   updatedAt: string;
   summary: string;
-  passingScore?: number;
-  maxScore?: number;
   attempts?: number;
 }
 
@@ -227,8 +225,6 @@ export const adminLessons: AdminLesson[] = [
     graded: true,
     updatedAt: "Yesterday 17:55",
     summary: "Multiple choice check on occlusion, truncation, and exemplar usage.",
-    passingScore: 80,
-    maxScore: 100,
     attempts: 2,
   },
   {
@@ -242,7 +238,6 @@ export const adminLessons: AdminLesson[] = [
     graded: true,
     updatedAt: "Today 07:45",
     summary: "Submission with bounding boxes and reviewer-ready notes.",
-    maxScore: 100,
   },
   {
     id: "it-10",
@@ -255,7 +250,6 @@ export const adminLessons: AdminLesson[] = [
     graded: true,
     updatedAt: "Mon 15:05",
     summary: "Upload 5 annotated examples with commentary for calibration.",
-    maxScore: 100,
   },
   {
     id: "rev-lesson-1",
@@ -268,7 +262,6 @@ export const adminLessons: AdminLesson[] = [
     graded: true,
     updatedAt: "Today 06:50",
     summary: "First calibration submission with reviewer checklist and score alignment.",
-    maxScore: 100,
   },
 ];
 

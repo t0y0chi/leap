@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ClipboardList, FileUp } from "lucide-react";
+import { ClipboardList } from "lucide-react";
 
 import {
   Card,
@@ -29,9 +29,9 @@ export default async function AdminAssignmentEditPage({
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
         <div>
-          <h1 className="text-2xl font-semibold">Edit submission</h1>
+          <h1 className="text-2xl font-semibold">Edit assignment</h1>
           <p className="text-sm text-muted-foreground">
-            Set submission expectations and scoring rubric.
+            Set assignment expectations.
           </p>
         </div>
         <Button asChild variant="outline">
@@ -43,7 +43,7 @@ export default async function AdminAssignmentEditPage({
         <CardHeader className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <CardTitle>{lesson.title}</CardTitle>
-            <Badge variant="neutral">Submission</Badge>
+            <Badge variant="neutral">Assignment</Badge>
             <Badge variant="outline" className="capitalize">
               {lesson.status}
             </Badge>
@@ -63,26 +63,13 @@ export default async function AdminAssignmentEditPage({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="instructions">Submission instructions</Label>
+            <Label htmlFor="instructions">Assignment instructions</Label>
             <Textarea
               id="instructions"
               name="instructions"
               rows={5}
               placeholder="Call out occlusion handling, notes required, file naming, etc."
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="rubric">Rubric criteria</Label>
-            <Textarea
-              id="rubric"
-              name="rubric"
-              rows={4}
-              placeholder="Tight boxes, attribute coverage, notes for edge cases, SLA expectations."
-            />
-            <p className="text-xs text-muted-foreground">
-              Include what earns full credit and what triggers returns.
-            </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -92,11 +79,7 @@ export default async function AdminAssignmentEditPage({
           <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <ClipboardList className="h-4 w-4" />
-              <span>Ensure at least one attachment is required to unlock grading.</span>
-            </div>
-            <div className="mt-2 flex items-center gap-2">
-              <FileUp className="h-4 w-4" />
-              <span>Enable comments so reviewers can request clarifications.</span>
+              <span>Assignments are graded after a file is submitted.</span>
             </div>
           </div>
         </CardContent>

@@ -56,32 +56,9 @@ export function LessonContent({ lesson, progressStatus, onReadyForContinue }: Le
         <span>{lesson.duration}</span>
       </div>
 
-      {lesson.type === "lecture" && lesson.videoUrl ? (
-        <div className="overflow-hidden rounded-lg border bg-black/80">
-          <iframe
-            title={lesson.title}
-            src={lesson.videoUrl}
-            className="aspect-video w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-      ) : null}
-
-      {lesson.type === "lecture" && lesson.blocknoteContent && (
+      {lesson.type === "lecture" && lesson.lectureContent && (
         <div className="rounded-lg border bg-background p-2">
-          <BlocknoteRenderer content={lesson.blocknoteContent} />
-        </div>
-      )}
-
-      {lesson.type === "lecture" && !lesson.blocknoteContent && (lesson.readingHtml ?? lesson.content) && (
-        <div className="space-y-2 px-1 text-sm">
-          <div
-            className="prose prose-sm max-w-none text-foreground [&_p]:mb-4 [&_p]:leading-relaxed [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-foreground [&_h1]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_h2]:mt-6 [&_h2]:mb-3 [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-foreground [&_li]:mb-2 [&_hr]:my-6 [&_hr]:border-border"
-            dangerouslySetInnerHTML={{
-              __html: lesson.readingHtml ?? lesson.content ?? "",
-            }}
-          />
+          <BlocknoteRenderer content={lesson.lectureContent} />
         </div>
       )}
 
