@@ -63,24 +63,6 @@ export default async function AdminQuizEditPage({
                 <Input id="duration" name="duration" defaultValue={lesson.duration} />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="passingScore">Passing score</Label>
-              <Input
-                id="passingScore"
-                name="passingScore"
-                type="number"
-                defaultValue={lesson.passingScore ?? 80}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="attempts">Max attempts</Label>
-              <Input
-                id="attempts"
-                name="attempts"
-                type="number"
-                defaultValue={lesson.attempts ?? 1}
-              />
-            </div>
           </div>
 
           <div className="space-y-2">
