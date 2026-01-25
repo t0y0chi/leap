@@ -12,6 +12,7 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Courses | `/courses` | Catalog of all available courses via `CourseList`. |
 | Course detail | `/courses/[courseId]` | Course hero (progress/tags), chapter list with lesson summaries, and “Continue”. |
 | Course Q&A | `/courses/[courseId]/qna` | Q&A board of threads with answered/pending badges and open-thread link. |
+| Q&A thread detail | `/courses/[courseId]/qna/[questionId]` | Single Q&A thread with question context, reply list, and accepted answer highlight. |
 | Learn redirect | `/learn/courses/[courseId]` | Redirects to the first incomplete (or first) lesson in the course. |
 | Learn lesson | `/learn/courses/[courseId]/chapters/[chapterId]/lessons/[lessonId]` | Lesson player (video/reading/quiz/assignment), progress bar, and gated navigation based on readiness. |
 | Notifications | `/notifications` | Notifications list with type badges, unread markers, and timestamps. |
@@ -47,6 +48,8 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Submission history | `/admin/assignments/submissions/[submissionId]/history` | Timeline of submission events and versions. |
 | Users | `/admin/users` | Learner table with progress, scores, risk, and actions. |
 | User detail | `/admin/users/[userId]` | Learner progress, stats, and recent submissions. |
+| Admin Q&A | `/admin/qna` | Q&A inbox for admins with list of learner threads. |
+| Admin Q&A detail | `/admin/qna/[questionId]` | Admin thread view with reply composer and existing responses. |
 | Invite admin | `/admin/admins/invite` | Invitation form for reviewers/admins with message. |
 | Invitations | `/admin/admins/invitations` | Admin roster plus pending invites with status. |
 | Admin profile | `/admin/profile` | Admin profile summary with avatar and contact details. |

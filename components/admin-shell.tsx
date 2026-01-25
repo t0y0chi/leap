@@ -6,6 +6,7 @@ import {
   BookOpenCheck,
   CheckSquare,
   LayoutDashboard,
+  MessageCircle,
   Settings,
   Users,
 } from "lucide-react";
@@ -26,6 +27,7 @@ const navItems: NavItem[] = [
   { href: "/admin/courses", label: "Courses", icon: BookOpenCheck },
   { href: "/admin/assignments/submissions", label: "Submissions", icon: CheckSquare },
   { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/qna", label: "Q&A", icon: MessageCircle },
   { href: "/admin/admins/invitations", label: "Admins", icon: Settings },
 ];
 

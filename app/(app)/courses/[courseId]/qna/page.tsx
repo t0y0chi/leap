@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MessageCircle, ThumbsUp } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -46,35 +46,23 @@ export default async function QnaPage({
         </CardHeader>
         <CardContent className="space-y-3">
           {questions.map((question) => (
-            <div
+            <Link
               key={question.id}
-              className="flex flex-col gap-3 rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)] md:flex-row md:items-center md:justify-between"
+              href={`/courses/${course.id}/qna/${question.id}`}
+              className="block rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition hover:border-primary/40 hover:bg-secondary/30"
             >
-              <div>
-                <div className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4 text-primary" />
-                  <p className="text-sm font-semibold">{question.title}</p>
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="h-4 w-4 text-primary" />
+                    <p className="text-sm font-semibold">{question.title}</p>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {question.author} · Updated {question.updatedAt}
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  {question.author} · Updated {question.updatedAt}
-                </p>
               </div>
-              <div className="flex items-center gap-3 text-xs">
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <ThumbsUp className="h-4 w-4" />
-                  {question.votes}
-                </div>
-                <Badge variant={question.answered ? "success" : "outline"}>
-                  {question.answered ? "Answered" : "Pending"}
-                </Badge>
-                <Link
-                  href="#"
-                  className="inline-flex items-center rounded-md border px-3 py-1.5 font-semibold hover:bg-secondary"
-                >
-                  Open thread
-                </Link>
-              </div>
-            </div>
+            </Link>
           ))}
         </CardContent>
       </Card>

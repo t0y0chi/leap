@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BookOpen, MessageCircle } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { courses, questions, type LearningLesson } from "@/lib/mock-data";
 
@@ -152,12 +152,6 @@ export default async function CoursePage({
                   <p className="text-xs text-muted-foreground">
                     {question.author} · Updated {question.updatedAt}
                   </p>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>{question.votes} votes</span>
-                  <Badge variant={question.answered ? "success" : "secondary"}>
-                    {question.answered ? "Answered" : "Open"}
-                  </Badge>
                 </div>
               </Link>
             ))}
