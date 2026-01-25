@@ -100,7 +100,9 @@ export default async function AdminAssignmentEditPage({
 
           <div className="flex flex-wrap gap-2">
             <Button>Save</Button>
-            <Button variant="outline">Preview submission form</Button>
+            <Button asChild variant="outline">
+              <Link href={`/admin/lessons/${lesson.id}/preview`}>Preview submission form</Link>
+            </Button>
           </div>
 
           <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">

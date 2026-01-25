@@ -344,9 +344,11 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                           <Button asChild size="sm" variant="outline">
                             <Link href={getEditHref(lesson.type, lesson.id)}>Edit</Link>
                           </Button>
-                          <Button size="sm" variant="ghost">
-                            <PlayCircle className="h-4 w-4" />
-                            Preview
+                          <Button asChild size="sm" variant="ghost">
+                            <Link href={`/admin/lessons/${lesson.id}/preview`}>
+                              <PlayCircle className="h-4 w-4" />
+                              Preview
+                            </Link>
                           </Button>
                         </div>
                       )}

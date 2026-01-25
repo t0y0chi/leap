@@ -26,7 +26,7 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | --- | --- | --- |
 | Admin redirect | `/admin` | Redirects to `/admin/dashboard`. |
 | Admin login | `/admin/login` | Admin/auth layout with email, password, and OTP fields. |
-| Admin dashboard | `/admin/dashboard` | Cards for backlog/learners/avg score, pending submissions queue, course health, and alerts. |
+| Admin dashboard | `/admin/dashboard` | Minimal admin landing view with primary navigation actions. |
 | Courses | `/admin/courses` | Course table with status, visibility, enrollment counts, and chapter links. |
 | Create course | `/admin/courses/new` | Form for course metadata, summary, and tags. |
 | Edit course | `/admin/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
@@ -35,6 +35,7 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Edit lecture | `/admin/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
 | Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for passing score, attempts, prompt, and answers. |
 | Edit assignment | `/admin/lessons/[lessonId]/assignment/edit` | Assignment editor for instructions, attachments, rubric, and scoring. |
+| Lesson preview | `/admin/lessons/[lessonId]/preview` | Admin preview of lecture, quiz, or assignment lesson content. |
 | Submissions | `/admin/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
 | Pending submissions | `/admin/assignments/submissions/pending` | Filtered list of submissions waiting for grading with SLA hint. |
 | Submission detail | `/admin/assignments/submissions/[submissionId]` | Metadata, attachments, learner notes, and feedback links. |
@@ -46,4 +47,3 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Invite admin | `/admin/admins/invite` | Invitation form for reviewers/admins with message. |
 | Invitations | `/admin/admins/invitations` | Admin roster plus pending invites with status. |
 | Accept invitation | `/admin/invitations/[token]` | Invitation detail page with accept/decline actions. |
-| Reports placeholder | `/admin/reports` | Coming-soon placeholder for analytics. |

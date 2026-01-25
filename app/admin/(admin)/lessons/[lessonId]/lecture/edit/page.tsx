@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Film, Timer } from "lucide-react";
+import { Timer } from "lucide-react";
 
 import {
   Card,
@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import BlocknoteEditor from "@/components/blocknote/BlocknoteEditor";
 import { getAdminLesson } from "@/lib/admin-data";
@@ -74,40 +73,12 @@ export default async function AdminLectureEditPage({
             <div className="rounded-md border bg-background p-2">
               <BlocknoteEditor />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Draft rich lecture notes before saving this lesson.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="h-4 w-4 rounded border-muted-foreground"
-                defaultChecked={lesson.required}
-              />
-              <span>Required to progress</span>
-            </label>
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="h-4 w-4 rounded border-muted-foreground"
-                defaultChecked={lesson.graded}
-              />
-              <span>Mark lecture as graded</span>
-            </label>
           </div>
           <div className="flex gap-2">
             <Button>Save</Button>
-            <Button variant="outline">Preview</Button>
-            <Button variant="ghost" className="text-destructive">
-              Archive
+            <Button asChild variant="outline">
+              <Link href={`/admin/lessons/${lesson.id}/preview`}>Preview</Link>
             </Button>
-          </div>
-          <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Film className="h-4 w-4" />
-              <span>Tip: keep lectures under 12 minutes and link to rubric snippets.</span>
-            </div>
           </div>
         </CardContent>
       </Card>

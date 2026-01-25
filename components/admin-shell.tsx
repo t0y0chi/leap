@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BarChart3,
   BookOpenCheck,
   CheckSquare,
   LayoutDashboard,
@@ -19,7 +18,6 @@ const navItems = [
   { href: "/admin/assignments/submissions", label: "Submissions", icon: CheckSquare },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/admins/invitations", label: "Admins", icon: Settings },
-  { href: "/admin/reports", label: "Reports", icon: BarChart3, comingSoon: true },
 ];
 
 interface AdminShellProps {
@@ -71,9 +69,6 @@ export function AdminShell({ children }: AdminShellProps) {
             })}
           </nav>
           <div className="flex items-center gap-3">
-            <div className="rounded-lg border bg-white px-3 py-2 text-xs text-muted-foreground">
-              Monitoring workspace activity
-            </div>
             <div className="hidden h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground md:flex">
               SA
             </div>
