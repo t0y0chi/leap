@@ -13,10 +13,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningLesson } from "@/lib/mock-data";
+import { courses, learnerProfile, lessonProgressByUser, type LearningLesson } from "@/lib/mock-data";
 import { LessonContent } from "@/components/learning/lesson-content";
 import { LessonNavigation } from "@/components/learning/lesson-navigation";
 import { learnLessonHref } from "@/lib/learning-routes";
+import { getChapterProgress, getLessonProgressStatus } from "@/lib/learning-progress";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -34,6 +35,7 @@ export default function LessonPage({
   if (!course) {
     notFound();
   }
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
   const orderedLessons = useMemo(
     () =>
@@ -57,10 +59,11 @@ export default function LessonPage({
   const lastCompletedIndex = useMemo(
     () =>
       orderedLessons.reduce(
-        (acc, entry, idx) => (entry.lesson.status === "completed" ? idx : acc),
+        (acc, entry, idx) =>
+          getLessonProgressStatus(entry.lesson.id, progressByLessonId) === "completed" ? idx : acc,
         -1,
       ),
-    [orderedLessons],
+    [orderedLessons, progressByLessonId],
   );
 
   const lessonIndex = indexLookup.get(`${chapterId}:${lessonId}`);
@@ -70,6 +73,7 @@ export default function LessonPage({
 
   const lessonEntry = orderedLessons[lessonIndex];
   const lesson = lessonEntry.lesson;
+  const progressStatus = getLessonProgressStatus(lesson.id, progressByLessonId);
   const chapter = course.chapters.find((c) => c.id === lessonEntry.chapterId);
   if (!chapter) {
     notFound();
@@ -81,7 +85,7 @@ export default function LessonPage({
     : null;
 
   const initialReady =
-    lesson.status === "completed" ||
+    progressStatus === "completed" ||
     (lesson.type !== "quiz" && lesson.type !== "assignment");
   const [readyForContinue, setReadyForContinue] = useState<boolean>(initialReady);
 
@@ -107,8 +111,12 @@ export default function LessonPage({
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <LessonContent lesson={lesson} onReadyForContinue={setReadyForContinue} />
-          <Progress value={chapter.progress} />
+          <LessonContent
+            lesson={lesson}
+            progressStatus={progressStatus}
+            onReadyForContinue={setReadyForContinue}
+          />
+          <Progress value={getChapterProgress(chapter, progressByLessonId)} />
           <LessonNavigation
             courseId={course.id}
             orderedLessons={orderedLessons.map((entry) => ({

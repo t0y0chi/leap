@@ -5,11 +5,16 @@ import { BookOpen, Clock, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { type Course } from "@/lib/mock-data";
+import { type Course, type EnrollmentStatus } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
+type CourseListItem = Course & {
+  progressPct: number;
+  status: EnrollmentStatus;
+};
+
 interface CourseListProps {
-  courses: Course[];
+  courses: CourseListItem[];
   buttonLabel?: string;
   getHref?: (course: Course) => string;
 }
@@ -56,9 +61,6 @@ export function CourseList({
                 {course.duration}
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="neutral" className="capitalize">
-                  {course.level}
-                </Badge>
                 <Badge variant="secondary">{statusLabel}</Badge>
               </div>
             </CardHeader>
@@ -69,17 +71,10 @@ export function CourseList({
               </div>
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{course.progress}%</span>
+                  <span>{course.progressPct}%</span>
                   <span>{statusLabel}</span>
                 </div>
-                <Progress value={course.progress} />
-              </div>
-              <div className="flex items-center gap-2">
-                {course.tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag} variant="outline" className="text-[11px]">
-                    {tag}
-                  </Badge>
-                ))}
+                <Progress value={course.progressPct} />
               </div>
               <div className="flex justify-end">
                 <Link

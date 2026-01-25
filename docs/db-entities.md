@@ -3,13 +3,14 @@
 ## Learner-facing
 - User/Profile
   - id, given_name, middle_name, family_name, email, phone, avatar_url
-  - roles (labels), badges, streak, learning_minutes, completion_rate, focus_course_id
+  - roles (labels)
+  - enrolled courses (user-course join with status, progress_pct)
 - Course
-  - id, title, category, level, duration, status, progress, tags, instructor, summary, thumbnail
+  - id, title, category, duration, status, summary, thumbnail
 - Chapter
-  - id, course_id, title, description, progress
+  - id, course_id, title, description, order
 - Lesson
-  - id, chapter_id, title, type, duration, status, score
+  - id, chapter_id, title, type, duration, publication_status, order
   - content fields: content, video_url, reading_html, blocknote_content
   - quiz fields: question_type, choices (id, text, correct)
 - Q&A Thread

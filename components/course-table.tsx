@@ -22,9 +22,14 @@ import {
 } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { type Course } from "@/lib/mock-data";
+import { type Course, type EnrollmentStatus } from "@/lib/mock-data";
 
-const columns: ColumnDef<Course>[] = [
+type CourseTableRow = Course & {
+  progressPct: number;
+  status: EnrollmentStatus;
+};
+
+const columns: ColumnDef<CourseTableRow>[] = [
   {
     accessorKey: "title",
     header: "Course",
@@ -34,17 +39,17 @@ const columns: ColumnDef<Course>[] = [
         <div>
           <div className="font-semibold text-foreground">{course.title}</div>
           <p className="text-sm text-muted-foreground">
-            {course.category} · {course.level}
+            {course.category}
           </p>
         </div>
       );
     },
   },
   {
-    accessorKey: "progress",
+    accessorKey: "progressPct",
     header: "Progress",
     cell: ({ row }) => {
-      const progress = row.getValue("progress") as number;
+      const progress = row.getValue("progressPct") as number;
       return (
         <div className="w-32">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -106,7 +111,7 @@ const columns: ColumnDef<Course>[] = [
 ];
 
 interface CourseTableProps {
-  data: Course[];
+  data: CourseTableRow[];
 }
 
 export function CourseTable({ data }: CourseTableProps) {

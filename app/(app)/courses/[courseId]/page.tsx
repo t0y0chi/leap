@@ -11,7 +11,15 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { courses, questions, type LearningLesson } from "@/lib/mock-data";
+import {
+  courses,
+  enrollments,
+  learnerProfile,
+  lessonProgressByUser,
+  questions,
+  type LearningLesson,
+} from "@/lib/mock-data";
+import { getChapterProgress, getLessonProgressStatus } from "@/lib/learning-progress";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -29,8 +37,15 @@ export default async function CoursePage({
   if (!course) {
     notFound();
   }
+  const enrollment = enrollments.find(
+    (item) => item.userId === learnerProfile.id && item.courseId === course.id,
+  );
+  const courseProgress = enrollment?.progressPct ?? 0;
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
-  const completedChapters = course.chapters.filter((c) => c.progress === 100).length;
+  const completedChapters = course.chapters.filter(
+    (chapter) => getChapterProgress(chapter, progressByLessonId) === 100,
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -45,9 +60,9 @@ export default async function CoursePage({
             <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-white/5 p-4 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-slate-200">Progress</span>
-                <span className="font-semibold">{course.progress}%</span>
+                <span className="font-semibold">{courseProgress}%</span>
               </div>
-              <Progress value={course.progress} className="[&_div]:bg-white" />
+              <Progress value={courseProgress} className="[&_div]:bg-white" />
               <div className="flex items-center gap-2 text-slate-300">
                 <BookOpen className="h-4 w-4" />
                 {course.chapters.length} chapters · {course.duration}
@@ -76,8 +91,12 @@ export default async function CoursePage({
           <CardContent className="space-y-4">
             {course.chapters.map((chapter) => {
               const nextLesson =
-                chapter.lessons.find((lesson) => lesson.status !== "completed") ??
+                chapter.lessons.find(
+                  (lesson) =>
+                    getLessonProgressStatus(lesson.id, progressByLessonId) !== "completed",
+                ) ??
                 chapter.lessons[0];
+              const chapterProgress = getChapterProgress(chapter, progressByLessonId);
               return (
                 <div
                   key={chapter.id}
@@ -89,8 +108,8 @@ export default async function CoursePage({
                       <p className="text-xs text-muted-foreground">{chapter.description}</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Badge variant={chapter.progress === 100 ? "success" : "secondary"}>
-                        {chapter.progress === 100 ? "Completed" : "In progress"}
+                      <Badge variant={chapterProgress === 100 ? "success" : "secondary"}>
+                        {chapterProgress === 100 ? "Completed" : "In progress"}
                       </Badge>
                       <span className="text-xs text-muted-foreground">
                         {chapter.lessons.length} lessons
@@ -98,7 +117,7 @@ export default async function CoursePage({
                     </div>
                   </div>
                 <div className="mt-3 space-y-3">
-                  <Progress value={chapter.progress} />
+                  <Progress value={chapterProgress} />
                   <div className="grid gap-2 md:grid-cols-2">
                     {chapter.lessons.map((lesson) => (
                       <div

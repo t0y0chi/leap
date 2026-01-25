@@ -40,7 +40,7 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Lessons | `/admin/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |
 | Edit lecture | `/admin/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
 | Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for multi-question prompts, choices, and correct answers. |
-| Edit assignment | `/admin/lessons/[lessonId]/assignment/edit` | Assignment editor for instructions, attachments, rubric, and scoring. |
+| Edit submission | `/admin/lessons/[lessonId]/assignment/edit` | Submission editor for instructions, attachments, rubric, and scoring. |
 | Submissions | `/admin/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
 | Pending submissions | `/admin/assignments/submissions/pending` | Filtered list of submissions waiting for grading with SLA hint. |
 | Submission detail | `/admin/assignments/submissions/[submissionId]` | Metadata, attachments, learner notes, and feedback links. |

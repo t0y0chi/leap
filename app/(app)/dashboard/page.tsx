@@ -1,11 +1,24 @@
 import { CourseList } from "@/components/course-list";
-import { courses, learnerProfile } from "@/lib/mock-data";
+import { courses, enrollments, learnerProfile } from "@/lib/mock-data";
 import { formatFullName } from "@/lib/utils";
 
 export default function DashboardPage() {
-  const enrolledCourses = courses.filter(
-    (course) => course.id === learnerProfile.focusCourseId,
+  const userEnrollments = enrollments.filter(
+    (enrollment) => enrollment.userId === learnerProfile.id,
   );
+  const enrollmentCourses = userEnrollments
+    .map((enrollment) => {
+      const course = courses.find((item) => item.id === enrollment.courseId);
+      if (!course) return null;
+      return { ...course, status: enrollment.status, progressPct: enrollment.progressPct };
+    })
+    .filter(
+      (course): course is NonNullable<typeof course> => course !== null,
+    );
+  const focusedCourse =
+    enrollmentCourses.find((course) => course.status === "in-progress") ??
+    enrollmentCourses[0];
+  const enrolledCourses = focusedCourse ? [focusedCourse] : [];
   const fullName = formatFullName(learnerProfile);
 
   return (

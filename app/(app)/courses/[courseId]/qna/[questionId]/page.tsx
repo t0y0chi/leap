@@ -38,7 +38,7 @@ const repliesByQuestion = {
       author: "Diego Alvarez",
       time: "18h ago",
       body:
-        "It is strict on final submissions, but in practice reviewers focus on boundary consistency. I aim for 1-2px and use the brush edge overlay to verify.",
+        "It is strict on final assignments, but in practice reviewers focus on boundary consistency. I aim for 1-2px and use the brush edge overlay to verify.",
     },
   ],
 } satisfies Record<

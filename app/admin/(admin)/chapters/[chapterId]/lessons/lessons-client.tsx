@@ -27,6 +27,12 @@ function getEditHref(type: AdminLessonType, lessonId: string) {
   return `/admin/lessons/${lessonId}/assignment/edit`;
 }
 
+const typeLabel: Record<AdminLessonType, string> = {
+  lecture: "Lecture",
+  quiz: "Quiz",
+  assignment: "Submission",
+};
+
 interface AdminLessonsClientProps {
   chapter: AdminChapter;
   initialLessons: AdminLesson[];
@@ -169,7 +175,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                     name="title"
                     value={form.title}
                     onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
-                    placeholder="Calibration quiz or assignment name"
+                    placeholder="Calibration quiz or submission name"
                   />
                 </div>
                 <div className="space-y-2">
@@ -189,7 +195,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                   >
                     <option value="lecture">Lecture</option>
                     <option value="quiz">Quiz</option>
-                    <option value="assignment">Assignment</option>
+                    <option value="assignment">Submission</option>
                   </select>
                 </div>
                 <div className="space-y-2">
@@ -330,7 +336,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                     </TableCell>
                     <TableCell className="p-0 text-sm capitalize text-muted-foreground">
                       <Link href={editHref} className="block px-4 py-3">
-                        {lesson.type}
+                        {typeLabel[lesson.type]}
                       </Link>
                     </TableCell>
                     <TableCell className="p-0 text-sm text-muted-foreground">

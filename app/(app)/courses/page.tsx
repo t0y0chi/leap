@@ -1,7 +1,22 @@
 import { CourseList } from "@/components/course-list";
-import { courses } from "@/lib/mock-data";
+import { courses, enrollments, learnerProfile } from "@/lib/mock-data";
 
 export default function CoursesPage() {
+  const userEnrollments = enrollments.filter(
+    (enrollment) => enrollment.userId === learnerProfile.id,
+  );
+  const enrollmentByCourseId = new Map(
+    userEnrollments.map((enrollment) => [enrollment.courseId, enrollment]),
+  );
+  const coursesWithProgress = courses.map((course) => {
+    const enrollment = enrollmentByCourseId.get(course.id);
+    return {
+      ...course,
+      status: enrollment?.status ?? "not-started",
+      progressPct: enrollment?.progressPct ?? 0,
+    };
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
@@ -11,7 +26,7 @@ export default function CoursesPage() {
         </div>
       </div>
 
-      <CourseList courses={courses} />
+      <CourseList courses={coursesWithProgress} />
     </div>
   );
 }

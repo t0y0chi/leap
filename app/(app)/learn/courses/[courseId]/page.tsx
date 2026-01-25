@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { courses } from "@/lib/mock-data";
+import { courses, learnerProfile, lessonProgressByUser } from "@/lib/mock-data";
 import { learnLessonHref } from "@/lib/learning-routes";
+import { getLessonProgressStatus } from "@/lib/learning-progress";
 
 export default async function LearnCourseIndex({
   params,
@@ -14,12 +15,16 @@ export default async function LearnCourseIndex({
   if (!course) {
     redirect("/courses");
   }
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
   const firstPending = course.chapters
     .flatMap((chapter) =>
       chapter.lessons.map((lesson) => ({ chapter, lesson })),
     )
-    .find(({ lesson }) => lesson.status !== "completed");
+    .find(
+      ({ lesson }) =>
+        getLessonProgressStatus(lesson.id, progressByLessonId) !== "completed",
+    );
 
   const fallback = course.chapters[0]?.lessons[0];
 

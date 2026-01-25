@@ -13,10 +13,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningLesson } from "@/lib/mock-data";
+import { courses, learnerProfile, lessonProgressByUser, type LearningLesson } from "@/lib/mock-data";
 import { LessonContent } from "@/components/learning/lesson-content";
 import { LessonNavigation } from "@/components/learning/lesson-navigation";
 import { learnChapterHref, learnLessonHref } from "@/lib/learning-routes";
+import { getChapterProgress, getLessonProgressStatus } from "@/lib/learning-progress";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -34,6 +35,7 @@ export default function PreviewLessonPage({
   if (!course) {
     notFound();
   }
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
   const orderedLessons = useMemo(
     () =>
@@ -61,6 +63,7 @@ export default function PreviewLessonPage({
 
   const lessonEntry = orderedLessons[lessonIndex];
   const lesson = lessonEntry.lesson;
+  const progressStatus = getLessonProgressStatus(lesson.id, progressByLessonId);
   const chapter = course.chapters.find((c) => c.id === lessonEntry.chapterId);
   if (!chapter) {
     notFound();
@@ -93,8 +96,12 @@ export default function PreviewLessonPage({
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <LessonContent lesson={lesson} onReadyForContinue={() => undefined} />
-          <Progress value={chapter.progress} />
+          <LessonContent
+            lesson={lesson}
+            progressStatus={progressStatus}
+            onReadyForContinue={() => undefined}
+          />
+          <Progress value={getChapterProgress(chapter, progressByLessonId)} />
           <LessonNavigation
             courseId={course.id}
             orderedLessons={orderedLessons.map((entry) => ({

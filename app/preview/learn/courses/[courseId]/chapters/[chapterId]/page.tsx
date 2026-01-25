@@ -11,8 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { courses, type LearningLesson } from "@/lib/mock-data";
+import { courses, learnerProfile, lessonProgressByUser, type LearningLesson } from "@/lib/mock-data";
 import { courseHref, learnLessonHref } from "@/lib/learning-routes";
+import { getChapterProgress, getLessonProgressStatus } from "@/lib/learning-progress";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -31,10 +32,14 @@ export default async function PreviewLearnChapterPage({
   if (!course || !chapter) {
     notFound();
   }
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
   const activeLesson =
-    chapter.lessons.find((lesson) => lesson.status !== "completed") ??
-    chapter.lessons[0];
+    chapter.lessons.find(
+      (lesson) =>
+        getLessonProgressStatus(lesson.id, progressByLessonId) !== "completed",
+    ) ?? chapter.lessons[0];
+  const chapterProgress = getChapterProgress(chapter, progressByLessonId);
 
   return (
     <div className="space-y-5">
@@ -46,7 +51,7 @@ export default async function PreviewLearnChapterPage({
           <ArrowLeft className="h-4 w-4" />
           Back to course preview
         </Link>
-        <Badge variant="secondary">{chapter.progress}% complete</Badge>
+        <Badge variant="secondary">{chapterProgress}% complete</Badge>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
@@ -123,16 +128,18 @@ export default async function PreviewLearnChapterPage({
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  {lesson.status === "completed" && (
+                  {getLessonProgressStatus(lesson.id, progressByLessonId) === "completed" && (
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                   )}
                   <Badge variant="neutral" className="capitalize">
-                    {lesson.status === "completed" ? "Completed" : lesson.status}
+                    {getLessonProgressStatus(lesson.id, progressByLessonId) === "completed"
+                      ? "Completed"
+                      : getLessonProgressStatus(lesson.id, progressByLessonId).replace("-", " ")}
                   </Badge>
                 </div>
               </Link>
             ))}
-            <Progress value={chapter.progress} />
+            <Progress value={chapterProgress} />
           </CardContent>
         </Card>
       </div>

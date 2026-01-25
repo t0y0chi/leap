@@ -5,7 +5,7 @@ import { CheckCircle2, FileUp, Send } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { type LearningLesson } from "@/lib/mock-data";
+import { type LearningLesson, type LessonProgressStatus } from "@/lib/mock-data";
 import BlocknoteRenderer from "@/components/blocknote/BlocknoteRenderer";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
@@ -16,10 +16,11 @@ const typeLabel: Record<LearningLesson["type"], string> = {
 
 interface LessonContentProps {
   lesson: LearningLesson;
+  progressStatus: LessonProgressStatus;
   onReadyForContinue?: (ready: boolean) => void;
 }
 
-export function LessonContent({ lesson, onReadyForContinue }: LessonContentProps) {
+export function LessonContent({ lesson, progressStatus, onReadyForContinue }: LessonContentProps) {
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
   const [assignmentSubmitted, setAssignmentSubmitted] = useState(false);
@@ -34,12 +35,12 @@ export function LessonContent({ lesson, onReadyForContinue }: LessonContentProps
   useEffect(() => {
     if (onReadyForContinue) {
       if (lesson.type === "quiz" || lesson.type === "assignment") {
-        onReadyForContinue(lesson.status === "completed" || assignmentSubmitted);
+        onReadyForContinue(progressStatus === "completed" || assignmentSubmitted);
       } else {
         onReadyForContinue(true);
       }
     }
-  }, [lesson, assignmentSubmitted, onReadyForContinue]);
+  }, [lesson, progressStatus, assignmentSubmitted, onReadyForContinue]);
 
   useEffect(() => {
     if (lesson.type !== "quiz" || !onReadyForContinue) return;
@@ -130,7 +131,7 @@ export function LessonContent({ lesson, onReadyForContinue }: LessonContentProps
 
       {lesson.type === "assignment" && (
         <div className="space-y-3 rounded-lg border px-4 py-3">
-          <p className="text-sm font-semibold">Submission</p>
+          <p className="text-sm font-semibold">Assignment</p>
           <p className="text-sm text-muted-foreground">
             {lesson.content ?? "Upload your annotated samples for review."}
           </p>
@@ -176,14 +177,10 @@ export function LessonContent({ lesson, onReadyForContinue }: LessonContentProps
       {lesson.type === "assignment" && (
         <div className="rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
           <p className="text-sm font-semibold">Scoring & feedback</p>
-          {lesson.score ? (
-            <p className="mt-2 text-sm">Latest score: {lesson.score}/100</p>
-          ) : (
-            <p className="mt-2 text-sm text-muted-foreground">
-              Score will appear once graded.
-            </p>
-          )}
-          {lesson.status === "completed" && (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Score will appear once graded.
+          </p>
+          {progressStatus === "completed" && (
             <div className="mt-2 flex items-center gap-2 text-xs text-emerald-600">
               <CheckCircle2 className="h-4 w-4" />
               Marked as completed

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { LearningSidebar } from "@/components/learning/sidebar";
-import { courses } from "@/lib/mock-data";
+import { courses, enrollments, learnerProfile, lessonProgressByUser } from "@/lib/mock-data";
 
 export default async function LearnCourseLayout({
   children,
@@ -12,6 +12,11 @@ export default async function LearnCourseLayout({
 }) {
   const { courseId } = await params;
   const course = courses.find((c) => c.id === courseId);
+  const enrollment = enrollments.find(
+    (item) => item.userId === learnerProfile.id && item.courseId === courseId,
+  );
+  const progressPct = enrollment?.progressPct ?? 0;
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
   if (!course) {
     notFound();
@@ -19,7 +24,11 @@ export default async function LearnCourseLayout({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-      <LearningSidebar course={course} />
+      <LearningSidebar
+        course={course}
+        progressPct={progressPct}
+        progressByLessonId={progressByLessonId}
+      />
       <div className="min-w-0">{children}</div>
     </div>
   );

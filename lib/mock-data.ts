@@ -1,5 +1,6 @@
 export type LessonType = "lecture" | "quiz" | "assignment";
-export type LessonStatus = "not-started" | "in-progress" | "completed";
+export type LessonPublicationStatus = "draft" | "published" | "maintenance";
+export type LessonProgressStatus = "not-started" | "in-progress" | "completed";
 
 export type BlockNoteContent = Array<Record<string, unknown>>;
 
@@ -8,8 +9,7 @@ export interface LearningLesson {
   title: string;
   type: LessonType;
   duration: string;
-  status: LessonStatus;
-  score?: number;
+  publicationStatus: LessonPublicationStatus;
   content?: string;
   videoUrl?: string;
   readingHtml?: string;
@@ -22,20 +22,16 @@ export interface Chapter {
   id: string;
   title: string;
   description: string;
-  progress: number;
   lessons: LearningLesson[];
 }
+
+export type EnrollmentStatus = "not-started" | "in-progress" | "completed";
 
 export interface Course {
   id: string;
   title: string;
   category: string;
-  level: string;
   duration: string;
-  status: "not-started" | "in-progress" | "completed";
-  progress: number;
-  tags: string[];
-  instructor: string;
   summary: string;
   thumbnail?: string;
   chapters: Chapter[];
@@ -72,11 +68,13 @@ export const learnerProfile = {
   roles: ["Annotator", "Designer"],
   avatar:
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80",
-  streak: 5,
-  learningMinutes: 265,
-  completionRate: 0.62,
-  badges: ["Data Quality", "Fast Reviewer", "Consistent"],
-  focusCourseId: "annotation-101",
+};
+
+export type Enrollment = {
+  userId: string;
+  courseId: string;
+  status: EnrollmentStatus;
+  progressPct: number;
 };
 
 export const courses: Course[] = [
@@ -84,12 +82,7 @@ export const courses: Course[] = [
     id: "annotation-101",
     title: "Annotation Fundamentals",
     category: "Data Labeling",
-    level: "Beginner",
     duration: "4h 20m",
-    status: "in-progress",
-    progress: 62,
-    instructor: "Dr. Jamie Nguyen",
-    tags: ["Vision", "Quality Control", "Tools"],
     summary:
       "A practical course that walks through the full annotation lifecycle, from labeling basics to QA workflows and feedback loops.",
     chapters: [
@@ -97,14 +90,13 @@ export const courses: Course[] = [
         id: "ch-1",
         title: "Foundations",
         description: "Labeling intent, task types, and annotation guidelines.",
-        progress: 100,
         lessons: [
           {
             id: "it-1",
             title: "How annotation drives model quality",
             type: "lecture",
             duration: "12m",
-            status: "completed",
+            publicationStatus: "published",
             videoUrl: "https://www.youtube.com/embed/MdqVp9kLYvg",
             blocknoteContent: [
               {
@@ -178,7 +170,7 @@ export const courses: Course[] = [
             title: "Read: guideline essentials",
             type: "lecture",
             duration: "6m",
-            status: "completed",
+            publicationStatus: "published",
             readingHtml: `<h2>Why the rubric matters</h2>
 <p><strong>The goal of this course is to make you decisive</strong> under imperfect conditions. Start by internalizing the rubric: what qualifies as a positive example, what should be marked negative, and how to record ambiguous frames without breaking consistency. Re-read the intent statement at the top of the guideline; it is the single anchor for how reviewers grade. If a sample is borderline, ask yourself if it helps or harms the downstream model. That clarity makes your labeling defensible during audits.</p>
 <h2>Handle occlusion and truncation</h2>
@@ -193,8 +185,7 @@ export const courses: Course[] = [
             title: "Guideline deep-dive quiz",
             type: "quiz",
             duration: "8m",
-            status: "completed",
-            score: 92,
+            publicationStatus: "published",
             questionType: "multiple-choice",
             content:
               "Confirm your understanding of edge cases and what to flag to the reviewer.",
@@ -210,14 +201,13 @@ export const courses: Course[] = [
         id: "ch-2",
         title: "Annotation Tools",
         description: "Hotkeys, labeling UI, and quality shortcuts.",
-        progress: 55,
         lessons: [
           {
             id: "it-4",
             title: "Video walkthrough: labeling UI",
             type: "lecture",
             duration: "10m",
-            status: "completed",
+            publicationStatus: "published",
             videoUrl: "https://www.youtube.com/embed/6mbwJ2xhgzM",
             blocknoteContent: [
               {
@@ -244,13 +234,13 @@ export const courses: Course[] = [
             title: "Read: fast QC checklist",
             type: "lecture",
             duration: "5m",
-            status: "in-progress",
+            publicationStatus: "published",
             readingHtml: `<h2>QC starts with coverage</h2>
 <p><strong>Quality control is your final defense</strong> before review. Start with coverage: scan every frame for obvious omissions, especially small or partially hidden objects. Use zoom or a hotkey to toggle outlines so you can catch thin shapes that blend into the background. If you discover a missing instance, add it immediately and leave a note if you are unsure about the class.</p>
 <h2>Geometry and shape integrity</h2>
 <p>Next, check geometry. Are boxes tight without clipping? Do polygons follow edges without self-intersections? A quick pass with snapping tools can fix sloppy corners. For keypoints, confirm the correct ordering and symmetry; mirror mistakes are common when rushing. Remember that reviewers look for clean geometry before they read your comments.</p>
 <h2>Labels and attributes</h2>
-<p>Naming and attributes matter as much as shapes. Validate that class labels match the rubric wording, not your personal shorthand. Confirm that required attributes, like occlusion or truncation, are set consistently across similar objects. If you see inconsistency across a sequence, normalize it before submission so reviewers do not reject for avoidable churn.</p>
+<p>Naming and attributes matter as much as shapes. Validate that class labels match the rubric wording, not your personal shorthand. Confirm that required attributes, like occlusion or truncation, are set consistently across similar objects. If you see inconsistency across a sequence, normalize it before turning in the assignment so reviewers do not reject for avoidable churn.</p>
 <h2>Notes for reviewers</h2>
 <p>Finally, document blockers and uncertainties. If lighting is poor or a class boundary is unclear, write a concise comment describing what you saw and the rule you applied. Mention any deviations from the rubric and why. This habit signals professionalism and often speeds up grading because reviewers do not need to guess your intent.</p>`,
           },
@@ -259,8 +249,7 @@ export const courses: Course[] = [
             title: "Hands-on: draw regions accurately",
             type: "assignment",
             duration: "15m",
-            status: "in-progress",
-            score: 78,
+            publicationStatus: "published",
             questionType: "assignment",
             content:
               "Practice drawing bounding boxes with pixel-perfect alignment and naming conventions.",
@@ -270,7 +259,7 @@ export const courses: Course[] = [
             title: "Short quiz: shortcuts & QA checks",
             type: "quiz",
             duration: "7m",
-            status: "not-started",
+            publicationStatus: "published",
             questionType: "multiple-choice",
             content:
               "Identify the quickest path to validate a batch before submitting to review.",
@@ -286,14 +275,13 @@ export const courses: Course[] = [
         id: "ch-3",
         title: "Quality & Feedback",
         description: "Self-checks, handoffs, and reviewer expectations.",
-        progress: 20,
         lessons: [
           {
             id: "it-8",
             title: "What reviewers look for",
             type: "lecture",
             duration: "9m",
-            status: "not-started",
+            publicationStatus: "published",
             videoUrl: "https://www.youtube.com/embed/o8NPllzkFhM",
             blocknoteContent: [
               {
@@ -307,7 +295,7 @@ export const courses: Course[] = [
                 content: [
                   {
                     type: "text",
-                    text: "See the rubric used to grade your submissions and how to avoid rework.",
+                    text: "See the rubric used to grade your assignments and how to avoid rework.",
                     styles: {},
                   },
                 ],
@@ -320,7 +308,7 @@ export const courses: Course[] = [
             title: "Read: feedback etiquette",
             type: "lecture",
             duration: "4m",
-            status: "not-started",
+            publicationStatus: "published",
             readingHtml: `<h2>Feedback is a loop</h2>
 <p><strong>Feedback is a loop, not a verdict.</strong> When a reviewer leaves notes, treat them as data: what pattern caused the deduction, and how can you prevent it next time? Summarize the feedback in your own words, then update your personal checklist. If the note contradicts the rubric, ask a clarifying question in the Q&A board so the whole cohort benefits.</p>
 <h2>Respond with clarity</h2>
@@ -335,7 +323,7 @@ export const courses: Course[] = [
             title: "Submit a sample batch",
             type: "assignment",
             duration: "18m",
-            status: "not-started",
+            publicationStatus: "published",
             questionType: "assignment",
             content:
               "Upload 5 annotated examples with notes on tricky frames and decisions.",
@@ -348,14 +336,9 @@ export const courses: Course[] = [
     id: "programming-101",
     title: "Programming Basics",
     category: "Software",
-    level: "Beginner",
     duration: "2h 30m",
-    status: "not-started",
-    progress: 0,
-    instructor: "Casey Lee",
     thumbnail:
       "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
-    tags: ["JavaScript", "Logic", "Debugging"],
     summary:
       "Get comfortable with core programming ideas: variables, control flow, and functions using JavaScript examples.",
     chapters: [
@@ -363,14 +346,13 @@ export const courses: Course[] = [
         id: "prog-ch-1",
         title: "Getting Started",
         description: "Setup, variables, and basic outputs.",
-        progress: 0,
         lessons: [
           {
             id: "prog-it-1",
             title: "Watch: hello world walkthrough",
             type: "lecture",
             duration: "8m",
-            status: "not-started",
+            publicationStatus: "published",
             videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
             content: "See how to print and run your first script.",
           },
@@ -379,7 +361,7 @@ export const courses: Course[] = [
             title: "Read: variables and types",
             type: "lecture",
             duration: "6m",
-            status: "not-started",
+            publicationStatus: "published",
             readingHtml:
               "<h2>Variables</h2><p>Use <strong>let</strong> for reassignable values and <strong>const</strong> for stable ones.</p><h2>Types</h2><p>Numbers, strings, booleans, arrays, and objects are the core you will use here.</p>",
           },
@@ -388,7 +370,7 @@ export const courses: Course[] = [
             title: "Quiz: basics check",
             type: "quiz",
             duration: "5m",
-            status: "not-started",
+            publicationStatus: "published",
             questionType: "multiple-choice",
             content: "Choose the right declaration for a changing score value.",
             choices: [
@@ -402,6 +384,39 @@ export const courses: Course[] = [
     ],
   },
 ];
+
+export const enrollments: Enrollment[] = [
+  {
+    userId: "user-1",
+    courseId: "annotation-101",
+    status: "in-progress",
+    progressPct: 62,
+  },
+  {
+    userId: "user-1",
+    courseId: "programming-101",
+    status: "not-started",
+    progressPct: 0,
+  },
+];
+
+export const lessonProgressByUser: Record<string, Record<string, LessonProgressStatus>> = {
+  "user-1": {
+    "it-1": "completed",
+    "it-2": "completed",
+    "it-3": "completed",
+    "it-4": "completed",
+    "it-5": "in-progress",
+    "it-6": "in-progress",
+    "it-7": "not-started",
+    "it-8": "not-started",
+    "it-9": "not-started",
+    "it-10": "not-started",
+    "prog-it-1": "not-started",
+    "prog-it-2": "not-started",
+    "prog-it-3": "not-started",
+  },
+};
 
 export const notifications: Notification[] = [
   {
@@ -417,7 +432,7 @@ export const notifications: Notification[] = [
       "Course: Annotation Fundamentals",
       "Score: 78/100",
       "Reviewer: Samira Patel",
-      "Status: Resubmission required",
+      "Status: Revision required",
     ],
     ctaLabel: "Open link",
     ctaHref: "/learn/courses/annotation-101/chapters/ch-2/lessons/it-6",

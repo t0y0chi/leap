@@ -29,7 +29,7 @@ export default async function AdminAssignmentEditPage({
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
         <div>
-          <h1 className="text-2xl font-semibold">Edit assignment</h1>
+          <h1 className="text-2xl font-semibold">Edit submission</h1>
           <p className="text-sm text-muted-foreground">
             Set submission expectations and scoring rubric.
           </p>
@@ -43,7 +43,7 @@ export default async function AdminAssignmentEditPage({
         <CardHeader className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <CardTitle>{lesson.title}</CardTitle>
-            <Badge variant="neutral">Assignment</Badge>
+            <Badge variant="neutral">Submission</Badge>
             <Badge variant="outline" className="capitalize">
               {lesson.status}
             </Badge>

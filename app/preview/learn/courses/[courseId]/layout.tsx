@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { courses } from "@/lib/mock-data";
+import { courses, learnerProfile, lessonProgressByUser } from "@/lib/mock-data";
 import { LearningSidebar } from "@/components/learning/sidebar";
 
 export default async function PreviewLearnCourseLayout({
@@ -12,6 +12,7 @@ export default async function PreviewLearnCourseLayout({
 }) {
   const { courseId } = await params;
   const course = courses.find((c) => c.id === courseId);
+  const progressByLessonId = lessonProgressByUser[learnerProfile.id] ?? {};
 
   if (!course) {
     notFound();
@@ -19,7 +20,7 @@ export default async function PreviewLearnCourseLayout({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-      <LearningSidebar course={course} mode="preview" />
+      <LearningSidebar course={course} mode="preview" progressByLessonId={progressByLessonId} />
       <div className="min-w-0">{children}</div>
     </div>
   );

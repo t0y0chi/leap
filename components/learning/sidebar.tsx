@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation";
 import { CheckCircle2, PlayCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { type Course, type LearningLesson } from "@/lib/mock-data";
+import { type Course, type LearningLesson, type LessonProgressStatus } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { type LearningMode, learnLessonHref } from "@/lib/learning-routes";
 import { isLessonLocked } from "@/lib/learning-policy";
+import { getChapterProgress, getCourseProgress, getLessonProgressStatus } from "@/lib/learning-progress";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
   lecture: "Lecture",
@@ -19,10 +20,18 @@ const typeLabel: Record<LearningLesson["type"], string> = {
 interface LearningSidebarProps {
   course: Course;
   mode?: LearningMode;
+  progressPct?: number;
+  progressByLessonId?: Record<string, LessonProgressStatus>;
 }
 
-export function LearningSidebar({ course, mode = "learn" }: LearningSidebarProps) {
+export function LearningSidebar({
+  course,
+  mode = "learn",
+  progressPct,
+  progressByLessonId = {},
+}: LearningSidebarProps) {
   const pathname = usePathname();
+  const courseProgress = progressPct ?? getCourseProgress(course, progressByLessonId);
   const currentMatch = pathname.match(
     /(?:preview\/)?learn\/courses\/[^/]+\/chapters\/([^/]+)\/lessons\/([^/]+)/,
   );
@@ -30,7 +39,8 @@ export function LearningSidebar({ course, mode = "learn" }: LearningSidebarProps
     chapter.lessons.map((lesson) => ({ chapterId: chapter.id, lesson })),
   );
   const lastCompletedIndex = orderedLessons.reduce(
-    (acc, entry, idx) => (entry.lesson.status === "completed" ? idx : acc),
+    (acc, entry, idx) =>
+      getLessonProgressStatus(entry.lesson.id, progressByLessonId) === "completed" ? idx : acc,
     -1,
   );
   const indexLookup = new Map(
@@ -52,7 +62,7 @@ export function LearningSidebar({ course, mode = "learn" }: LearningSidebarProps
           <p className="text-xs uppercase text-muted-foreground">Course</p>
           <p className="text-sm font-semibold">{course.title}</p>
         </div>
-        <Badge variant="secondary">{course.progress}%</Badge>
+        <Badge variant="secondary">{courseProgress}%</Badge>
       </div>
       <div className="space-y-3">
         {course.chapters.map((chapter, index) => (
@@ -61,15 +71,16 @@ export function LearningSidebar({ course, mode = "learn" }: LearningSidebarProps
               <span className="font-semibold text-foreground">
                 {index + 1}. {chapter.title}
               </span>
-              <span>{chapter.progress}%</span>
+              <span>{getChapterProgress(chapter, progressByLessonId)}%</span>
             </div>
             <div className="space-y-1">
               {chapter.lessons.map((lesson) => {
+                const lessonProgress = getLessonProgressStatus(lesson.id, progressByLessonId);
                 const href = learnLessonHref(mode, course.id, chapter.id, lesson.id);
                 const lessonIndex =
                   indexLookup.get(`${chapter.id}:${lesson.id}`) ?? 0;
                 const locked = isLessonLocked(mode, lessonIndex, effectiveCompletedIndex);
-                const completed = lessonIndex <= effectiveCompletedIndex;
+                const completed = lessonProgress === "completed" || lessonIndex <= effectiveCompletedIndex;
                 const isActive = pathname === href;
                 return (
                   <Link
