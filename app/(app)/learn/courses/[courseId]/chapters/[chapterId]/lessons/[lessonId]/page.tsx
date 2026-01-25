@@ -18,8 +18,7 @@ import { LessonContent } from "@/components/learning/lesson-content";
 import { LessonNavigation } from "@/components/learning/lesson-navigation";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
-  lecture: "Video",
-  reading: "Reading",
+  lecture: "Lecture",
   quiz: "Quiz",
   assignment: "Assignment",
 };

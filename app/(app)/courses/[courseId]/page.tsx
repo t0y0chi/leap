@@ -14,8 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { courses, type LearningLesson } from "@/lib/mock-data";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
-  lecture: "Video",
-  reading: "Reading",
+  lecture: "Lecture",
   quiz: "Quiz",
   assignment: "Assignment",
 };

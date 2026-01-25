@@ -9,8 +9,7 @@ import { type Course, type LearningLesson } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
-  lecture: "Video",
-  reading: "Reading",
+  lecture: "Lecture",
   quiz: "Quiz",
   assignment: "Assignment",
 };

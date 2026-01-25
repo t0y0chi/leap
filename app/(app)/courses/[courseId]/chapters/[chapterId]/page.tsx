@@ -16,8 +16,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 const typeLabel: Record<LearningLesson["type"], string> = {
-  lecture: "Video",
-  reading: "Reading",
+  lecture: "Lecture",
   quiz: "Quiz",
   assignment: "Assignment",
 };

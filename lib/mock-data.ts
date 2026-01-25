@@ -1,4 +1,4 @@
-export type LessonType = "lecture" | "reading" | "quiz" | "assignment";
+export type LessonType = "lecture" | "quiz" | "assignment";
 export type LessonStatus = "not-started" | "in-progress" | "completed";
 
 export interface LearningLesson {
@@ -102,7 +102,7 @@ export const courses: Course[] = [
           {
             id: "it-2",
             title: "Read: guideline essentials",
-            type: "reading",
+            type: "lecture",
             duration: "6m",
             status: "completed",
             readingHtml: `<h2>Why the rubric matters</h2>
@@ -151,7 +151,7 @@ export const courses: Course[] = [
           {
             id: "it-5",
             title: "Read: fast QC checklist",
-            type: "reading",
+            type: "lecture",
             duration: "5m",
             status: "in-progress",
             readingHtml: `<h2>QC starts with coverage</h2>
@@ -210,7 +210,7 @@ export const courses: Course[] = [
           {
             id: "it-9",
             title: "Read: feedback etiquette",
-            type: "reading",
+            type: "lecture",
             duration: "4m",
             status: "not-started",
             readingHtml: `<h2>Feedback is a loop</h2>
@@ -269,7 +269,7 @@ export const courses: Course[] = [
           {
             id: "prog-it-2",
             title: "Read: variables and types",
-            type: "reading",
+            type: "lecture",
             duration: "6m",
             status: "not-started",
             readingHtml:

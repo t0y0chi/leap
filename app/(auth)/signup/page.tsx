@@ -54,6 +54,16 @@ export default function SignupPage() {
             <Input id="password" name="password" type="password" placeholder="Choose a strong password" required />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="passwordConfirmation">Confirm password</Label>
+            <Input
+              id="passwordConfirmation"
+              name="passwordConfirmation"
+              type="password"
+              placeholder="Re-enter your password"
+              required
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="phone">Phone number</Label>
             <PhoneInput
               id="phone"
