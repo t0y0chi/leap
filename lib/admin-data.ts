@@ -72,6 +72,9 @@ export interface AdminLearner {
   id: string;
   name: string;
   email: string;
+  phone: string;
+  avatarUrl: string;
+  roles: string[];
   cohort: string;
   activeCourseTitle: string;
   progress: number;
@@ -320,6 +323,10 @@ export const adminLearners: AdminLearner[] = [
     id: "user-1",
     name: "Alex Carter",
     email: "alex.carter@example.com",
+    phone: "+1 (415) 555-0132",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=facearea&w=160&h=160&q=80",
+    roles: ["Annotator", "Designer"],
     cohort: "Cohort A",
     activeCourseTitle: "Annotation Fundamentals",
     progress: 0.62,
@@ -331,6 +338,10 @@ export const adminLearners: AdminLearner[] = [
     id: "user-2",
     name: "Priya Singh",
     email: "priya.singh@example.com",
+    phone: "+1 (646) 555-0193",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=facearea&w=160&h=160&q=80",
+    roles: ["Programmer"],
     cohort: "Cohort A",
     activeCourseTitle: "Annotation Fundamentals",
     progress: 0.71,
@@ -342,6 +353,10 @@ export const adminLearners: AdminLearner[] = [
     id: "user-3",
     name: "Diego Alvarez",
     email: "diego.alvarez@example.com",
+    phone: "+1 (310) 555-0148",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=facearea&w=160&h=160&q=80",
+    roles: ["Annotator"],
     cohort: "Cohort B",
     activeCourseTitle: "Reviewer Coaching Lab",
     progress: 0.34,

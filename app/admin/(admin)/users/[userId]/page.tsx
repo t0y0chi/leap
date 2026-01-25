@@ -1,12 +1,22 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Award, BookOpen } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { adminLearners, adminSubmissions } from "@/lib/admin-data";
+import {
+  adminChapters,
+  adminCourses,
+  adminLearners,
+  adminLessons,
+  adminSubmissions,
+} from "@/lib/admin-data";
+import EvaluationRadarClient from "./evaluation-radar-client";
+import ActivityTabsClient from "./activity-tabs-client";
+
+type EvaluationScore = {
+  label: string;
+  value: number;
+};
 
 export default async function AdminUserDetailPage({
   params,
@@ -18,119 +28,98 @@ export default async function AdminUserDetailPage({
   const learnerSubmissions = adminSubmissions.filter(
     (submission) => submission.userId === userId,
   );
+  const evaluationScores: EvaluationScore[] = [
+    { label: "Motivation", value: 4 },
+    { label: "Speed", value: 3 },
+    { label: "Quality", value: 4 },
+    { label: "Logical Thinking", value: 3 },
+    { label: "Communication", value: 5 },
+  ];
 
   if (!learner) return notFound();
+
+  const activeCourse = adminCourses.find(
+    (course) => course.title === learner.activeCourseTitle,
+  );
+  const courseChapters = adminChapters.filter(
+    (chapter) => chapter.courseId === activeCourse?.id,
+  );
+  const chapterTitleById = new Map(courseChapters.map((chapter) => [chapter.id, chapter.title]));
+  const quizLessons =
+    courseChapters.length > 0
+      ? adminLessons.filter(
+          (lesson) =>
+            lesson.type === "quiz" &&
+            courseChapters.some((chapter) => chapter.id === lesson.chapterId),
+        )
+      : adminLessons.filter((lesson) => lesson.type === "quiz");
+  const quizScores = [92, 86, 96, 78, 88];
+  const quizzes = quizLessons.map((lesson, index) => ({
+    id: lesson.id,
+    title: lesson.title,
+    chapterTitle: chapterTitleById.get(lesson.chapterId) ?? "General",
+    score: quizScores[index % quizScores.length],
+    maxScore: lesson.maxScore ?? 100,
+  }));
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
-        <div>
-          <h1 className="text-2xl font-semibold">{learner.name}</h1>
-          <p className="text-sm text-muted-foreground">{learner.email}</p>
+        <div className="flex items-start gap-4">
+          <div className="h-14 w-14 overflow-hidden rounded-full border bg-secondary">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={learner.avatarUrl}
+              alt={`${learner.name} profile`}
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-2xl font-semibold">{learner.name}</h1>
+            <p className="text-sm text-muted-foreground">{learner.email}</p>
+            <p className="text-sm text-muted-foreground">{learner.phone}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {learner.roles.map((role) => (
+                <Badge key={role} variant="secondary">
+                  {role}
+                </Badge>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="flex gap-2">
           <Button asChild variant="outline">
             <Link href="/admin/users">Back to users</Link>
-          </Button>
-          <Button asChild>
-            <Link href={`/admin/users/${learner.id}/reviews/new`}>New review</Link>
           </Button>
         </div>
       </div>
 
       <Card>
         <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <div>
-            <CardTitle>Learning progress</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              {learner.activeCourseTitle} · {learner.cohort}
-            </p>
-          </div>
-          <Badge variant={learner.risk === "attention" ? "warning" : "success"}>
-            {learner.risk === "attention" ? "Needs attention" : "On track"}
-          </Badge>
+          <CardTitle>Evaluation</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Last updated Jan 24, 2026 · Updated by Samira Patel
+          </p>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2 rounded-lg border bg-secondary p-3">
-              <p className="text-xs text-muted-foreground">Progress</p>
-              <div className="flex items-center gap-2">
-                <Progress value={learner.progress * 100} className="flex-1" />
-                <span className="text-sm font-semibold text-foreground">
-                  {Math.round(learner.progress * 100)}%
-                </span>
-              </div>
-            </div>
-            <div className="space-y-1 rounded-lg border bg-secondary p-3">
-              <p className="text-xs text-muted-foreground">Average score</p>
-              <p className="text-lg font-semibold text-foreground">
-                {Math.round(learner.avgScore * 100)}%
-              </p>
-            </div>
-            <div className="space-y-1 rounded-lg border bg-secondary p-3">
-              <p className="text-xs text-muted-foreground">Last active</p>
-              <p className="text-lg font-semibold text-foreground">{learner.lastActive}</p>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-sm font-semibold text-foreground">Recent submissions</p>
-            <div className="space-y-3">
-              {learnerSubmissions.map((submission) => (
-                <div
-                  key={submission.id}
-                  className="flex flex-col gap-1 rounded-lg border bg-white p-3 md:flex-row md:items-center md:justify-between"
-                >
-                  <div>
-                    <p className="font-semibold text-foreground">{submission.lessonTitle}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {submission.chapterTitle} · {submission.courseTitle}
-                    </p>
-                    <p className="text-xs text-muted-foreground">{submission.submittedAt}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline">
-                      Score: {submission.score ? `${submission.score}/100` : "pending"}
-                    </Badge>
-                    <Button asChild size="sm" variant="outline">
-                      <Link href={`/admin/assignments/submissions/${submission.id}`}>
-                        Open
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              ))}
-              {learnerSubmissions.length === 0 && (
-                <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">
-                  No submissions yet.
-                </div>
-              )}
-            </div>
-          </div>
+        <CardContent>
+          <EvaluationRadarClient scores={evaluationScores} />
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Coaching notes</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Log calibration decisions and follow-ups for this learner.
-          </p>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="rounded-lg border bg-secondary p-3 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              <span>
-                Example: &quot;Strong on tooling, remind to document edge cases in notes.&quot;
-              </span>
-            </div>
+        <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <CardTitle>Activity</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              {learner.activeCourseTitle} · {learner.cohort}
+            </p>
           </div>
-          <Button variant="outline" size="sm">
-            Add note
-          </Button>
+        </CardHeader>
+        <CardContent>
+          <ActivityTabsClient submissions={learnerSubmissions} quizzes={quizzes} />
         </CardContent>
       </Card>
+
     </div>
   );
 }

@@ -60,9 +60,12 @@ export interface Question {
 
 export const learnerProfile = {
   id: "user-1",
-  name: "Alex Carter",
+  givenName: "Alex",
+  middleName: "Reese",
+  familyName: "Carter",
   email: "alex.carter@example.com",
-  role: "Annotator",
+  phone: "+14155550123",
+  roles: ["Annotator", "Designer"],
   avatar:
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80",
   streak: 5,

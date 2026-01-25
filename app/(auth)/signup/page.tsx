@@ -16,10 +16,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState<string | undefined>("");
+  const [roles, setRoles] = useState<string[]>([]);
+
+  const roleOptions = [
+    { id: "annotator", label: "Annotator" },
+    { id: "programmer", label: "Programmer" },
+    { id: "designer", label: "Designer" },
+  ];
+
+  const toggleRole = (roleId: string) => {
+    setRoles((prev) =>
+      prev.includes(roleId) ? prev.filter((role) => role !== roleId) : [...prev, roleId],
+    );
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -86,6 +100,33 @@ export default function SignupPage() {
               placeholder="+1 415 555 0123"
               required
             />
+          </div>
+          <div className="space-y-2">
+            <Label>Role</Label>
+            <div className="flex flex-wrap gap-2">
+              {roleOptions.map((role) => {
+                const isSelected = roles.includes(role.id);
+                return (
+                  <label
+                    key={role.id}
+                    className={cn(
+                      "inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition",
+                      isSelected ? "border-primary bg-primary text-primary-foreground" : "hover:bg-secondary",
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      name="roles"
+                      value={role.id}
+                      className="sr-only"
+                      checked={isSelected}
+                      onChange={() => toggleRole(role.id)}
+                    />
+                    {role.label}
+                  </label>
+                );
+              })}
+            </div>
           </div>
           <Button className="w-full" type="submit" disabled={loading}>
             {loading ? "Creating account..." : "Create account"}

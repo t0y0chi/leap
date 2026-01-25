@@ -53,9 +53,13 @@ export default function ProfilePage() {
               <Phone className="h-4 w-4" />
               {learnerProfile.phone}
             </div>
-            <Badge variant="secondary" className="mt-2">
-              {learnerProfile.role}
-            </Badge>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {learnerProfile.roles.map((role) => (
+                <Badge key={role} variant="secondary">
+                  {role}
+                </Badge>
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>

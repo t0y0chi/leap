@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Activity } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -22,7 +21,7 @@ export default function AdminUsersPage() {
         <div>
           <h1 className="text-2xl font-semibold">Users</h1>
           <p className="text-sm text-muted-foreground">
-            View learner health, scores, and escalation risk.
+            View learner enrollment and progress.
           </p>
         </div>
         <Button asChild variant="outline">
@@ -35,7 +34,7 @@ export default function AdminUsersPage() {
           <CardTitle>Learners</CardTitle>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Activity className="h-4 w-4" />
-            Sorted by risk and progress
+            Sorted by progress
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -43,55 +42,31 @@ export default function AdminUsersPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Cohort</TableHead>
                 <TableHead>Course</TableHead>
                 <TableHead>Progress</TableHead>
-                <TableHead>Avg score</TableHead>
-                <TableHead>Risk</TableHead>
-                <TableHead>Last active</TableHead>
-                <TableHead />
               </TableRow>
             </TableHeader>
             <TableBody>
               {adminLearners.map((learner) => (
                 <TableRow key={learner.id}>
-                  <TableCell>
-                    <div className="font-semibold text-foreground">{learner.name}</div>
-                    <p className="text-xs text-muted-foreground">{learner.email}</p>
+                  <TableCell className="p-0">
+                    <Link href={`/admin/users/${learner.id}`} className="block px-4 py-3">
+                      <div className="font-semibold text-foreground">{learner.name}</div>
+                      <p className="text-xs text-muted-foreground">{learner.email}</p>
+                    </Link>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{learner.cohort}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {learner.activeCourseTitle}
+                  <TableCell className="p-0 text-sm text-muted-foreground">
+                    <Link href={`/admin/users/${learner.id}`} className="block px-4 py-3">
+                      {learner.activeCourseTitle}
+                    </Link>
                   </TableCell>
-                  <TableCell className="w-36">
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>{Math.round(learner.progress * 100)}%</span>
-                    </div>
-                    <Progress value={learner.progress * 100} className="mt-1" />
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {Math.round(learner.avgScore * 100)}%
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={learner.risk === "attention" ? "warning" : "success"}>
-                      {learner.risk === "attention" ? "Needs attention" : "On track"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {learner.lastActive}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Link
-                        href={`/admin/users/${learner.id}`}
-                        className="text-sm font-semibold text-primary hover:underline"
-                      >
-                        Profile
-                      </Link>
-                      <Button asChild size="sm" variant="outline">
-                        <Link href={`/admin/users/${learner.id}/reviews/new`}>Score</Link>
-                      </Button>
-                    </div>
+                  <TableCell className="w-36 p-0">
+                    <Link href={`/admin/users/${learner.id}`} className="block px-4 py-3">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>{Math.round(learner.progress * 100)}%</span>
+                      </div>
+                      <Progress value={learner.progress * 100} className="mt-1" />
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

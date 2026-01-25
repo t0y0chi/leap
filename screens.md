@@ -17,8 +17,10 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Learn chapter | `/learn/courses/[courseId]/chapters/[chapterId]` | In-flow chapter overview with active lesson highlight, lesson copy, checkpoints, and lesson list/status; CTA to open active lesson. |
 | Learn lesson | `/learn/courses/[courseId]/chapters/[chapterId]/lessons/[lessonId]` | Lesson player (video/reading/quiz/assignment), progress bar, and gated navigation based on readiness. |
 | Notifications | `/notifications` | Notifications list with type badges, unread markers, and timestamps. |
-| Profile | `/profile` | Learner profile summary and activity cards. |
-| Edit profile | `/profile/edit` | Editable profile form (name, email, password), avatar preview, and preference toggles. |
+| Profile | `/profile` | Learner profile summary, contact info, and status. |
+| Edit profile | `/profile/edit` | Edit name parts, avatar, and phone with links to dedicated email/password screens. |
+| Change email | `/profile/email` | Update account email address on a dedicated form. |
+| Change password | `/profile/password` | Update account password on a dedicated form. |
 
 ## Admin screens
 
@@ -33,7 +35,7 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Chapters | `/admin/courses/[courseId]/chapters` | Chapter ordering, gating, published badge, and manage lessons action. |
 | Lessons | `/admin/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |
 | Edit lecture | `/admin/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
-| Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for passing score, attempts, prompt, and answers. |
+| Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for multi-question prompts, choices, and correct answers. |
 | Edit assignment | `/admin/lessons/[lessonId]/assignment/edit` | Assignment editor for instructions, attachments, rubric, and scoring. |
 | Lesson preview | `/admin/lessons/[lessonId]/preview` | Admin preview of lecture, quiz, or assignment lesson content. |
 | Submissions | `/admin/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
@@ -43,7 +45,6 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Submission history | `/admin/assignments/submissions/[submissionId]/history` | Timeline of submission events and versions. |
 | Users | `/admin/users` | Learner table with progress, scores, risk, and actions. |
 | User detail | `/admin/users/[userId]` | Learner progress, stats, and recent submissions. |
-| New review | `/admin/users/[userId]/reviews/new` | 5-star review form with notes and next steps. |
 | Invite admin | `/admin/admins/invite` | Invitation form for reviewers/admins with message. |
 | Invitations | `/admin/admins/invitations` | Admin roster plus pending invites with status. |
 | Accept invitation | `/admin/invitations/[token]` | Invitation detail page with accept/decline actions. |
