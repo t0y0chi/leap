@@ -128,7 +128,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
         <div>
           <h1 className="text-2xl font-semibold">Lessons</h1>
           <p className="text-sm text-muted-foreground">
-            Control content, gating, and grading readiness for {chapter.title}.
+            Control content and grading readiness for {chapter.title}.
           </p>
         </div>
         <div className="flex gap-2">

@@ -25,7 +25,7 @@
 - Admin Course
   - id, title, publication_status, owner, summary
 - Admin Chapter
-  - id, course_id, title, order, publication_status, gating, description
+  - id, course_id, title, order, publication_status, description
 - Admin Lesson
   - id, chapter_id, title, type, duration, publication_status, order
   - required, graded, summary, attempts (quiz only)

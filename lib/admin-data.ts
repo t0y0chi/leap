@@ -22,7 +22,6 @@ export interface AdminChapter {
   order: number;
   publicationStatus: PublicationStatus;
   lessons: number;
-  gating: "open" | "sequential";
   description: string;
 }
 
@@ -158,7 +157,6 @@ export const adminChapters: AdminChapter[] = [
     order: 1,
     publicationStatus: "published",
     lessons: 3,
-    gating: "open",
     description: "Rubric literacy, edge-case handling, and annotation etiquette.",
   },
   {
@@ -168,7 +166,6 @@ export const adminChapters: AdminChapter[] = [
     order: 2,
     publicationStatus: "published",
     lessons: 4,
-    gating: "sequential",
     description: "Tooling walkthroughs, QC macros, and shortform quizzes.",
   },
   {
@@ -178,7 +175,6 @@ export const adminChapters: AdminChapter[] = [
     order: 3,
     publicationStatus: "draft",
     lessons: 3,
-    gating: "sequential",
     description: "Feedback handling, reviewer expectations, and sample batch submission.",
   },
   {
@@ -188,7 +184,6 @@ export const adminChapters: AdminChapter[] = [
     order: 1,
     publicationStatus: "published",
     lessons: 5,
-    gating: "sequential",
     description: "Score alignment on starter packs and rubric trims.",
   },
 ];

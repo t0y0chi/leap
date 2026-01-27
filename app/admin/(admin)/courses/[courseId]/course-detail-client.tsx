@@ -74,7 +74,6 @@ export default function CourseDetailClient({ courseId, initialChapters }: Course
       order: highestOrder + 1,
       publicationStatus: "draft",
       lessons: 0,
-      gating: "open",
     };
 
     setChapters((prev) => [...prev, newChapter]);
