@@ -38,6 +38,6 @@
 - Admin Invite
   - token, email, invite_status, expires_at
 - Admin Team Member
-  - id, name, email, role, member_status, last_active
+  - id, name, email, member_status
 - Admin Profile
   - name, email, avatar_url

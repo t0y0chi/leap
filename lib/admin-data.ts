@@ -85,9 +85,7 @@ export interface AdminTeamMember {
   id: string;
   name: string;
   email: string;
-  role: string;
   memberStatus: "active" | "pending";
-  lastActive: string;
 }
 
 export interface AdminProfile {
@@ -357,17 +355,13 @@ export const adminTeam: AdminTeamMember[] = [
     id: "admin-1",
     name: "Samira Patel",
     email: "samira.patel@example.com",
-    role: "Lead Reviewer",
     memberStatus: "active",
-    lastActive: "Today 09:05",
   },
   {
     id: "admin-2",
     name: "Casey Lee",
     email: "casey.lee@example.com",
-    role: "Ops Owner",
     memberStatus: "active",
-    lastActive: "Today 08:20",
   },
 ];
 
