@@ -232,8 +232,8 @@ create table if not exists notifications (
 );
 create index if not exists notifications_user_id_idx on notifications(user_id);
 
--- Admin invites / team
-create table if not exists admin_invites (
+-- Staff invites / team
+create table if not exists staff_invites (
   id uuid primary key default gen_random_uuid(),
   token text not null unique,
   email text not null,
@@ -243,7 +243,7 @@ create table if not exists admin_invites (
   updated_at timestamptz default now()
 );
 
-create table if not exists admin_team_members (
+create table if not exists staff_members (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete set null,
   name text not null,
@@ -253,7 +253,7 @@ create table if not exists admin_team_members (
   updated_at timestamptz default now()
 );
 
--- Admin learner evaluations
+-- Staff learner evaluations
 create table if not exists learner_evaluations (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,

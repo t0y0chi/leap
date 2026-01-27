@@ -22,35 +22,35 @@ Snapshot of the current UI routes and what each screen presents. Update this tab
 | Change email | `/profile/email` | Update account email address on a dedicated form. |
 | Change password | `/profile/password` | Update account password on a dedicated form. |
 
-## Admin screens
+## Staff screens
 
 | Screen | Path | Description |
 | --- | --- | --- |
-| Admin redirect | `/admin` | Redirects to `/admin/dashboard`. |
-| Admin login | `/admin/login` | Admin/auth layout with email, password, and OTP fields. |
-| Admin dashboard | `/admin/dashboard` | Minimal admin landing view with primary navigation actions. |
-| Courses | `/admin/courses` | Course table with status, enrollments, and updated timestamp. |
-| Course detail | `/admin/courses/[courseId]` | Course overview with status and integrated chapter management. |
-| Course preview | `/preview/courses/[courseId]` | Learner-style course view for admin preview in a dedicated layout. |
+| Staff redirect | `/staff` | Redirects to `/staff/dashboard`. |
+| Staff login | `/staff/login` | Staff/auth layout with email, password, and OTP fields. |
+| Staff dashboard | `/staff/dashboard` | Minimal staff landing view with primary navigation actions. |
+| Courses | `/staff/courses` | Course table with status, enrollments, and updated timestamp. |
+| Course detail | `/staff/courses/[courseId]` | Course overview with status and integrated chapter management. |
+| Course preview | `/preview/courses/[courseId]` | Learner-style course view for staff preview in a dedicated layout. |
 | Preview learn course | `/preview/learn/courses/[courseId]` | Preview entry point that opens the first lesson. |
 | Preview learn chapter | `/preview/learn/courses/[courseId]/chapters/[chapterId]` | Preview chapter view with all lessons accessible. |
 | Preview learn lesson | `/preview/learn/courses/[courseId]/chapters/[chapterId]/lessons/[lessonId]` | Preview lesson view without progression gating. |
-| Create course | `/admin/courses/new` | Form for course metadata, summary, and tags. |
-| Edit course | `/admin/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
-| Lessons | `/admin/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |
-| Edit lecture | `/admin/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
-| Edit quiz | `/admin/lessons/[lessonId]/quiz/edit` | Quiz editor for multi-question prompts, choices, and correct answers. |
-| Edit submission | `/admin/lessons/[lessonId]/assignment/edit` | Submission editor for instructions, attachments, rubric, and scoring. |
-| Submissions | `/admin/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
-| Pending submissions | `/admin/assignments/submissions/pending` | Filtered list of submissions waiting for grading with SLA hint. |
-| Submission detail | `/admin/assignments/submissions/[submissionId]` | Metadata, attachments, learner notes, and feedback links. |
-| Grade submission | `/admin/assignments/submissions/[submissionId]/grade` | Grading form with score, status, feedback, and internal notes. |
-| Submission history | `/admin/assignments/submissions/[submissionId]/history` | Timeline of submission events and versions. |
-| Users | `/admin/users` | Learner table with progress, scores, risk, and actions. |
-| User detail | `/admin/users/[userId]` | Learner progress, stats, and recent submissions. |
-| Admin Q&A | `/admin/qna` | Q&A inbox for admins with list of learner threads. |
-| Admin Q&A detail | `/admin/qna/[questionId]` | Admin thread view with reply composer and existing responses. |
-| Invite admin | `/admin/admins/invite` | Invitation form for reviewers/admins with message. |
-| Invitations | `/admin/admins/invitations` | Admin roster plus pending invites with status. |
-| Admin profile | `/admin/profile` | Admin profile summary with avatar and contact details. |
-| Admin profile edit | `/admin/profile/edit` | Admin profile edit form for avatar, name, and email. |
+| Create course | `/staff/courses/new` | Form for course metadata, summary, and tags. |
+| Edit course | `/staff/courses/[courseId]/edit` | Edit metadata, visibility, and see enrollment/progress stats. |
+| Lessons | `/staff/chapters/[chapterId]/lessons` | Chapter lessons table with type, gating, graded status, and edit/preview links. |
+| Edit lecture | `/staff/lessons/[lessonId]/lecture/edit` | Lecture editor for media URL, duration, notes, and status. |
+| Edit quiz | `/staff/lessons/[lessonId]/quiz/edit` | Quiz editor for multi-question prompts, choices, and correct answers. |
+| Edit submission | `/staff/lessons/[lessonId]/assignment/edit` | Submission editor for instructions, attachments, rubric, and scoring. |
+| Submissions | `/staff/assignments/submissions` | All submissions with learner, course, status, score, and grade action. |
+| Pending submissions | `/staff/assignments/submissions/pending` | Filtered list of submissions waiting for grading with SLA hint. |
+| Submission detail | `/staff/assignments/submissions/[submissionId]` | Metadata, attachments, learner notes, and feedback links. |
+| Grade submission | `/staff/assignments/submissions/[submissionId]/grade` | Grading form with score, status, feedback, and internal notes. |
+| Submission history | `/staff/assignments/submissions/[submissionId]/history` | Timeline of submission events and versions. |
+| Users | `/staff/users` | Learner table with progress, scores, risk, and actions. |
+| User detail | `/staff/users/[userId]` | Learner progress, stats, and recent submissions. |
+| Staff Q&A | `/staff/qna` | Q&A inbox for staff with list of learner threads. |
+| Staff Q&A detail | `/staff/qna/[questionId]` | Staff thread view with reply composer and existing responses. |
+| Invite staff | `/staff/staff/invite` | Invitation form for reviewers/staff with message. |
+| Invitations | `/staff/staff/invitations` | Staff roster plus pending invites with status. |
+| Staff profile | `/staff/profile` | Staff profile summary with avatar and contact details. |
+| Staff profile edit | `/staff/profile/edit` | Staff profile edit form for avatar, name, and email. |

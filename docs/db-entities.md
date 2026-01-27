@@ -22,12 +22,12 @@
   - id, question_id, author, body
 - Notification
   - id, title, body
-## Admin-facing
-- Admin Course
+## Staff-facing
+- Staff Course
   - id, title, publication_status, owner, summary
-- Admin Chapter
+- Staff Chapter
   - id, course_id, title, order, publication_status, description
-- Admin Lesson
+- Staff Lesson
   - id, chapter_id, title, type, duration, publication_status, order
   - summary
 - Assignment Submission
@@ -35,12 +35,12 @@
   - attachments (files)
 - Assignment Review
   - id, submission_id, reviewer_id, score, comments
-- Admin Learner
+- Staff Learner
   - id, name, email, phone, avatar_url, roles
   - evaluations: { label (motivation | speed | quality | logical_thinking | communication), value (0-5, default 0) }[]
-- Admin Invite
+- Staff Invite
   - token, email, invite_status, expires_at
-- Admin Team Member
+- Staff Team Member
   - id, name, email, member_status
-- Admin Profile
+- Staff Profile
   - name, email, avatar_url
