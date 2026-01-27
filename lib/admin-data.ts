@@ -32,10 +32,8 @@ export interface AdminLesson {
   type: AdminLessonType;
   duration: string;
   publicationStatus: PublicationStatus;
-  required: boolean;
   updatedAt: string;
   summary: string;
-  attempts?: number;
 }
 
 export interface AdminSubmission {
@@ -183,7 +181,6 @@ export const adminLessons: AdminLesson[] = [
     type: "lecture",
     duration: "12m",
     publicationStatus: "published",
-    required: true,
     updatedAt: "Today 08:10",
     summary: "Video explainer linking rubric discipline to downstream accuracy.",
   },
@@ -194,10 +191,8 @@ export const adminLessons: AdminLesson[] = [
     type: "quiz",
     duration: "8m",
     publicationStatus: "published",
-    required: true,
     updatedAt: "Yesterday 17:55",
     summary: "Multiple choice check on occlusion, truncation, and exemplar usage.",
-    attempts: 2,
   },
   {
     id: "it-6",
@@ -206,7 +201,6 @@ export const adminLessons: AdminLesson[] = [
     type: "assignment",
     duration: "15m",
     publicationStatus: "published",
-    required: true,
     updatedAt: "Today 07:45",
     summary: "Submission with bounding boxes and reviewer-ready notes.",
   },
@@ -217,7 +211,6 @@ export const adminLessons: AdminLesson[] = [
     type: "assignment",
     duration: "18m",
     publicationStatus: "draft",
-    required: true,
     updatedAt: "Mon 15:05",
     summary: "Upload 5 annotated examples with commentary for calibration.",
   },
@@ -228,7 +221,6 @@ export const adminLessons: AdminLesson[] = [
     type: "assignment",
     duration: "20m",
     publicationStatus: "published",
-    required: true,
     updatedAt: "Today 06:50",
     summary: "First calibration submission with reviewer checklist and score alignment.",
   },

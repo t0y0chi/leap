@@ -43,13 +43,11 @@ const defaultForm: {
   type: AdminLessonType;
   duration: string;
   summary: string;
-  required: boolean;
 } = {
   title: "",
   type: "lecture",
   duration: "10m",
   summary: "",
-  required: true,
 };
 
 const selectClassName =
@@ -107,10 +105,8 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
       type: form.type,
       duration: form.duration.trim() || "5m",
       publicationStatus: "draft",
-      required: form.required,
       updatedAt: now,
       summary: form.summary.trim() || "Pending full outline.",
-      attempts: form.type === "quiz" ? 1 : undefined,
     };
 
     setLessons((prev) => [...prev, newLesson]);
@@ -231,20 +227,6 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                     </p>
                   </div>
                 )}
-              </div>
-
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                <label className="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-muted-foreground"
-                    checked={form.required}
-                    onChange={(event) =>
-                      setForm((prev) => ({ ...prev, required: event.target.checked }))
-                    }
-                  />
-                  <span>Required to progress</span>
-                </label>
               </div>
 
               {error && <p className="text-sm text-destructive">{error}</p>}

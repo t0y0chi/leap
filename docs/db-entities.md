@@ -12,7 +12,7 @@
 - Lesson
   - id, chapter_id, title, type, duration, publication_status, order
   - lecture fields: content (Blocknote JSON)
-  - quiz fields: attempts, questions, choices (id, text, correct)
+  - quiz fields: questions, choices (id, text, correct)
   - assignment fields: instructions
 - Q&A Thread
   - id, course_id, title, author, votes, answered, updated_at
@@ -28,7 +28,7 @@
   - id, course_id, title, order, publication_status, description
 - Admin Lesson
   - id, chapter_id, title, type, duration, publication_status, order
-  - required, summary, attempts (quiz only)
+  - summary
 - Assignment Submission
   - id, user_id, lesson_id, submission_status, score, reviewer_id, comments
   - attachments (files)
