@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Bell, Clock3 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -21,10 +20,10 @@ export default function NotificationsPage() {
             Score updates, reminders, and course news.
           </p>
         </div>
-        <Badge variant="secondary">
+        <div className="inline-flex items-center rounded-full border bg-white px-3 py-1 text-xs font-semibold text-muted-foreground">
           <Bell className="mr-1 h-4 w-4" />
-          {notifications.filter((n) => !n.read).length} unread
-        </Badge>
+          {notifications.length} updates
+        </div>
       </div>
 
       <Card>
@@ -33,8 +32,12 @@ export default function NotificationsPage() {
           <CardDescription>Sorted by most recent</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          {notifications.map((note) => {
-            const content = (
+          {notifications.map((note) => (
+            <Link
+              key={note.id}
+              href={`/notifications/${note.id}`}
+              className="block rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition hover:border-muted-foreground/30 hover:bg-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-primary">
@@ -48,31 +51,9 @@ export default function NotificationsPage() {
                     </div>
                   </div>
                 </div>
-                {!note.read && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
               </div>
-            );
-
-            const wrapperClass =
-              "block rounded-lg border bg-white px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]";
-
-            if (note.href) {
-              return (
-                <Link
-                  key={note.id}
-                  href={note.href}
-                  className={`${wrapperClass} transition hover:border-muted-foreground/30 hover:bg-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
-                >
-                  {content}
-                </Link>
-              );
-            }
-
-            return (
-              <div key={note.id} className={wrapperClass}>
-                {content}
-              </div>
-            );
-          })}
+            </Link>
+          ))}
         </CardContent>
       </Card>
     </div>

@@ -38,13 +38,8 @@ export interface Course {
 export interface Notification {
   id: string;
   title: string;
-  read: boolean;
   createdAt: string;
-  href?: string;
   body?: string;
-  meta?: string[];
-  ctaLabel?: string;
-  ctaHref?: string;
 }
 
 export interface Question {
@@ -489,31 +484,18 @@ export const notifications: Notification[] = [
     id: "note-1",
     title: "Chapter 2 assignment graded: 78/100",
     createdAt: "Today, 09:12",
-    read: false,
-    href: "/notifications/note-1",
     body:
       "Bounding boxes are mostly accurate, but a few frames need tighter edges. Please add occlusion notes for frames 12–15.",
-    meta: [
-      "Lesson: Hands-on: draw regions accurately",
-      "Course: Annotation Fundamentals",
-      "Score: 78/100",
-      "Reviewer: Samira Patel",
-      "Status: Revision required",
-    ],
-    ctaLabel: "Open link",
-    ctaHref: "/learn/courses/annotation-101/chapters/ch-2/lessons/it-6",
   },
   {
     id: "note-2",
     title: "New Q&A reply: How to mark occlusions?",
     createdAt: "Yesterday, 19:05",
-    read: false,
   },
   {
     id: "note-3",
     title: "Reminder: Finish 'Quality & Feedback' by Friday",
     createdAt: "Mon, 10:30",
-    read: true,
   },
 ];
 

@@ -14,13 +14,14 @@
   - lecture fields: content (Blocknote JSON)
   - quiz fields: questions, choices (id, text, correct)
   - assignment fields: instructions
+- Lesson Progress
+  - user_id, lesson_id, completed_at
 - Q&A Thread
-  - id, course_id, title, author, votes, answered, updated_at
+  - id, course_id, title, author, updated_at
 - Q&A Reply
   - id, question_id, author, body
 - Notification
-  - id, title, read
-  - href, body, meta[], cta_label, cta_href
+  - id, title, body
 ## Admin-facing
 - Admin Course
   - id, title, publication_status, owner, summary
@@ -30,11 +31,13 @@
   - id, chapter_id, title, type, duration, publication_status, order
   - summary
 - Assignment Submission
-  - id, user_id, lesson_id, submission_status, score, reviewer_id, comments
+  - id, user_id, lesson_id, submission_status
   - attachments (files)
+- Assignment Review
+  - id, submission_id, reviewer_id, score, comments
 - Admin Learner
   - id, name, email, phone, avatar_url, roles
-  - evaluations: { label, value }[]
+  - evaluations: { label (motivation | speed | quality | logical_thinking | communication), value (0-5, default 0) }[]
 - Admin Invite
   - token, email, invite_status, expires_at
 - Admin Team Member

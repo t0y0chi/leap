@@ -5,6 +5,7 @@ create type submission_status as enum ('pending', 'graded', 'returned');
 create type invite_status as enum ('pending', 'accepted', 'expired');
 create type member_status as enum ('active', 'pending');
 create type lesson_type as enum ('lecture', 'quiz', 'assignment');
+create type evaluation_label as enum ('motivation', 'speed', 'quality', 'logical_thinking', 'communication');
 
 create extension if not exists pgcrypto;
 
@@ -132,7 +133,6 @@ create index if not exists enrollments_course_id_idx on enrollments(course_id);
 create table if not exists lesson_progress (
   user_id uuid not null references auth.users(id) on delete cascade,
   lesson_id uuid not null references lessons(id) on delete cascade,
-  last_seen_at timestamptz,
   completed_at timestamptz,
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
@@ -146,7 +146,6 @@ create table if not exists quiz_attempts (
   lesson_id uuid not null references lessons(id) on delete cascade,
   attempt_no int not null,
   score int,
-  submitted_at timestamptz default now(),
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   unique (user_id, lesson_id, attempt_no)
@@ -170,14 +169,22 @@ create table if not exists assignment_submissions (
   user_id uuid not null references auth.users(id) on delete cascade,
   lesson_id uuid not null references lessons(id) on delete cascade,
   submission_status submission_status not null default 'pending',
-  score int,
-  reviewer_id uuid references auth.users(id) on delete set null,
-  comments text,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
 create index if not exists assignment_submissions_user_id_idx on assignment_submissions(user_id);
 create index if not exists assignment_submissions_lesson_id_idx on assignment_submissions(lesson_id);
+
+create table if not exists assignment_reviews (
+  id uuid primary key default gen_random_uuid(),
+  submission_id uuid not null references assignment_submissions(id) on delete cascade,
+  reviewer_id uuid references auth.users(id) on delete set null,
+  score int,
+  comments text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+create index if not exists assignment_reviews_submission_id_idx on assignment_reviews(submission_id);
 
 create table if not exists assignment_submission_files (
   id uuid primary key default gen_random_uuid(),
@@ -185,7 +192,6 @@ create table if not exists assignment_submission_files (
   storage_path text,
   filename text,
   mime_type text,
-  size_bytes bigint,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -198,9 +204,6 @@ create table if not exists qna_threads (
   author_id uuid references auth.users(id) on delete set null,
   title text not null,
   body text,
-  votes_count int not null default 0,
-  answered boolean not null default false,
-  accepted_reply_id uuid,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -211,25 +214,11 @@ create table if not exists qna_replies (
   thread_id uuid not null references qna_threads(id) on delete cascade,
   author_id uuid references auth.users(id) on delete set null,
   body text not null,
-  is_accepted boolean not null default false,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
 create index if not exists qna_replies_thread_id_idx on qna_replies(thread_id);
 
-alter table qna_threads
-  add constraint qna_threads_accepted_reply_id_fkey
-  foreign key (accepted_reply_id) references qna_replies(id) on delete set null;
-
-create table if not exists qna_votes (
-  thread_id uuid not null references qna_threads(id) on delete cascade,
-  user_id uuid not null references auth.users(id) on delete cascade,
-  value smallint not null,
-  created_at timestamptz default now(),
-  updated_at timestamptz default now(),
-  primary key (thread_id, user_id),
-  check (value in (-1, 1))
-);
 
 -- Notifications
 create table if not exists notifications (
@@ -237,11 +226,6 @@ create table if not exists notifications (
   user_id uuid not null references auth.users(id) on delete cascade,
   title text not null,
   body text,
-  meta jsonb,
-  href text,
-  cta_label text,
-  cta_href text,
-  read boolean not null default false,
   read_at timestamptz,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
@@ -273,8 +257,8 @@ create table if not exists admin_team_members (
 create table if not exists learner_evaluations (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  label text not null,
-  value int not null,
+  label evaluation_label not null,
+  value int not null default 0 check (value between 0 and 5),
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
