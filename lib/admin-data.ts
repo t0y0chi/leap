@@ -63,7 +63,6 @@ export interface AdminLearner {
   phone: string;
   avatarUrl: string;
   roles: string[];
-  cohort: string;
   activeCourseTitle: string;
   progress: number;
   avgScore: number;
@@ -298,7 +297,6 @@ export const adminLearners: AdminLearner[] = [
     avatarUrl:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=facearea&w=160&h=160&q=80",
     roles: ["Annotator", "Designer"],
-    cohort: "Cohort A",
     activeCourseTitle: "Annotation Fundamentals",
     progress: 0.62,
     avgScore: 0.86,
@@ -320,7 +318,6 @@ export const adminLearners: AdminLearner[] = [
     avatarUrl:
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=facearea&w=160&h=160&q=80",
     roles: ["Programmer"],
-    cohort: "Cohort A",
     activeCourseTitle: "Annotation Fundamentals",
     progress: 0.71,
     avgScore: 0.92,
@@ -342,7 +339,6 @@ export const adminLearners: AdminLearner[] = [
     avatarUrl:
       "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=facearea&w=160&h=160&q=80",
     roles: ["Annotator"],
-    cohort: "Cohort B",
     activeCourseTitle: "Reviewer Coaching Lab",
     progress: 0.34,
     avgScore: 0.68,

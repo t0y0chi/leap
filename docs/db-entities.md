@@ -33,7 +33,7 @@
   - id, user_id, lesson_id, submission_status, score, reviewer_id, comments
   - attachments (files)
 - Admin Learner
-  - id, name, email, phone, avatar_url, roles, cohort
+  - id, name, email, phone, avatar_url, roles
   - evaluations: { label, value }[]
 - Admin Invite
   - token, email, role, invite_status, sent_at, expires_at

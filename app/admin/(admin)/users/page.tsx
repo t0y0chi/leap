@@ -100,10 +100,10 @@ export default function AdminUsersPage() {
                         </div>
                         <div>
                           <div className="font-semibold text-foreground">{learner.name}</div>
-                          <p className="text-xs text-muted-foreground">{learner.email}</p>
-                        </div>
-                      </Link>
-                    </TableCell>
+                      <p className="text-xs text-muted-foreground">{learner.email}</p>
+                    </div>
+                  </Link>
+                </TableCell>
                     <TableCell className="p-0 text-sm text-muted-foreground">
                       <Link href={`/admin/users/${learner.id}`} className="block px-4 py-3">
                         {learner.activeCourseTitle}
@@ -141,7 +141,6 @@ export default function AdminUsersPage() {
                     <div className="flex-1">
                       <div className="font-semibold text-foreground">{learner.name}</div>
                       <p className="text-xs text-muted-foreground">{learner.email}</p>
-                      <p className="text-xs text-muted-foreground">{learner.cohort}</p>
                     </div>
                   </div>
 

@@ -105,7 +105,7 @@ export default async function AdminUserDetailPage({
           <div>
             <CardTitle>Activity</CardTitle>
             <p className="text-sm text-muted-foreground">
-              {learner.activeCourseTitle} · {learner.cohort}
+              {learner.activeCourseTitle}
             </p>
           </div>
         </CardHeader>
