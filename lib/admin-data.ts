@@ -77,9 +77,7 @@ export interface AdminLearner {
 export interface AdminInvite {
   token: string;
   email: string;
-  role: string;
   inviteStatus: "pending" | "accepted" | "expired";
-  sentAt: string;
   expiresAt: string;
 }
 
@@ -384,25 +382,19 @@ export const adminInvites: AdminInvite[] = [
   {
     token: "invite-1",
     email: "new.reviewer@example.com",
-    role: "Reviewer",
     inviteStatus: "pending",
-    sentAt: "Today 07:40",
     expiresAt: "in 6 days",
   },
   {
     token: "invite-2",
     email: "ops.lead@example.com",
-    role: "Workspace Admin",
     inviteStatus: "accepted",
-    sentAt: "Mon 12:00",
     expiresAt: "accepted",
   },
   {
     token: "invite-3",
     email: "late.invite@example.com",
-    role: "Reviewer",
     inviteStatus: "expired",
-    sentAt: "Last week",
     expiresAt: "expired",
   },
 ];

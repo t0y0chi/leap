@@ -36,7 +36,7 @@
   - id, name, email, phone, avatar_url, roles
   - evaluations: { label, value }[]
 - Admin Invite
-  - token, email, role, invite_status, sent_at, expires_at
+  - token, email, invite_status, expires_at
 - Admin Team Member
   - id, name, email, role, member_status, last_active
 - Admin Profile

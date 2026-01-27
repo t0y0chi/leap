@@ -170,7 +170,7 @@ export default function AdminInvitationsPage() {
               <div>
                 <p className="font-semibold text-foreground">{invite.email}</p>
                 <p className="text-xs text-muted-foreground">
-                  {invite.role} · Sent {invite.sentAt}
+                  Invite status
                 </p>
               </div>
               <div className="flex items-center gap-2">
