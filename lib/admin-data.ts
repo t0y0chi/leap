@@ -33,7 +33,6 @@ export interface AdminLesson {
   duration: string;
   publicationStatus: PublicationStatus;
   required: boolean;
-  graded: boolean;
   updatedAt: string;
   summary: string;
   attempts?: number;
@@ -56,13 +55,6 @@ export interface AdminSubmission {
   comments?: string;
 }
 
-export interface SubmissionEvent {
-  id: string;
-  submissionId: string;
-  label: string;
-  detail: string;
-  timestamp: string;
-}
 
 export interface AdminLearner {
   id: string;
@@ -197,7 +189,6 @@ export const adminLessons: AdminLesson[] = [
     duration: "12m",
     publicationStatus: "published",
     required: true,
-    graded: false,
     updatedAt: "Today 08:10",
     summary: "Video explainer linking rubric discipline to downstream accuracy.",
   },
@@ -209,7 +200,6 @@ export const adminLessons: AdminLesson[] = [
     duration: "8m",
     publicationStatus: "published",
     required: true,
-    graded: true,
     updatedAt: "Yesterday 17:55",
     summary: "Multiple choice check on occlusion, truncation, and exemplar usage.",
     attempts: 2,
@@ -222,7 +212,6 @@ export const adminLessons: AdminLesson[] = [
     duration: "15m",
     publicationStatus: "published",
     required: true,
-    graded: true,
     updatedAt: "Today 07:45",
     summary: "Submission with bounding boxes and reviewer-ready notes.",
   },
@@ -234,7 +223,6 @@ export const adminLessons: AdminLesson[] = [
     duration: "18m",
     publicationStatus: "draft",
     required: true,
-    graded: true,
     updatedAt: "Mon 15:05",
     summary: "Upload 5 annotated examples with commentary for calibration.",
   },
@@ -246,7 +234,6 @@ export const adminLessons: AdminLesson[] = [
     duration: "20m",
     publicationStatus: "published",
     required: true,
-    graded: true,
     updatedAt: "Today 06:50",
     summary: "First calibration submission with reviewer checklist and score alignment.",
   },
@@ -301,29 +288,6 @@ export const adminSubmissions: AdminSubmission[] = [
   },
 ];
 
-export const submissionEvents: SubmissionEvent[] = [
-  {
-    id: "evt-1",
-    submissionId: "sub-101",
-    label: "Submitted",
-    detail: "Learner uploaded batch with two files.",
-    timestamp: "Today 08:52",
-  },
-  {
-    id: "evt-2",
-    submissionId: "sub-102",
-    label: "Graded 92/100",
-    detail: "Returned with minor notes about truncation threshold.",
-    timestamp: "Yesterday 19:45",
-  },
-  {
-    id: "evt-3",
-    submissionId: "sub-103",
-    label: "Returned for rework",
-    detail: "Asked for notes per clip and rubric justification.",
-    timestamp: "Today 08:05",
-  },
-];
 
 export const adminLearners: AdminLearner[] = [
   {
@@ -471,9 +435,6 @@ export function getAdminSubmission(submissionId: string) {
   return adminSubmissions.find((submission) => submission.id === submissionId);
 }
 
-export function getSubmissionEvents(submissionId: string) {
-  return submissionEvents.filter((event) => event.submissionId === submissionId);
-}
 
 export function getAdminLearner(userId: string) {
   return adminLearners.find((learner) => learner.id === userId);

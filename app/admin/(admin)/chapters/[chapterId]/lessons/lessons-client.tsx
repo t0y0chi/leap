@@ -43,14 +43,12 @@ const defaultForm: {
   type: AdminLessonType;
   duration: string;
   summary: string;
-  graded: boolean;
   required: boolean;
 } = {
   title: "",
   type: "lecture",
   duration: "10m",
   summary: "",
-  graded: false,
   required: true,
 };
 
@@ -110,7 +108,6 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
       duration: form.duration.trim() || "5m",
       publicationStatus: "draft",
       required: form.required,
-      graded: form.type !== "lecture" ? true : form.graded,
       updatedAt: now,
       summary: form.summary.trim() || "Pending full outline.",
       attempts: form.type === "quiz" ? 1 : undefined,
@@ -187,13 +184,12 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                       setForm((prev) => ({
                         ...prev,
                         type: event.target.value as AdminLessonType,
-                        graded: event.target.value === "lecture" ? false : true,
                       }))
                     }
                   >
                     <option value="lecture">Lecture</option>
                     <option value="quiz">Quiz</option>
-                    <option value="assignment">Submission</option>
+                    <option value="assignment">Assignment</option>
                   </select>
                 </div>
                 <div className="space-y-2">
@@ -248,18 +244,6 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                     }
                   />
                   <span>Required to progress</span>
-                </label>
-                <label className="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-muted-foreground"
-                    checked={form.graded}
-                    disabled={form.type !== "lecture" ? true : false}
-                    onChange={(event) =>
-                      setForm((prev) => ({ ...prev, graded: event.target.checked }))
-                    }
-                  />
-                  <span>{form.type === "lecture" ? "Mark lecture as graded" : "Graded by default"}</span>
                 </label>
               </div>
 

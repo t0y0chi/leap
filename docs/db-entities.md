@@ -28,12 +28,10 @@
   - id, course_id, title, order, publication_status, description
 - Admin Lesson
   - id, chapter_id, title, type, duration, publication_status, order
-  - required, graded, summary, attempts (quiz only)
+  - required, summary, attempts (quiz only)
 - Assignment Submission
   - id, user_id, lesson_id, submission_status, score, reviewer_id, comments
   - attachments (files)
-- Submission Event
-  - id, submission_id, label, detail
 - Admin Learner
   - id, name, email, phone, avatar_url, roles, cohort
   - evaluations: { label, value }[]
