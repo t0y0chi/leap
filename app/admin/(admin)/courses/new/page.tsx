@@ -22,7 +22,7 @@ export default function AdminCourseCreatePage() {
         <div>
           <h1 className="text-2xl font-semibold">Create course</h1>
           <p className="text-sm text-muted-foreground">
-            Draft a new track, set ownership, and define publishing rules.
+            Draft a new course, set ownership, and define publishing rules.
           </p>
         </div>
         <Button asChild variant="outline">
@@ -42,16 +42,8 @@ export default function AdminCourseCreatePage() {
               <Input id="title" name="title" placeholder="Quality & Feedback Lab" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="track">Track</Label>
-              <Input id="track" name="track" placeholder="QA Leadership" />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="owner">Owner</Label>
               <Input id="owner" name="owner" placeholder="Course owner" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="visibility">Visibility</Label>
-              <Input id="visibility" name="visibility" placeholder="public or private" />
             </div>
           </div>
 

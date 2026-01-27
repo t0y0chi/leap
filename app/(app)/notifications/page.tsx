@@ -44,7 +44,7 @@ export default function NotificationsPage() {
                     <p className="text-sm font-semibold">{note.title}</p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Clock3 className="h-4 w-4" />
-                      {note.timestamp}
+                      {note.createdAt}
                     </div>
                   </div>
                 </div>

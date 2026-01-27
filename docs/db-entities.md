@@ -4,9 +4,9 @@
 - User/Profile
   - id, given_name, middle_name, family_name, email, phone, avatar_url
   - roles (labels)
-  - enrolled courses (user-course join with status, progress_pct)
+  - enrolled courses (user-course join with progress_status, progress_pct)
 - Course
-  - id, title, category, duration, status, summary, thumbnail
+  - id, title, category, duration, summary, thumbnail
 - Chapter
   - id, course_id, title, description, order
 - Lesson
@@ -17,34 +17,29 @@
 - Q&A Thread
   - id, course_id, title, author, votes, answered, updated_at
 - Q&A Reply
-  - id, question_id, author, time, body
+  - id, question_id, author, body
 - Notification
-  - id, title, timestamp, read
+  - id, title, read
   - href, body, meta[], cta_label, cta_href
-- Learning activity (timeline)
-  - id, title, type, time, delta
-
 ## Admin-facing
 - Admin Course
-  - id, title, track, status, visibility, owner
-  - enrollments, completion_rate, pending_submissions, chapters, updated_at, summary
+  - id, title, publication_status, owner, summary
 - Admin Chapter
-  - id, course_id, title, order, published, lessons, gating, description
+  - id, course_id, title, order, publication_status, gating, description
 - Admin Lesson
-  - id, chapter_id, title, type, duration, status
-  - required, graded, updated_at, summary, passing_score, max_score, attempts
-- Submission
-  - id, user_id, user_name, course_id, course_title, chapter_title, lesson_title, lesson_id
-  - status, score, submitted_at, attachments[], reviewer, comments
+  - id, chapter_id, title, type, duration, publication_status, order
+  - required, graded, summary, attempts (quiz only)
+- Assignment Submission
+  - id, user_id, lesson_id, submission_status, score, reviewer_id, comments
+  - attachments (files)
 - Submission Event
-  - id, submission_id, label, detail, timestamp
+  - id, submission_id, label, detail
 - Admin Learner
   - id, name, email, phone, avatar_url, roles, cohort
-  - active_course_title, progress, avg_score, risk, last_active
   - evaluations: { label, value }[]
 - Admin Invite
-  - token, email, role, status, sent_at, expires_at
+  - token, email, role, invite_status, sent_at, expires_at
 - Admin Team Member
-  - id, name, email, role, status, last_active
+  - id, name, email, role, member_status, last_active
 - Admin Profile
   - name, email, avatar_url

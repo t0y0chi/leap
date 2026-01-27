@@ -44,7 +44,7 @@ export default async function NotificationDetailPage({
               Notification
             </p>
             <CardTitle className="text-xl">{notification.title}</CardTitle>
-            <CardDescription>{notification.timestamp}</CardDescription>
+            <CardDescription>{notification.createdAt}</CardDescription>
           </div>
           {!notification.read && <Badge variant="warning">Unread</Badge>}
         </CardHeader>

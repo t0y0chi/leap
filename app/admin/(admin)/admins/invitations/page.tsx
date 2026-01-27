@@ -48,7 +48,7 @@ export default function AdminInvitationsPage() {
   const filteredInvites =
     inviteTab === "all"
       ? adminInvites
-      : adminInvites.filter((invite) => invite.status === inviteTab);
+      : adminInvites.filter((invite) => invite.inviteStatus === inviteTab);
 
   return (
     <div className="space-y-6">
@@ -85,8 +85,8 @@ export default function AdminInvitationsPage() {
                     <p className="text-xs text-muted-foreground">{member.email}</p>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={member.status === "active" ? "success" : "warning"}>
-                      {member.status}
+                    <Badge variant={member.memberStatus === "active" ? "success" : "warning"}>
+                      {member.memberStatus}
                     </Badge>
                   </TableCell>
                   <TableCell className="p-0">
@@ -176,14 +176,14 @@ export default function AdminInvitationsPage() {
               <div className="flex items-center gap-2">
                 <Badge
                   variant={
-                    invite.status === "accepted"
+                    invite.inviteStatus === "accepted"
                       ? "success"
-                      : invite.status === "pending"
+                      : invite.inviteStatus === "pending"
                         ? "warning"
                         : "outline"
                   }
                 >
-                  {invite.status}
+                  {invite.inviteStatus}
                 </Badge>
                 <span className="text-xs text-muted-foreground">{invite.expiresAt}</span>
               </div>

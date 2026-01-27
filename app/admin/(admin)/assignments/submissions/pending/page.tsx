@@ -15,7 +15,9 @@ import {
 import { adminSubmissions } from "@/lib/admin-data";
 
 export default function AdminPendingSubmissionsPage() {
-  const pending = adminSubmissions.filter((submission) => submission.status === "pending");
+  const pending = adminSubmissions.filter(
+    (submission) => submission.submissionStatus === "pending",
+  );
 
   return (
     <div className="space-y-6">

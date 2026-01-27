@@ -5,12 +5,12 @@ import { BookOpen, Clock, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { type Course, type EnrollmentStatus } from "@/lib/mock-data";
+import { type Course, type ProgressStatus } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 type CourseListItem = Course & {
   progressPct: number;
-  status: EnrollmentStatus;
+  progressStatus: ProgressStatus;
 };
 
 interface CourseListProps {
@@ -28,9 +28,9 @@ export function CourseList({
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {courses.map((course) => {
         const statusLabel =
-          course.status === "completed"
+          course.progressStatus === "completed"
             ? "Completed"
-            : course.status === "in-progress"
+            : course.progressStatus === "in-progress"
               ? "In progress"
               : "Not started";
 

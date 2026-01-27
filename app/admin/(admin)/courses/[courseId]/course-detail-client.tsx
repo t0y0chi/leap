@@ -72,7 +72,7 @@ export default function CourseDetailClient({ courseId, initialChapters }: Course
       title: form.title.trim(),
       description: form.description.trim() || "Outline pending.",
       order: highestOrder + 1,
-      published: false,
+      publicationStatus: "draft",
       lessons: 0,
       gating: "open",
     };
@@ -170,8 +170,12 @@ export default function CourseDetailClient({ courseId, initialChapters }: Course
                     </TableCell>
                     <TableCell className="p-0">
                       <Link href={lessonRoute} className="block px-4 py-3">
-                        <Badge variant={chapter.published ? "success" : "warning"}>
-                          {chapter.published ? "Published" : "Draft"}
+                        <Badge
+                          variant={
+                            chapter.publicationStatus === "published" ? "success" : "warning"
+                          }
+                        >
+                          {chapter.publicationStatus === "published" ? "Published" : "Draft"}
                         </Badge>
                       </Link>
                     </TableCell>

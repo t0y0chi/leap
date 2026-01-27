@@ -88,14 +88,14 @@ export default function AdminSubmissionsPage() {
                     >
                       <Badge
                         variant={
-                          submission.status === "graded"
+                          submission.submissionStatus === "graded"
                             ? "success"
-                            : submission.status === "pending"
+                            : submission.submissionStatus === "pending"
                               ? "warning"
                               : "secondary"
                         }
                       >
-                        {submission.status}
+                        {submission.submissionStatus}
                       </Badge>
                     </Link>
                   </TableCell>

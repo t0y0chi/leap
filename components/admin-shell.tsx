@@ -39,7 +39,7 @@ interface AdminShellProps {
 export function AdminShell({ children }: AdminShellProps) {
   const pathname = usePathname();
   const pendingSubmissions = adminSubmissions.filter(
-    (submission) => submission.status === "pending",
+    (submission) => submission.submissionStatus === "pending",
   ).length;
   const pendingQnaThreads = questions.filter((question) => !question.answered).length;
   const initials = adminProfile.name

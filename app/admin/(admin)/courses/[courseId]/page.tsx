@@ -49,15 +49,13 @@ export default async function AdminCourseDetailPage({
             <CardTitle>{course.title}</CardTitle>
             <Badge
               variant={
-                course.status === "published"
+                course.publicationStatus === "published"
                   ? "success"
-                  : course.status === "maintenance"
-                    ? "secondary"
-                    : "outline"
+                  : "outline"
               }
               className="capitalize"
             >
-              {course.status}
+              {course.publicationStatus}
             </Badge>
           </div>
           <CardDescription>{course.summary}</CardDescription>

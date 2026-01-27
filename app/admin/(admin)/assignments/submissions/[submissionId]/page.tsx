@@ -76,15 +76,15 @@ export default async function AdminSubmissionDetailPage({
           </div>
           <Badge
             variant={
-              submission.status === "graded"
+              submission.submissionStatus === "graded"
                 ? "success"
-                : submission.status === "pending"
+                : submission.submissionStatus === "pending"
                   ? "warning"
                   : "secondary"
             }
             className="capitalize"
           >
-            {submission.status}
+            {submission.submissionStatus}
           </Badge>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -151,7 +151,7 @@ export default async function AdminSubmissionDetailPage({
                 userName: submission.userName,
                 submittedAt: submission.submittedAt,
                 attachments: submission.attachments,
-                status: submission.status,
+                submissionStatus: submission.submissionStatus,
               }}
             />
           </div>

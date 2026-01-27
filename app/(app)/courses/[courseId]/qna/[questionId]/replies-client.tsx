@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 type Reply = {
   id: string;
   author: string;
-  time: string;
   body: string;
 };
 
@@ -27,7 +26,6 @@ export function RepliesClient({ initialReplies }: { initialReplies: Reply[] }) {
     const nextReply: Reply = {
       id: `local-${Date.now()}`,
       author: currentUser,
-      time: "Just now",
       body: trimmed,
     };
 
@@ -68,7 +66,6 @@ export function RepliesClient({ initialReplies }: { initialReplies: Reply[] }) {
                 <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="text-sm font-semibold">{reply.author}</p>
-                    <p className="text-xs text-muted-foreground">{reply.time}</p>
                   </div>
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground">{reply.body}</p>

@@ -18,7 +18,7 @@ export type GradeModalSubmission = {
   userName: string;
   submittedAt: string;
   attachments: string[];
-  status: "pending" | "graded" | "returned";
+  submissionStatus: "pending" | "graded" | "returned";
 };
 
 type GradeModalClientProps = {
@@ -31,7 +31,7 @@ export default function GradeModalClient({ submission }: GradeModalClientProps) 
   const numericScore = Number(score);
   const hasScore = Number.isFinite(numericScore);
   const statusLabel = hasScore && numericScore >= 80 ? "Pass" : "Resubmission required";
-  const canGrade = submission.status === "pending";
+  const canGrade = submission.submissionStatus === "pending";
 
   const handleReturn = () => {
     setOpen(false);
@@ -122,7 +122,7 @@ export default function GradeModalClient({ submission }: GradeModalClientProps) 
                   id="feedback"
                   name="feedback"
                   rows={4}
-                  placeholder="List rubric reference, what was correct, and next steps."
+                  placeholder="List what was correct, what to improve, and next steps."
                 />
               </div>
 

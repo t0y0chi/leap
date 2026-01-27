@@ -108,7 +108,7 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
       title: form.title.trim(),
       type: form.type,
       duration: form.duration.trim() || "5m",
-      status: "draft",
+      publicationStatus: "draft",
       required: form.required,
       graded: form.type !== "lecture" ? true : form.graded,
       updatedAt: now,
@@ -349,15 +349,13 @@ export function AdminLessonsClient({ chapter, initialLessons }: AdminLessonsClie
                       <Link href={editHref} className="block px-4 py-3">
                         <Badge
                           variant={
-                            lesson.status === "published"
+                            lesson.publicationStatus === "published"
                               ? "success"
-                              : lesson.status === "maintenance"
-                                ? "secondary"
-                                : "outline"
+                              : "outline"
                           }
                           className="capitalize"
                         >
-                          {lesson.status}
+                          {lesson.publicationStatus}
                         </Badge>
                       </Link>
                     </TableCell>

@@ -10,13 +10,13 @@ export default function DashboardPage() {
     .map((enrollment) => {
       const course = courses.find((item) => item.id === enrollment.courseId);
       if (!course) return null;
-      return { ...course, status: enrollment.status, progressPct: enrollment.progressPct };
+      return { ...course, progressStatus: enrollment.progressStatus, progressPct: enrollment.progressPct };
     })
     .filter(
       (course): course is NonNullable<typeof course> => course !== null,
     );
   const focusedCourse =
-    enrollmentCourses.find((course) => course.status === "in-progress") ??
+    enrollmentCourses.find((course) => course.progressStatus === "in-progress") ??
     enrollmentCourses[0];
   const enrolledCourses = focusedCourse ? [focusedCourse] : [];
   const fullName = formatFullName(learnerProfile);

@@ -1,13 +1,11 @@
-export type AdminCourseStatus = "draft" | "published" | "maintenance";
+export type PublicationStatus = "draft" | "published";
 export type AdminLessonType = "lecture" | "quiz" | "assignment";
 export type SubmissionStatus = "pending" | "graded" | "returned";
 
 export interface AdminCourse {
   id: string;
   title: string;
-  track: string;
-  status: AdminCourseStatus;
-  visibility: "private" | "public";
+  publicationStatus: PublicationStatus;
   owner: string;
   enrollments: number;
   completionRate: number;
@@ -22,7 +20,7 @@ export interface AdminChapter {
   courseId: string;
   title: string;
   order: number;
-  published: boolean;
+  publicationStatus: PublicationStatus;
   lessons: number;
   gating: "open" | "sequential";
   description: string;
@@ -34,7 +32,7 @@ export interface AdminLesson {
   title: string;
   type: AdminLessonType;
   duration: string;
-  status: AdminCourseStatus;
+  publicationStatus: PublicationStatus;
   required: boolean;
   graded: boolean;
   updatedAt: string;
@@ -51,7 +49,7 @@ export interface AdminSubmission {
   chapterTitle: string;
   lessonTitle: string;
   lessonId: string;
-  status: SubmissionStatus;
+  submissionStatus: SubmissionStatus;
   score?: number;
   submittedAt: string;
   attachments: string[];
@@ -90,7 +88,7 @@ export interface AdminInvite {
   token: string;
   email: string;
   role: string;
-  status: "pending" | "accepted" | "expired";
+  inviteStatus: "pending" | "accepted" | "expired";
   sentAt: string;
   expiresAt: string;
 }
@@ -100,7 +98,7 @@ export interface AdminTeamMember {
   name: string;
   email: string;
   role: string;
-  status: "active" | "pending";
+  memberStatus: "active" | "pending";
   lastActive: string;
 }
 
@@ -114,9 +112,7 @@ export const adminCourses: AdminCourse[] = [
   {
     id: "annotation-101",
     title: "Annotation Fundamentals",
-    track: "Vision QA",
-    status: "published",
-    visibility: "public",
+    publicationStatus: "published",
     owner: "Dr. Jamie Nguyen",
     enrollments: 184,
     completionRate: 0.63,
@@ -129,9 +125,7 @@ export const adminCourses: AdminCourse[] = [
   {
     id: "review-lab",
     title: "Reviewer Coaching Lab",
-    track: "QA Leadership",
-    status: "maintenance",
-    visibility: "private",
+    publicationStatus: "published",
     owner: "Samira Patel",
     enrollments: 42,
     completionRate: 0.48,
@@ -144,9 +138,7 @@ export const adminCourses: AdminCourse[] = [
   {
     id: "automation",
     title: "Automation & Guardrails",
-    track: "Ops Enablement",
-    status: "draft",
-    visibility: "private",
+    publicationStatus: "draft",
     owner: "Casey Lee",
     enrollments: 0,
     completionRate: 0,
@@ -164,7 +156,7 @@ export const adminChapters: AdminChapter[] = [
     courseId: "annotation-101",
     title: "Foundations",
     order: 1,
-    published: true,
+    publicationStatus: "published",
     lessons: 3,
     gating: "open",
     description: "Rubric literacy, edge-case handling, and annotation etiquette.",
@@ -174,7 +166,7 @@ export const adminChapters: AdminChapter[] = [
     courseId: "annotation-101",
     title: "Annotation Tools",
     order: 2,
-    published: true,
+    publicationStatus: "published",
     lessons: 4,
     gating: "sequential",
     description: "Tooling walkthroughs, QC macros, and shortform quizzes.",
@@ -184,7 +176,7 @@ export const adminChapters: AdminChapter[] = [
     courseId: "annotation-101",
     title: "Quality & Feedback",
     order: 3,
-    published: false,
+    publicationStatus: "draft",
     lessons: 3,
     gating: "sequential",
     description: "Feedback handling, reviewer expectations, and sample batch submission.",
@@ -194,7 +186,7 @@ export const adminChapters: AdminChapter[] = [
     courseId: "review-lab",
     title: "Calibration",
     order: 1,
-    published: true,
+    publicationStatus: "published",
     lessons: 5,
     gating: "sequential",
     description: "Score alignment on starter packs and rubric trims.",
@@ -208,7 +200,7 @@ export const adminLessons: AdminLesson[] = [
     title: "How annotation drives model quality",
     type: "lecture",
     duration: "12m",
-    status: "published",
+    publicationStatus: "published",
     required: true,
     graded: false,
     updatedAt: "Today 08:10",
@@ -220,7 +212,7 @@ export const adminLessons: AdminLesson[] = [
     title: "Guideline deep-dive quiz",
     type: "quiz",
     duration: "8m",
-    status: "published",
+    publicationStatus: "published",
     required: true,
     graded: true,
     updatedAt: "Yesterday 17:55",
@@ -233,7 +225,7 @@ export const adminLessons: AdminLesson[] = [
     title: "Hands-on: draw regions accurately",
     type: "assignment",
     duration: "15m",
-    status: "published",
+    publicationStatus: "published",
     required: true,
     graded: true,
     updatedAt: "Today 07:45",
@@ -245,7 +237,7 @@ export const adminLessons: AdminLesson[] = [
     title: "Submit a sample batch",
     type: "assignment",
     duration: "18m",
-    status: "draft",
+    publicationStatus: "draft",
     required: true,
     graded: true,
     updatedAt: "Mon 15:05",
@@ -257,7 +249,7 @@ export const adminLessons: AdminLesson[] = [
     title: "Round 1 starter pack",
     type: "assignment",
     duration: "20m",
-    status: "published",
+    publicationStatus: "published",
     required: true,
     graded: true,
     updatedAt: "Today 06:50",
@@ -275,7 +267,7 @@ export const adminSubmissions: AdminSubmission[] = [
     chapterTitle: "Annotation Tools",
     lessonTitle: "Hands-on: draw regions accurately",
     lessonId: "it-6",
-    status: "pending",
+    submissionStatus: "pending",
     submittedAt: "Today 08:52",
     attachments: ["boxes-batch.zip", "notes.md"],
     comments: "Flagged tricky motion blur on frames 18-23.",
@@ -289,7 +281,7 @@ export const adminSubmissions: AdminSubmission[] = [
     chapterTitle: "Quality & Feedback",
     lessonTitle: "Submit a sample batch",
     lessonId: "it-10",
-    status: "graded",
+    submissionStatus: "graded",
     score: 92,
     submittedAt: "Yesterday 19:15",
     attachments: ["sample-batch.pdf"],
@@ -305,7 +297,7 @@ export const adminSubmissions: AdminSubmission[] = [
     chapterTitle: "Calibration",
     lessonTitle: "Round 1 starter pack",
     lessonId: "rev-lesson-1",
-    status: "returned",
+    submissionStatus: "returned",
     score: 68,
     submittedAt: "Today 07:30",
     attachments: ["calibration-r1.zip"],
@@ -413,7 +405,7 @@ export const adminTeam: AdminTeamMember[] = [
     name: "Samira Patel",
     email: "samira.patel@example.com",
     role: "Lead Reviewer",
-    status: "active",
+    memberStatus: "active",
     lastActive: "Today 09:05",
   },
   {
@@ -421,7 +413,7 @@ export const adminTeam: AdminTeamMember[] = [
     name: "Casey Lee",
     email: "casey.lee@example.com",
     role: "Ops Owner",
-    status: "active",
+    memberStatus: "active",
     lastActive: "Today 08:20",
   },
 ];
@@ -438,7 +430,7 @@ export const adminInvites: AdminInvite[] = [
     token: "invite-1",
     email: "new.reviewer@example.com",
     role: "Reviewer",
-    status: "pending",
+    inviteStatus: "pending",
     sentAt: "Today 07:40",
     expiresAt: "in 6 days",
   },
@@ -446,7 +438,7 @@ export const adminInvites: AdminInvite[] = [
     token: "invite-2",
     email: "ops.lead@example.com",
     role: "Workspace Admin",
-    status: "accepted",
+    inviteStatus: "accepted",
     sentAt: "Mon 12:00",
     expiresAt: "accepted",
   },
@@ -454,7 +446,7 @@ export const adminInvites: AdminInvite[] = [
     token: "invite-3",
     email: "late.invite@example.com",
     role: "Reviewer",
-    status: "expired",
+    inviteStatus: "expired",
     sentAt: "Last week",
     expiresAt: "expired",
   },

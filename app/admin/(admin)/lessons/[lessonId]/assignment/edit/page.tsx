@@ -45,7 +45,7 @@ export default async function AdminAssignmentEditPage({
             <CardTitle>{lesson.title}</CardTitle>
             <Badge variant="neutral">Assignment</Badge>
             <Badge variant="outline" className="capitalize">
-              {lesson.status}
+              {lesson.publicationStatus}
             </Badge>
           </div>
           <CardDescription>{lesson.summary}</CardDescription>

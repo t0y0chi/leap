@@ -56,15 +56,13 @@ export default function AdminCoursesPage() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant={
-                            course.status === "published"
+                            course.publicationStatus === "published"
                               ? "success"
-                              : course.status === "maintenance"
-                                ? "secondary"
-                                : "outline"
+                              : "outline"
                           }
                           className="capitalize"
                         >
-                          {course.status}
+                          {course.publicationStatus}
                         </Badge>
                       </div>
                     </Link>

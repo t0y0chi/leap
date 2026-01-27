@@ -45,9 +45,6 @@ export default async function AdminCourseEditPage({
         <CardHeader className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2">
             <CardTitle>{course.title}</CardTitle>
-            <Badge variant="outline" className="capitalize">
-              {course.visibility}
-            </Badge>
           </div>
           <CardDescription>{course.summary}</CardDescription>
         </CardHeader>
@@ -56,18 +53,6 @@ export default async function AdminCourseEditPage({
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input id="title" name="title" defaultValue={course.title} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="visibility">Visibility</Label>
-              <select
-                id="visibility"
-                name="visibility"
-                defaultValue={course.visibility}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              >
-                <option value="published">Published</option>
-                <option value="draft">Draft</option>
-              </select>
             </div>
           </div>
           <div className="space-y-2">

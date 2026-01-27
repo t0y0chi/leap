@@ -1,5 +1,5 @@
 export type LessonType = "lecture" | "quiz" | "assignment";
-export type LessonPublicationStatus = "draft" | "published" | "maintenance";
+export type LessonPublicationStatus = "draft" | "published";
 export type LessonProgressStatus = "not-started" | "in-progress" | "completed";
 
 export type BlockNoteContent = Array<Record<string, unknown>>;
@@ -23,7 +23,7 @@ export interface Chapter {
   lessons: LearningLesson[];
 }
 
-export type EnrollmentStatus = "not-started" | "in-progress" | "completed";
+export type ProgressStatus = "not-started" | "in-progress" | "completed";
 
 export interface Course {
   id: string;
@@ -38,8 +38,8 @@ export interface Course {
 export interface Notification {
   id: string;
   title: string;
-  timestamp: string;
   read: boolean;
+  createdAt: string;
   href?: string;
   body?: string;
   meta?: string[];
@@ -71,7 +71,7 @@ export const learnerProfile = {
 export type Enrollment = {
   userId: string;
   courseId: string;
-  status: EnrollmentStatus;
+  progressStatus: ProgressStatus;
   progressPct: number;
 };
 
@@ -455,13 +455,13 @@ export const enrollments: Enrollment[] = [
   {
     userId: "user-1",
     courseId: "annotation-101",
-    status: "in-progress",
+    progressStatus: "in-progress",
     progressPct: 62,
   },
   {
     userId: "user-1",
     courseId: "programming-101",
-    status: "not-started",
+    progressStatus: "not-started",
     progressPct: 0,
   },
 ];
@@ -488,7 +488,7 @@ export const notifications: Notification[] = [
   {
     id: "note-1",
     title: "Chapter 2 assignment graded: 78/100",
-    timestamp: "Today, 09:12",
+    createdAt: "Today, 09:12",
     read: false,
     href: "/notifications/note-1",
     body:
@@ -506,13 +506,13 @@ export const notifications: Notification[] = [
   {
     id: "note-2",
     title: "New Q&A reply: How to mark occlusions?",
-    timestamp: "Yesterday, 19:05",
+    createdAt: "Yesterday, 19:05",
     read: false,
   },
   {
     id: "note-3",
     title: "Reminder: Finish 'Quality & Feedback' by Friday",
-    timestamp: "Mon, 10:30",
+    createdAt: "Mon, 10:30",
     read: true,
   },
 ];

@@ -22,11 +22,11 @@ import {
 } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { type Course, type EnrollmentStatus } from "@/lib/mock-data";
+import { type Course, type ProgressStatus } from "@/lib/mock-data";
 
 type CourseTableRow = Course & {
   progressPct: number;
-  status: EnrollmentStatus;
+  progressStatus: ProgressStatus;
 };
 
 const columns: ColumnDef<CourseTableRow>[] = [
@@ -72,10 +72,10 @@ const columns: ColumnDef<CourseTableRow>[] = [
     ),
   },
   {
-    accessorKey: "status",
+    accessorKey: "progressStatus",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status") as string;
+      const status = row.getValue("progressStatus") as string;
       return (
         <Badge
           variant={

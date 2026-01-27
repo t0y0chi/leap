@@ -11,14 +11,12 @@ const repliesByQuestion = {
     {
       id: "a-1",
       author: "Samira Patel",
-      time: "1h ago",
       body:
         "Occluded means part of the object is hidden by another object, but you can still infer its full shape. Truncated is when the object goes outside the image frame. If both apply, mark occluded and note the truncation in attributes.",
     },
     {
       id: "a-2",
       author: "Marco Li",
-      time: "35m ago",
       body:
         "A quick check: if the missing pixels are due to frame boundaries, it is truncation; if due to overlap, it is occlusion.",
     },
@@ -27,7 +25,6 @@ const repliesByQuestion = {
     {
       id: "a-3",
       author: "Ava Williams",
-      time: "2h ago",
       body:
         "Create a hotkey set for polygon refine/close, and reuse vertex patterns across similar frames. I also keep a 200% zoom toggle to avoid over-zooming.",
     },
@@ -36,7 +33,6 @@ const repliesByQuestion = {
     {
       id: "a-4",
       author: "Diego Alvarez",
-      time: "18h ago",
       body:
         "It is strict on final submissions, but in practice reviewers focus on boundary consistency. I aim for 1-2px and use the brush edge overlay to verify.",
     },
@@ -46,7 +42,6 @@ const repliesByQuestion = {
   {
     id: string;
     author: string;
-    time: string;
     body: string;
   }[]
 >;

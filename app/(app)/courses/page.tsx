@@ -12,7 +12,7 @@ export default function CoursesPage() {
     const enrollment = enrollmentByCourseId.get(course.id);
     return {
       ...course,
-      status: enrollment?.status ?? "not-started",
+      progressStatus: enrollment?.progressStatus ?? "not-started",
       progressPct: enrollment?.progressPct ?? 0,
     };
   });
